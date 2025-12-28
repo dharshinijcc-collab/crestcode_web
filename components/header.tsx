@@ -1,678 +1,356 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter, usePathname } from 'next/navigation';
-import { siteConfig } from './config';
-import { WishlistFormRef } from './hero-section';
-import { Button } from './ui/button';
-import { useIsMobile, PRIMARY_COLOR } from '@/app/common';
+import {
+  Menu,
+  X,
+  ChevronDown,
+  ArrowRight,
+  Rocket,
+  Shield,
+  Zap,
+  Users,
+  CheckCircle,
+  Star,
+  Globe,
+  Code,
+  Layers,
+  Sparkles,
+} from 'lucide-react';
 
-interface FancyHeartButtonProps {
-  text: string;
-  onClick?: () => void;
-  isScrolled?: boolean;
-}
-
-const FancyHeartButton: React.FC<FancyHeartButtonProps> = ({
-  text,
-  onClick,
-  isScrolled = false,
-}) => {
-  const [indigoMode, setIndigoMode] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIndigoMode(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIndigoMode(false);
-  };
-
-  const handleClick = () => {
-    // Add click animation
-    setIndigoMode(true);
-    setTimeout(() => setIndigoMode(false), 300);
-
-    if (onClick) {
-      onClick();
-    }
-  };
-  const scrollToHero = () => {
-    document
-      .getElementById('hero-section')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-      <Button
-        onClick={scrollToHero}
-        style={{
-          background: !isScrolled
-            ? 'transparent'
-            : indigoMode
-            ? 'transparent'
-            : 'white',
-          color: '#6366F1',
-          padding: '0.75rem 1.5rem',
-          borderRadius: '0.75rem',
-          border: !isScrolled ? '2px solid #6366F1' : '2px solid #6366F1',
-          cursor: 'pointer',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          // boxShadow: !isScrolled
-          //   ? '0 8px 32px rgba(99, 102, 241, 0.4)'
-          //   : indigoMode
-          //   ? '0 8px 20px rgba(99, 102, 241, 0.4), 0 0 0 0 rgba(99, 102, 241, 0.4)'
-          //   : '0 4px 12px rgba(0, 0, 0, 0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          fontFamily: 'Urbanist, sans-serif',
-          fontWeight: '600',
-          fontSize: '15px',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}>
-        <span style={{ whiteSpace: 'nowrap' }}>{text}</span>
-        {indigoMode && isScrolled && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: [0, 1.5, 0] }}
-            transition={{
-              duration: 0.6,
-              ease: 'easeOut',
-            }}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%)',
-              borderRadius: '0.75rem',
-              pointerEvents: 'none',
-            }}
-          />
-        )}
-      </Button>
-    </motion.div>
-  );
+const COLORS = {
+  bgBase: '#FAFBFC',
+  bgSecondary: '#F8FAFC',
+  bgCard: 'rgba(255, 255, 255, 0.7)',
+  primary: '#4F46E5',
+  secondary: '#0EA5E9',
+  accent: '#10B981',
+  textMain: '#0F172A',
+  textMuted: '#64748B',
+  border: '#E2E8F0',
 };
 
-export interface HeaderProps {
-  wishlistFormRef: React.RefObject<WishlistFormRef>;
-}
+const FONT_FAMILY = "'Plus Jakarta Sans', -apple-system, sans-serif";
 
-export default function Header({ wishlistFormRef }: HeaderProps) {
+// Enhanced Header Component
+function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const isMobile = useIsMobile();
-  const router = useRouter();
-  const pathname = usePathname();
-  const isHomePage = pathname === '/';
 
-  // Scroll detection effect
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 20);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToHero = () => {
-    document
-      .getElementById('hero-section')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    // ✅ FORCE FULL PAGE ROUTE FOR HUBS & BOARDS
-    if (sectionId === 'hubs' || sectionId === 'boards') {
-      router.push(`/${sectionId}`);
-    } else if (sectionId === 'faqs') {
-      router.push(`/faqs`);
-    } else if (sectionId === 'security') {
-      router.push(`/security`);
-    } else if (sectionId === 'about') {
-      router.push(`/about`);
-    } else if (isHomePage) {
-      // ✅ NORMAL SCROLL ON HOME
-      const element = document.getElementById(sectionId);
-      if (element) element.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // ✅ HASH NAVIGATION FROM OTHER PAGES
-      router.push(`/#${sectionId}`);
-    }
-
-    setIsMenuOpen(false);
-    setActiveDropdown(null);
-    setMobileDropdown(null);
-  };
-
-  const handleLogoClick = () => {
-    if (isHomePage) {
-      // If on home page, scroll to hero section
-      scrollToSection('hero-section');
-    } else {
-      // If on different page, navigate to home
-      router.push('/');
-    }
-  };
-
-  const handleHeaderButtonClick = () => {
-    if (isHomePage) {
-      // Enhanced focus and glow with scroll behavior on home page
-      if (wishlistFormRef.current) {
-        wishlistFormRef.current.focusAndGlow();
-      }
-    } else {
-      // Navigate to home page and focus on hero section
-      router.push('/#hero-section');
-    }
-  };
-
   const menus = [
     {
-      key: 'howItWorks',
-      label: 'How it Works',
+      key: 'services',
+      label: 'Services',
       subMenu: [
-        { key: 'hubs', label: 'Hubs', sectionId: 'hubs' },
-        { key: 'boards', label: 'Boards', sectionId: 'boards' },
+        {
+          key: 'consulting',
+          label: 'Technical Consulting',
+          icon: <Code size={16} />,
+        },
+        {
+          key: 'development',
+          label: 'Full-Stack Development',
+          icon: <Layers size={16} />,
+        },
       ],
     },
-    { key: 'use-cases', label: 'Use Cases', sectionId: 'use-cases' },
-    { key: 'security', label: 'Security', sectionId: 'security' },
-    {
-      key: 'plans',
-      label: 'Plans',
-      subMenu: [
-        { key: 'whyDockly', label: 'Why Dockly', sectionId: 'whyDockly' },
-        { key: 'pricing', label: 'Pricing', sectionId: 'pricing' },
-      ],
-    },
-    { key: 'faqs', label: 'FAQs', sectionId: 'faqs' },
-    { key: 'about', label: 'About', sectionId: 'about' },
+    { key: 'solutions', label: 'Solutions' },
+    { key: 'about', label: 'About' },
+    { key: 'contact', label: 'Contact' },
   ];
+
   return (
     <>
-      {/* Add Urbanist font */}
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
-          
-          h1, h2, h3, h4, h5, h6 {
-            font-family: 'Urbanist', sans-serif;
-          }
-          
-          p {
-            font-family: 'Urbanist', sans-serif;
-            font-size: max(14px, 1rem);
-          }
-
-          @media (max-width: 768px) {
-            .desktop-nav {
-              display: none !important;
-            }
-            .mobile-menu-btn {
-              display: block !important;
-            }
-            .desktop-cta {
-              display: none !important;
-            }
-          }
-
-          @media (min-width: 769px) {
-            .desktop-nav {
-              display: flex !important;
-            }
-            .mobile-menu-btn {
-              display: none !important;
-            }
-            .desktop-cta {
-              display: flex !important;
-            }
-            .mobile-nav {
-              display: none !important;
-            }
-          }
-        `}
-      </style>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+        
+        .nav-glass {
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .nav-link {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .nav-link::before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          width: 0;
+          height: 2px;
+          background: linear-gradient(90deg, ${COLORS.primary}, ${COLORS.secondary});
+          transition: all 0.3s ease;
+          transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::before {
+          width: 80%;
+        }
+      `}</style>
 
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="nav-glass"
         style={{
-          backgroundColor: isMobile
-            ? '#ffffff'
-            : isScrolled
-            ? 'rgba(255, 255, 255, 0.95)'
+          backgroundColor: isScrolled
+            ? 'rgba(250, 251, 252, 0.9)'
             : 'transparent',
-          backdropFilter: isMobile
-            ? 'none'
-            : isScrolled
-            ? 'blur(20px)'
-            : 'none',
-          borderBottom:
-            isScrolled || isMobile
-              ? '1px solid rgba(229, 231, 235, 0.2)'
-              : 'none',
-          position: 'sticky',
+          borderBottom: isScrolled ? `1px solid ${COLORS.border}` : 'none',
+          position: 'fixed',
+          width: '100%',
           top: 0,
-          zIndex: 50,
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          zIndex: 1000,
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         }}>
+        {/* Floating Orb Background */}
         <div
           style={{
-            maxWidth: '80rem',
-            margin: '0 auto',
-            padding: '0 1rem',
-          }}>
+            position: 'absolute',
+            top: '-50px',
+            right: '20%',
+            width: '200px',
+            height: '200px',
+            background: `radial-gradient(circle, ${COLORS.primary}15, transparent)`,
+            filter: 'blur(60px)',
+            zIndex: -1,
+          }}
+        />
+
+        <div
+          style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              padding: '0.75rem 0',
+              height: '85px',
             }}>
-            {/* Logo */}
+            {/* Enhanced Logo */}
             <motion.div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 cursor: 'pointer',
-                zIndex: 10,
+                zIndex: 1100,
               }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
               whileHover={{ scale: 1.02 }}
-              onClick={handleLogoClick}>
+              whileTap={{ scale: 0.98 }}>
               <div
                 style={{
-                  width: 40,
-                  height: 40,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 0,
+                  width: 48,
+                  height: 48,
+                  marginRight: '16px',
+                  // background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})`,
+                  borderRadius: '14px',
+                  display: 'grid',
+                  placeItems: 'center',
+                  // boxShadow: `0 8px 32px ${COLORS.primary}30`,
+                  position: 'relative',
                 }}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80%"
-                  height="80%"
-                  viewBox="0 0 128 128"
-                  aria-hidden="true">
-                  <g fill={'#6366F1'}>
-                    <rect x="34" y="28" width="60" height="16" rx="8" />
-                    <rect x="26" y="56" width="76" height="16" rx="8" />
-                    <rect x="18" y="84" width="92" height="16" rx="8" />
-                  </g>
-                </svg>
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 2,
+                    // background: 'white',
+                    borderRadius: '12px',
+                    display: 'grid',
+                    placeItems: 'center',
+                  }}>
+                  <img
+                    src="https://crestcode.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.fd2671e3.png&w=1920&q=100"
+                    alt="Crestcode"
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </div>
               </div>
-              <span
-                style={{
-                  fontSize: '1.25rem',
-                  fontWeight: '700',
-                  letterSpacing: '-0.02em',
-                  fontFamily: 'Urbanist, sans-serif',
-                  color: isScrolled ? '#1f2937' : 'black',
-                  transition: 'color 0.3s ease',
-                }}>
-                {siteConfig.siteName}
-              </span>
+
+              <div>
+                <div
+                  style={{
+                    fontSize: '24px',
+                    fontWeight: '900',
+                    color: COLORS.textMain,
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1,
+                  }}>
+                  Crestcode
+                </div>
+                <div
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: '500',
+                    color: COLORS.textMuted,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    marginTop: '2px',
+                  }}>
+                  Engineering Excellence
+                </div>
+              </div>
             </motion.div>
 
-            {/* Desktop Navigation - Centered */}
+            {/* Desktop Navigation */}
             <nav
-              className="desktop-nav"
               style={{
-                display: 'none',
+                display: 'flex',
                 alignItems: 'center',
-                gap: '2rem',
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
+                gap: '8px',
               }}>
-              {menus.map((menu) =>
-                menu.subMenu ? (
-                  <div
-                    key={menu.key}
-                    style={{ position: 'relative' }}
-                    onMouseEnter={() => setActiveDropdown(menu.key)}
-                    onMouseLeave={() => setActiveDropdown(null)}>
-                    <motion.button
-                      style={{
-                        color: isScrolled ? '#4b5563' : 'black',
-                        fontWeight: '500',
-                        fontFamily: 'Urbanist, sans-serif',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        transition: 'all 0.3s ease',
-                        padding: '0.5rem 0.75rem',
-                        borderRadius: '0.5rem',
-                        fontSize: '15px',
-                      }}
-                      whileHover={{
-                        color: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                      }}
-                      transition={{ duration: 0.2 }}>
-                      {menu.label}
+              {menus.map((menu) => (
+                <div
+                  key={menu.key}
+                  style={{ position: 'relative' }}
+                  onMouseEnter={() => setActiveDropdown(menu.key)}
+                  onMouseLeave={() => setActiveDropdown(null)}>
+                  <motion.button
+                    className="nav-link"
+                    style={{
+                      color: COLORS.textMain,
+                      background: 'transparent',
+                      border: 'none',
+                      padding: '12px 20px',
+                      borderRadius: '12px',
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: FONT_FAMILY,
+                      transition: 'all 0.3s ease',
+                    }}
+                    whileHover={{
+                      backgroundColor: 'rgba(79, 70, 229, 0.08)',
+                      y: -1,
+                    }}>
+                    {menu.label}
+                    {menu.subMenu && (
                       <motion.div
                         animate={{
                           rotate: activeDropdown === menu.key ? 180 : 0,
                         }}
                         transition={{ duration: 0.2 }}>
-                        <ChevronDown size={14} />
+                        <ChevronDown size={16} style={{ opacity: 0.7 }} />
                       </motion.div>
-                    </motion.button>
-                    <AnimatePresence>
-                      {activeDropdown === menu.key && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                          transition={{ duration: 0.2, ease: 'easeOut' }}
-                          style={{
-                            position: 'absolute',
-                            top: '2.5rem',
-                            left: 0,
-                            background: 'rgba(255, 255, 255, 0.95)',
-                            backdropFilter: 'blur(20px)',
-                            border: '1px solid rgba(229, 231, 235, 0.2)',
-                            borderRadius: '0.75rem',
-                            boxShadow:
-                              '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                            padding: '0.5rem',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '0.25rem',
-                            minWidth: '160px',
-                          }}>
-                          {menu.subMenu.map((sub) => (
-                            <motion.button
-                              key={sub.key}
-                              onClick={() => scrollToSection(sub.sectionId)}
-                              style={{
-                                padding: '0.5rem 0.75rem',
-                                textAlign: 'left',
-                                border: 'none',
-                                background: 'none',
-                                cursor: 'pointer',
-                                color: '#4b5563',
-                                borderRadius: '0.5rem',
-                                transition: 'all 0.2s',
-                                fontWeight: '500',
-                                fontFamily: 'Urbanist, sans-serif',
-                                fontSize: '14px',
-                              }}
-                              whileHover={{
-                                backgroundColor: '#f8fafc',
-                                color: '#6366f1',
-                                x: 4,
-                              }}
-                              transition={{ duration: 0.2 }}>
-                              {sub.label}
-                            </motion.button>
-                          ))}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  <motion.button
-                    key={menu.key}
-                    onClick={() => scrollToSection(menu.sectionId!)}
-                    style={{
-                      color: isScrolled ? '#4b5563' : 'black',
-                      fontWeight: '500',
-                      fontFamily: 'Urbanist, sans-serif',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      padding: '0.5rem 0.75rem',
-                      borderRadius: '0.5rem',
-                      fontSize: '15px',
-                    }}
-                    whileHover={{
-                      color: '#6366f1',
-                      backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    }}
-                    transition={{ duration: 0.2 }}>
-                    {menu.label}
+                    )}
                   </motion.button>
-                )
-              )}
+
+                  <AnimatePresence>
+                    {menu.subMenu && activeDropdown === menu.key && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        style={{
+                          position: 'absolute',
+                          top: '100%',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: '280px',
+                          background: 'rgba(255, 255, 255, 0.95)',
+                          backdropFilter: 'blur(20px)',
+                          borderRadius: '20px',
+                          padding: '16px',
+                          boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.15)',
+                          border: `1px solid ${COLORS.border}`,
+                          marginTop: '8px',
+                        }}>
+                        {menu.subMenu.map((sub) => (
+                          <motion.button
+                            key={sub.key}
+                            style={{
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '14px 16px',
+                              background: 'none',
+                              border: 'none',
+                              borderRadius: '12px',
+                              cursor: 'pointer',
+                              fontSize: '14px',
+                              fontWeight: '600',
+                              color: COLORS.textMuted,
+                              transition: 'all 0.2s ease',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                            }}
+                            whileHover={{
+                              backgroundColor: 'rgba(79, 70, 229, 0.08)',
+                              color: COLORS.primary,
+                              x: 4,
+                            }}>
+                            {sub.icon}
+                            {sub.label}
+                          </motion.button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
             </nav>
 
-            {/* Desktop CTA Button */}
-            <motion.div
-              className="desktop-cta"
-              style={{ display: 'none', alignItems: 'center', gap: '0.8rem' }}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}>
-              <FancyHeartButton
-                text={siteConfig.header.buttons.waitlist}
-                onClick={handleHeaderButtonClick}
-                // isScrolled={scrollToHero}
-              />
-            </motion.div>
-
-            {/* Mobile Menu Button */}
+            {/* Enhanced CTA Button */}
             <motion.button
-              className="mobile-menu-btn"
               style={{
-                display: 'none',
-                background: 'none',
+                background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})`,
+                color: 'white',
                 border: 'none',
+                padding: '14px 28px',
+                borderRadius: '50px',
+                fontSize: '15px',
+                fontWeight: '700',
                 cursor: 'pointer',
-                padding: '0.5rem',
-                borderRadius: '0.5rem',
-                color: isScrolled ? '#4b5563' : '#111827',
-                transition: 'all 0.3s ease',
+                fontFamily: FONT_FAMILY,
+                boxShadow: `0 12px 24px -8px ${COLORS.primary}40`,
+                position: 'relative',
+                overflow: 'hidden',
               }}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
               whileHover={{
-                backgroundColor: isScrolled
-                  ? 'rgba(243, 244, 246, 0.8)'
-                  : 'rgba(0, 0, 0, 0.05)',
+                scale: 1.05,
+                boxShadow: `0 16px 32px -8px ${COLORS.primary}50`,
               }}
               whileTap={{ scale: 0.95 }}>
+              {/* Button shine effect */}
               <motion.div
-                animate={{ rotate: isMenuOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}>
-                {isMenuOpen ? (
-                  <X style={{ width: '1.5rem', height: '1.5rem' }} />
-                ) : (
-                  <Menu style={{ width: '1.5rem', height: '1.5rem' }} />
-                )}
-              </motion.div>
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '-100%',
+                  width: '100%',
+                  height: '100%',
+                  background:
+                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                }}
+                animate={{ left: ['100%', '-100%'] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              />
+
+              <span style={{ position: 'relative', zIndex: 1 }}>
+                Contact us
+              </span>
             </motion.button>
           </div>
-
-          {/* Mobile Navigation */}
-          <AnimatePresence>
-            {isMenuOpen && (
-              <motion.div
-                className="mobile-nav"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                style={{
-                  display: 'block',
-                  borderTop: `1px solid ${
-                    isScrolled
-                      ? 'rgba(229, 231, 235, 0.3)'
-                      : 'rgba(0, 0, 0, 0.1)'
-                  }`,
-                  paddingTop: '1rem',
-                  paddingBottom: '1rem',
-                  marginTop: '0.5rem',
-                }}>
-                <nav
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1rem',
-                  }}>
-                  {menus.map((menu, index) =>
-                    menu.subMenu ? (
-                      <motion.div
-                        key={menu.key}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}>
-                        <button
-                          style={{
-                            color: isScrolled ? '#4b5563' : '#111827',
-                            fontWeight: '500',
-                            fontFamily: 'Urbanist, sans-serif',
-                            textAlign: 'left',
-                            background: 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            width: '100%',
-                            padding: '0.75rem 0.5rem',
-                            transition: 'color 0.3s ease',
-                            borderRadius: '0.5rem',
-                            fontSize: '16px',
-                          }}
-                          onClick={() =>
-                            setMobileDropdown(
-                              mobileDropdown === menu.key ? null : menu.key
-                            )
-                          }>
-                          {menu.label}
-                          <motion.div
-                            animate={{
-                              rotate: mobileDropdown === menu.key ? 180 : 0,
-                            }}
-                            transition={{ duration: 0.2 }}>
-                            <ChevronDown size={16} />
-                          </motion.div>
-                        </button>
-                        <AnimatePresence>
-                          {mobileDropdown === menu.key && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.2 }}
-                              style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '0.5rem',
-                                paddingLeft: '1rem',
-                                paddingTop: '0.5rem',
-                                borderLeft: '2px solid rgba(99, 102, 241, 0.2)',
-                                marginLeft: '0.5rem',
-                              }}>
-                              {menu.subMenu.map((sub) => (
-                                <button
-                                  key={sub.key}
-                                  onClick={() => scrollToSection(sub.sectionId)}
-                                  style={{
-                                    color: isScrolled ? '#6b7280' : '#6b7280',
-                                    fontFamily: 'Urbanist, sans-serif',
-                                    textAlign: 'left',
-                                    background: 'none',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    padding: '0.5rem 0',
-                                    transition: 'color 0.3s ease',
-                                    fontSize: '15px',
-                                    borderRadius: '0.25rem',
-                                  }}>
-                                  {sub.label}
-                                </button>
-                              ))}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    ) : (
-                      <motion.button
-                        key={menu.key}
-                        onClick={() => scrollToSection(menu.sectionId!)}
-                        style={{
-                          color: isScrolled ? '#4b5563' : '#111827',
-                          fontWeight: '500',
-                          fontFamily: 'Urbanist, sans-serif',
-                          textAlign: 'left',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: '0.75rem 0.5rem',
-                          transition: 'color 0.3s ease',
-                          borderRadius: '0.5rem',
-                          fontSize: '16px',
-                        }}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}>
-                        {menu.label}
-                      </motion.button>
-                    )
-                  )}
-
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 }}
-                    style={{ marginTop: '1rem', padding: '0 0.5rem' }}>
-                    <Button
-                      type="submit"
-                      style={{
-                        background: !isScrolled
-                          ? 'linear-gradient(135deg, rgb(99, 102, 241) 0%, rgb(79, 70, 229) 100%)'
-                          : 'linear-gradient(135deg, rgb(99, 102, 241) 0%, rgb(79, 70, 229) 100%)',
-                        color: 'white',
-                        padding: '0.875rem 1.5rem',
-                        borderRadius: '0.75rem',
-                        fontSize: '16px',
-                        fontWeight: '600',
-                        fontFamily: 'Urbanist, sans-serif',
-                        border: 'none',
-                        cursor: 'pointer',
-                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.75rem',
-                        whiteSpace: 'nowrap',
-                        boxShadow: '0 8px 32px rgba(99, 102, 241, 0.4)',
-                        overflow: 'hidden',
-                        position: 'relative',
-                        width: '100%',
-                      }}
-                      onClick={handleHeaderButtonClick}>
-                      {siteConfig.header.buttons.waitlist}
-                    </Button>
-                  </motion.div>
-                </nav>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </motion.header>
     </>
   );
 }
+
+export default Header;

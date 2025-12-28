@@ -69,7 +69,7 @@ function RootLayoutContent({ children }: RootLayoutProps) {
       <div style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
         <AdminBar />
         <div style={{ paddingTop: 'var(--admin-bar-height, 0)' }}>
-          <Header wishlistFormRef={wishlistFormRef} />
+          <Header />
           <main>{children}</main>
           <CtaSection />
           <Footer />
@@ -116,11 +116,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
         <meta
           property="og:title"
-          content="Dockly - Organize Your Digital Life in One Place"
+          content="Crestcode - High-performance technical consultancy"
         />
         <meta
           property="og:description"
-          content="Connect and manage everything that matters - from calendars and finances to family planning and personal projects. Dockly brings it all together in one beautiful, intelligent workspace."
+          content="We Own the Engineering.You Own the Vision."
         />
         <meta property="og:type" content="website" />
         <link rel="icon" type="image/png" href="/dockly-logo-header.png" />

@@ -8,9 +8,9 @@ export const DEFAULT_TEXT_COLOR = '#343434';
 export function usePageTitle(pageName: string) {
   useEffect(() => {
     if (pageName) {
-      document.title = `${pageName} | Dockly`;
+      document.title = `${pageName} | Crestcode`;
     } else {
-      document.title = 'Dockly';
+      document.title = 'Crestcode';
     }
   }, [pageName]);
 }
