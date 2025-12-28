@@ -16,6 +16,7 @@ import {
   Layers,
   Sparkles,
 } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 
 const COLORS = {
   bgBase: '#FAFBFC',
@@ -36,6 +37,9 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -43,21 +47,37 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToSection = (sectionId: string) => {
+    if (sectionId === 'services') {
+      // Trigger services display via custom event
+      window.dispatchEvent(new CustomEvent('showServices'));
+    } else if (isHomePage) {
+      // Normal scroll on home
+      const element = document.getElementById(sectionId);
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Hash navigation from other pages
+      router.push(`/#${sectionId}`);
+    }
+    setIsMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
   const menus = [
     {
       key: 'services',
       label: 'Services',
       subMenu: [
-        {
-          key: 'consulting',
-          label: 'Technical Consulting',
-          icon: <Code size={16} />,
-        },
-        {
-          key: 'development',
-          label: 'Full-Stack Development',
-          icon: <Layers size={16} />,
-        },
+        { key: 'software-dev', label: 'Software Product Development', sectionId: 'services' },
+        { key: 'full-stack', label: 'Full-Stack Development', sectionId: 'services' },
+        { key: 'web-dev', label: 'Web Development', sectionId: 'services' },
+        { key: 'mobile-dev', label: 'Mobile Development', sectionId: 'services' },
+        { key: 'ai-dev', label: 'AI Development', sectionId: 'services' },
+        { key: 'cloud-solutions', label: 'Cloud Solutions', sectionId: 'services' },
+        { key: 'enterprise', label: 'Enterprise Software', sectionId: 'services' },
+        { key: 'startup', label: 'Startup Solutions', sectionId: 'services' },
+        { key: 'api-dev', label: 'API Development', sectionId: 'services' },
+        { key: 'devops', label: 'DevOps Solutions', sectionId: 'services' },
       ],
     },
     { key: 'solutions', label: 'Solutions' },
@@ -237,7 +257,8 @@ function Header() {
                     whileHover={{
                       backgroundColor: 'rgba(79, 70, 229, 0.08)',
                       y: -1,
-                    }}>
+                    }}
+                    onClick={() => menu.key === 'services' ? scrollToSection('services') : null}>
                     {menu.label}
                     {menu.subMenu && (
                       <motion.div
@@ -274,6 +295,7 @@ function Header() {
                         {menu.subMenu.map((sub) => (
                           <motion.button
                             key={sub.key}
+                            onClick={() => scrollToSection('services')}
                             style={{
                               width: '100%',
                               textAlign: 'left',
@@ -286,16 +308,12 @@ function Header() {
                               fontWeight: '600',
                               color: COLORS.textMuted,
                               transition: 'all 0.2s ease',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '12px',
                             }}
                             whileHover={{
                               backgroundColor: 'rgba(79, 70, 229, 0.08)',
                               color: COLORS.primary,
                               x: 4,
                             }}>
-                            {sub.icon}
                             {sub.label}
                           </motion.button>
                         ))}
