@@ -19,7 +19,6 @@ import React, {
   useContext,
 } from 'react';
 import { WishlistFormRef } from '@/components/hero-section';
-import CtaSection from '@/components/ctasection';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -71,7 +70,6 @@ function RootLayoutContent({ children }: RootLayoutProps) {
         <div style={{ paddingTop: 'var(--admin-bar-height, 0)' }}>
           <Header />
           <main>{children}</main>
-          <CtaSection />
           <Footer />
           {showScroll && (
             <FloatButton

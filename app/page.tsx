@@ -6,6 +6,8 @@ import Hero from '@/components/home/hero';
 import IndustriesSection from '@/components/home/industries';
 import TestimonialSection from '@/components/home/testimonials';
 import WhyCrestcode from '@/components/home/whyCrestcode';
+import HomeService from '@/components/home/home-service';
+import ContactForm from '@/components/home/form';
 import Service from '@/components/service';
 
 export default function HomePage() {
@@ -26,9 +28,12 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <HomeService />
       <TestimonialSection />
       <IndustriesSection />
       <WhyCrestcode />
+      <ContactForm />
+
     </>
   );
 }
