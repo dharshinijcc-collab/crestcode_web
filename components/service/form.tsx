@@ -92,10 +92,10 @@ function ContactForm() {
             />
 
             {[
-              { num: '1', text: 'Tell us your vision' },
-              { num: '2', text: 'Expert Discovery session' },
-              { num: '3', text: 'Receive your custom roadmap' },
-              { num: '4', text: 'Launch your project' },
+              { num: '1', text: 'Share your idea' },
+              { num: '2', text: 'Discuss it with our experts' },
+              { num: '3', text: 'Get an estimation of project' },
+              { num: '4', text: 'Start the project' },
             ].map((step, i) => (
               <motion.div
                 key={i}

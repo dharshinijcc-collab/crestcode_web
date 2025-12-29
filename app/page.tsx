@@ -6,9 +6,10 @@ import Hero from '@/components/home/hero';
 import IndustriesSection from '@/components/home/industries';
 import TestimonialSection from '@/components/home/testimonials';
 import WhyCrestcode from '@/components/home/whyCrestcode';
+import FAQ from '@/components/home/faq';
 import HomeService from '@/components/home/home-service';
 import ContactForm from '@/components/home/form';
-import Service from '@/components/service';
+
 
 export default function HomePage() {
   const [showServices, setShowServices] = useState(false);
@@ -21,10 +22,6 @@ export default function HomePage() {
 
   usePageTitle('Crestcode - high-performance technical consultancy');
 
-  if (showServices) {
-    return <Service />;
-  }
-
   return (
     <>
       <Hero />
@@ -32,6 +29,7 @@ export default function HomePage() {
       <TestimonialSection />
       <IndustriesSection />
       <WhyCrestcode />
+      <FAQ />
       <ContactForm />
 
     </>

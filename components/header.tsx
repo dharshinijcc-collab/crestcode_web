@@ -47,8 +47,8 @@ function Header() {
 
   const scrollToSection = (sectionId: string) => {
     if (sectionId === 'services') {
-      // Trigger services display via custom event
-      window.dispatchEvent(new CustomEvent('showServices'));
+      // Navigate to services page
+      router.push('/services');
     } else if (isHomePage) {
       // Normal scroll on home
       const element = document.getElementById(sectionId);
@@ -347,7 +347,7 @@ function Header() {
                         {menu.subMenu.map((sub) => (
                           <motion.button
                             key={sub.key}
-                            onClick={() => scrollToSection('services')}
+                            onClick={() => router.push('/services')}
                             style={{
                               width: '100%',
                               textAlign: 'left',

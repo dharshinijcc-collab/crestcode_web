@@ -28,7 +28,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAdmin } from './admin/context';
 import EditableText from './admin/editableText';
-import { HeaderProps } from './header';
+import { WishlistFormRef } from './hero-section';
 import { useRouter } from 'next/navigation';
 
 function PricingSection({ wishlistFormRef }: HeaderProps) {
