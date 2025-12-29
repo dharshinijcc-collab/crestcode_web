@@ -34,7 +34,7 @@ const features = [
   {
     title: 'Client involvement',
     icon: <Users size={28} />,
-    desc: "We determine the degree of Client involvement. We can work on a turnkey basis, or we may work with the direct participation of the Client's management — our processes are adapted easily.",
+    desc: "We determine the degree of Client involvement. We can work on a turnkey basis, or we may work with the direct participation of the Client's management - our processes are adapted easily.",
   },
   {
     title: 'Reasonable costs',
@@ -54,7 +54,7 @@ const features = [
   {
     title: 'Risk management',
     icon: <ShieldAlert size={28} />,
-    desc: 'Honesty about project risks, proactiveness, and a risk mitigation plan — this is our approach. We continuously evaluate operational, technology, business, and external risk factors.',
+    desc: 'Honesty about project risks, proactiveness, and a risk mitigation plan - this is our approach. We continuously evaluate operational, technology, business, and external risk factors.',
   },
   //   {
   //     title: 'Change management',

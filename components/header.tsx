@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Menu,
-  X,
   ChevronDown,
-  ArrowRight,
-  Rocket,
-  Shield,
-  Zap,
   Users,
-  CheckCircle,
-  Star,
   Globe,
-  Code,
-  Layers,
-  Sparkles,
+  Boxes,
+  Briefcase,
+  Bug,
+  HelpCircle,
+  MessageSquareQuote,
+  Palette,
+  Server,
+  Smartphone,
+  Workflow,
 } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -68,21 +66,71 @@ function Header() {
       key: 'services',
       label: 'Services',
       subMenu: [
-        { key: 'software-dev', label: 'Software Product Development', sectionId: 'services' },
-        { key: 'full-stack', label: 'Full-Stack Development', sectionId: 'services' },
-        { key: 'web-dev', label: 'Web Development', sectionId: 'services' },
-        { key: 'mobile-dev', label: 'Mobile Development', sectionId: 'services' },
-        { key: 'ai-dev', label: 'AI Development', sectionId: 'services' },
-        { key: 'cloud-solutions', label: 'Cloud Solutions', sectionId: 'services' },
-        { key: 'enterprise', label: 'Enterprise Software', sectionId: 'services' },
-        { key: 'startup', label: 'Startup Solutions', sectionId: 'services' },
-        { key: 'api-dev', label: 'API Development', sectionId: 'services' },
-        { key: 'devops', label: 'DevOps Solutions', sectionId: 'services' },
+        {
+          key: 'software-product-development',
+          label: 'Software product development',
+          icon: <Boxes size={16} />,
+        },
+        {
+          key: 'web-development',
+          label: 'Web development',
+          icon: <Globe size={16} />,
+        },
+        {
+          key: 'mobile-app-development',
+          label: 'Mobile app development',
+          icon: <Smartphone size={16} />,
+        },
+        {
+          key: 'UX-design',
+          label: 'UX/UI design',
+          icon: <Palette size={16} />,
+        },
+        {
+          key: 'backend-development',
+          label: 'Backend development',
+          icon: <Server size={16} />,
+        },
+        {
+          key: 'qa-and-testing',
+          label: 'QA and Testing',
+          icon: <Bug size={16} />,
+        },
       ],
     },
     { key: 'solutions', label: 'Solutions' },
-    { key: 'about', label: 'About' },
-    { key: 'contact', label: 'Contact' },
+    {
+      key: 'about',
+      label: 'About',
+      subMenu: [
+        {
+          key: 'team',
+          label: 'Team',
+          icon: <Users size={16} />,
+        },
+        {
+          key: 'how-we-work',
+          label: 'How We Work',
+          icon: <Workflow size={16} />,
+        },
+        {
+          key: 'faq',
+          label: 'FAQ',
+          icon: <HelpCircle size={16} />,
+        },
+        {
+          key: 'testimonials',
+          label: 'Testimonials',
+          icon: <MessageSquareQuote size={16} />,
+        },
+        {
+          key: 'careers',
+          label: 'Careers',
+          icon: <Briefcase size={16} />,
+        },
+      ],
+    },
+    { key: 'blogs', label: 'Blogs' },
   ];
 
   return (
@@ -258,7 +306,11 @@ function Header() {
                       backgroundColor: 'rgba(79, 70, 229, 0.08)',
                       y: -1,
                     }}
-                    onClick={() => menu.key === 'services' ? scrollToSection('services') : null}>
+                    onClick={() =>
+                      menu.key === 'services'
+                        ? scrollToSection('services')
+                        : null
+                    }>
                     {menu.label}
                     {menu.subMenu && (
                       <motion.div

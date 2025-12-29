@@ -121,7 +121,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           content="We Own the Engineering.You Own the Vision."
         />
         <meta property="og:type" content="website" />
-        <link rel="icon" type="image/png" href="/dockly-logo-header.png" />
+        <link rel="icon" type="image/png" href="/cc.jpeg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

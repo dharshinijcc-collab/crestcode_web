@@ -506,43 +506,6 @@ function Hero() {
 
         {/* LOGO WALL (The "Industrial" Seal of Approval) */}
       </motion.div>
-
-      {/* 4. SIDE DECORATION (Floating Card) */}
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity }}
-        style={{
-          position: 'absolute',
-          bottom: '10%',
-          right: '5%',
-          background: 'white',
-          padding: '20px',
-          borderRadius: '16px',
-          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-          border: '1px solid #F1F5F9',
-          display: 'none', // Active on large screens
-          zIndex: 20,
-        }}
-        className="desktop-only">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div
-            style={{
-              padding: '8px',
-              background: 'rgba(79, 70, 229, 0.1)',
-              borderRadius: '8px',
-            }}>
-            <RocketOutlined style={{ color: COLORS.primary }} />
-          </div>
-          <div>
-            <p style={{ margin: 0, fontWeight: 700, fontSize: '14px' }}>
-              Fast-Track Entry
-            </p>
-            <p style={{ margin: 0, fontSize: '12px', color: COLORS.textMuted }}>
-              Dev deployment in 48hrs
-            </p>
-          </div>
-        </div>
-      </motion.div>
     </div>
   );
 }
