@@ -3,6 +3,19 @@
 import { motion } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAdmin } from './admin/context';
+import {
+  Boxes,
+  Globe,
+  Smartphone,
+  Palette,
+  Bug,
+  Server,
+  Users,
+  Workflow,
+  HelpCircle,
+  MessageSquareQuote,
+  Briefcase,
+} from 'lucide-react';
 
 export default function Footer() {
   const { config } = useAdmin();
@@ -35,6 +48,50 @@ export default function Footer() {
     };
     return sectionMap[item] || item.toLowerCase();
   };
+
+  const services = [
+    {
+      key: 'software-product-development',
+      label: 'Software product development',
+      icon: <Boxes size={16} />,
+    },
+    {
+      key: 'web-development',
+      label: 'Web development',
+      icon: <Globe size={16} />,
+    },
+    {
+      key: 'mobile-app-development',
+      label: 'Mobile app development',
+      icon: <Smartphone size={16} />,
+    },
+    {
+      key: 'UX-design',
+      label: 'UX/UI design',
+      icon: <Palette size={16} />,
+    },
+    {
+      key: 'backend-development',
+      label: 'Backend development',
+      icon: <Server size={16} />,
+    },
+    {
+      key: 'qa-and-testing',
+      label: 'QA and Testing',
+      icon: <Bug size={16} />,
+    },
+  ];
+  const about = [
+    { key: 'team', label: 'Team', icon: <Users size={16} /> },
+    { key: 'how-we-work', label: 'How We Work', icon: <Workflow size={16} /> },
+    { key: 'faq', label: 'FAQ', icon: <HelpCircle size={16} /> },
+    {
+      key: 'testimonials',
+      label: 'Testimonials',
+      icon: <MessageSquareQuote size={16} />,
+    },
+    { key: 'careers', label: 'Careers', icon: <Briefcase size={16} /> },
+  ];
 
   return (
     <>
@@ -80,39 +137,59 @@ export default function Footer() {
                 }}>
                 <div
                   style={{
-                    width: 40,
-                    height: 40, // make it square for circle
-                    // borderRadius: '50%', // ensures circle container if you want CSS circle
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: 0,
-                    // backgroundColor: "#EEF2FF" // optional background
+                    width: 48,
+                    height: 48,
+                    marginRight: '16px',
+                    // background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})`,
+                    borderRadius: '14px',
+                    display: 'grid',
+                    placeItems: 'center',
+                    // boxShadow: `0 8px 32px ${COLORS.primary}30`,
+                    position: 'relative',
                   }}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="80%"
-                    height="80%"
-                    viewBox="0 0 128 128"
-                    aria-hidden="true">
-                    {/* <circle cx="64" cy="64" r="64" fill="#E0E7FF" /> */}
-
-                    <g fill="#6366F1">
-                      <rect x="34" y="28" width="60" height="16" rx="8" />
-                      <rect x="26" y="56" width="76" height="16" rx="8" />
-                      <rect x="18" y="84" width="92" height="16" rx="8" />
-                    </g>
-                  </svg>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 2,
+                      // background: 'white',
+                      borderRadius: '12px',
+                      display: 'grid',
+                      placeItems: 'center',
+                    }}>
+                    <img
+                      src="https://crestcode.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.fd2671e3.png&w=1920&q=100"
+                      alt="Crestcode"
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        objectFit: 'contain',
+                      }}
+                    />
+                  </div>
                 </div>
-                <span
-                  style={{
-                    fontSize: '1.4rem',
-                    fontWeight: '700',
-                    letterSpacing: '-0.02em',
-                    fontFamily: "'Urbanist', sans-serif",
-                  }}>
-                  {footerConfig.siteName}
-                </span>
+                <div>
+                  <div
+                    style={{
+                      fontSize: '24px',
+                      fontWeight: '900',
+                      color: 'white',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1,
+                    }}>
+                    Crestcode
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '11px',
+                      fontWeight: '500',
+                      color: '#9ca3af',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      marginTop: '2px',
+                    }}>
+                    Engineering Excellence
+                  </div>
+                </div>
               </div>
 
               <p
@@ -125,7 +202,8 @@ export default function Footer() {
                   fontWeight: '400',
                   fontFamily: "'Urbanist', sans-serif",
                 }}>
-                {footerConfig.footer.description}
+                Performance technical consultancy providing full-spectrum
+                engineering expertise
               </p>
 
               {/* Social Icons */}
@@ -211,7 +289,7 @@ export default function Footer() {
                   color: '#ffffff',
                   fontFamily: "'Urbanist', sans-serif",
                 }}>
-                Product
+                Services
               </h4>
 
               <ul
@@ -223,10 +301,10 @@ export default function Footer() {
                   flexDirection: 'column',
                   gap: '0.75rem',
                 }}>
-                {footerConfig.footer.links.Product.map((item, index) => (
-                  <motion.li key={item}>
+                {services.map((service, index) => (
+                  <motion.li key={service.key}>
                     <motion.button
-                      onClick={() => scrollToSection(getSectionId(item))}
+                      onClick={() => scrollToSection(getSectionId(service.key))}
                       style={{
                         color: '#9ca3af',
                         background: 'none',
@@ -234,11 +312,11 @@ export default function Footer() {
                         cursor: 'pointer',
                         fontSize: '1rem',
                         transition: 'color 0.3s ease',
-                        display: 'block',
-                        paddingRight: '1rem',
-                        textAlign: 'left',
-                        padding: '0',
-                        fontWeight: '400',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: 0,
+                        fontWeight: 400,
                         fontFamily: "'Urbanist', sans-serif",
                       }}
                       whileHover={{
@@ -249,7 +327,8 @@ export default function Footer() {
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
                       viewport={{ once: true }}>
-                      {item}
+                      {service.icon}
+                      {service.label}
                     </motion.button>
                   </motion.li>
                 ))}
@@ -270,7 +349,7 @@ export default function Footer() {
                   color: '#ffffff',
                   fontFamily: "'Urbanist', sans-serif",
                 }}>
-                Legal
+                About
               </h4>
 
               <ul
@@ -282,62 +361,35 @@ export default function Footer() {
                   flexDirection: 'column',
                   gap: '0.75rem',
                 }}>
-                <motion.li>
-                  <motion.button
-                    onClick={() => navigateToRoute('/privacy-policy')}
-                    style={{
-                      color: '#9ca3af',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: '1rem',
-                      transition: 'color 0.3s ease',
-                      display: 'block',
-                      paddingRight: '1rem',
-                      textAlign: 'left',
-                      padding: '0',
-                      fontWeight: '400',
-                      fontFamily: "'Urbanist', sans-serif",
-                    }}
-                    whileHover={{
-                      color: '#ffffff',
-                      x: 4,
-                    }}
-                    initial={{ opacity: 0, x: 10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.3 }}
-                    viewport={{ once: true }}>
-                    Privacy Policy
-                  </motion.button>
-                </motion.li>
-                <motion.li>
-                  <motion.button
-                    onClick={() => navigateToRoute('/about')}
-                    style={{
-                      color: '#9ca3af',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: '1rem',
-                      transition: 'color 0.3s ease',
-                      display: 'block',
-                      paddingRight: '1rem',
-                      textAlign: 'left',
-                      padding: '0',
-                      fontWeight: '400',
-                      fontFamily: "'Urbanist', sans-serif",
-                    }}
-                    whileHover={{
-                      color: '#ffffff',
-                      x: 4,
-                    }}
-                    initial={{ opacity: 0, x: 10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.3 }}
-                    viewport={{ once: true }}>
-                    About
-                  </motion.button>
-                </motion.li>
+                {about.map((item, index) => (
+                  <motion.li key={item.key}>
+                    <motion.button
+                      onClick={() => navigateToRoute(`/${item.key}`)}
+                      style={{
+                        color: '#9ca3af',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        transition: 'color 0.3s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        textAlign: 'left',
+                        padding: 0,
+                        fontWeight: 400,
+                        fontFamily: "'Urbanist', sans-serif",
+                      }}
+                      whileHover={{ color: '#ffffff', x: 4 }}
+                      initial={{ opacity: 0, x: 10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
+                      viewport={{ once: true }}>
+                      {item.icon}
+                      {item.label}
+                    </motion.button>
+                  </motion.li>
+                ))}
               </ul>
             </motion.div>
           </div>
@@ -361,7 +413,8 @@ export default function Footer() {
                 fontWeight: '400',
                 fontFamily: "'Urbanist', sans-serif",
               }}>
-              {footerConfig.footer.copyright}
+              {/* {footerConfig.footer.copyright} */}© 2025 Crestcode. All
+              rights reserved.
             </p>
           </motion.div>
         </div>

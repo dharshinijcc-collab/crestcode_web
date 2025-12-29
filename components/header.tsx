@@ -212,6 +212,7 @@ function Header() {
                 cursor: 'pointer',
                 zIndex: 1100,
               }}
+              onClick={() => router.push('/')}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}>
               <div

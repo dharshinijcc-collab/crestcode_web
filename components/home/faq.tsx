@@ -2,32 +2,44 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus } from 'lucide-react';
+
+// --- THEME TOKENS ---
+const COLORS = {
+  bgBase: '#F3F5F9', // Industrial Slate-Blue
+  primary: '#4F46E5', // Industrial Indigo
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  border: '#E2E8F0', // Crisp Edge
+  white: '#FFFFFF',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs = [
     {
-      question: "How can I get started with Crestcode?",
-      answer: "Getting started is easy! Simply reach out through our contact form, schedule a consultation call, or email us directly. We'll discuss your requirements, provide a comprehensive proposal, and begin the journey to transform your business."
+      question: 'How can I get started with Crestcode?',
+      answer:
+        'Getting started is seamless. Reach out via our industrial-grade contact form or schedule a discovery session. We conduct a technical audit of your requirements and provide a strategic roadmap within 48 hours.',
     },
     {
-      question: "What is Crestcode?",
-      answer: "Crestcode is a high-performance technical consultancy that specializes in delivering cutting-edge software solutions, digital transformation services, and expert technical consulting to help businesses achieve their goals efficiently."
+      question: 'What is Crestcode?',
+      answer:
+        'Crestcode is an elite technical consultancy. we provide full-spectrum engineering and strategic advisory for founders and enterprises building high-growth, customer-focused digital products.',
     },
     {
-      question: "What services does Crestcode offer?",
-      answer: "We offer a comprehensive range of services including custom software development, web and mobile app development, cloud solutions, DevOps consulting, UI/UX design, digital transformation, and technical advisory services."
+      question: 'What services does Crestcode offer?',
+      answer:
+        'We specialize in custom software product development, AI/ML integration, scalable web architecture, and cross-platform mobile engineering, all backed by enterprise-grade DevOps and Security.',
     },
     {
-      question: "What industries does Crestcode serve?",
-      answer: "We serve diverse industries including finance, healthcare, e-commerce, education, manufacturing, and technology startups. Our solutions are tailored to meet the specific needs and regulatory requirements of each sector."
+      question: 'What industries does Crestcode serve?',
+      answer:
+        'We provide technical leadership across Healthcare, Fintech, Logistics, and Manufacturing, ensuring all products meet strict industry-specific regulatory and security standards.',
     },
-    {
-      question: "How experienced is the Crestcode team?",
-      answer: "Our team consists of seasoned consultants and developers with deep technical expertise and years of experience across various industries. We bring proven excellence and enterprise-grade solutions to every project."
-    }
   ];
 
   const toggleFAQ = (index: number) => {
@@ -35,64 +47,122 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      style={{
+        padding: '70px 24px',
+        backgroundColor: COLORS.bgBase,
+        fontFamily: FONT_PRIMARY,
+        position: 'relative',
+      }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        {/* HEADER SECTION */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Frequently Asked Questions
+          style={{ textAlign: 'center', marginBottom: '80px' }}>
+          <h2
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontWeight: 800,
+              color: COLORS.textBlack,
+              letterSpacing: '-0.04em',
+              marginBottom: '20px',
+            }}>
+            Technical <span style={{ color: COLORS.primary }}>FAQ</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Find answers to common questions about our services and how we can help your business succeed
+          <p
+            style={{
+              fontSize: '18px',
+              color: COLORS.textMuted,
+              lineHeight: '1.6',
+              maxWidth: '600px',
+              margin: '0 auto',
+            }}>
+            Insights into our engineering methodology and how we accelerate your
+            technical vision.
           </p>
         </motion.div>
 
-        <div className="space-y-4">
+        {/* FAQ LIST */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-            >
+              style={{
+                backgroundColor: COLORS.white,
+                border: `1px solid ${
+                  openIndex === index ? COLORS.primary : COLORS.border
+                }`,
+                borderRadius: '12px',
+                overflow: 'hidden',
+                transition: 'all 0.3s ease',
+                boxShadow:
+                  openIndex === index
+                    ? '0 10px 30px -10px rgba(79, 70, 229, 0.1)'
+                    : 'none',
+              }}>
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset transition-colors"
-              >
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-gray-900 pr-4">
-                    {faq.question}
-                  </h3>
-                  <div className="flex-shrink-0">
-                    <motion.div
-                      animate={{ rotate: openIndex === index ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ChevronDown className="w-5 h-5 text-gray-500" />
-                    </motion.div>
-                  </div>
-                </div>
+                style={{
+                  width: '100%',
+                  padding: '28px 32px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                }}>
+                <h3
+                  style={{
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: COLORS.textBlack,
+                    margin: 0,
+                    fontFamily: FONT_PRIMARY,
+                  }}>
+                  {faq.question}
+                </h3>
+                <motion.div
+                  animate={{
+                    rotate: openIndex === index ? 45 : 0,
+                    color:
+                      openIndex === index ? COLORS.primary : COLORS.textMuted,
+                  }}
+                  transition={{ duration: 0.3 }}>
+                  <Plus size={24} />
+                </motion.div>
               </button>
-              
+
               <AnimatePresence>
                 {openIndex === index && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                      <p className="text-gray-600 leading-relaxed">
-                        {faq.answer}
-                      </p>
+                    transition={{ duration: 0.3, ease: 'easeOut' }}>
+                    <div
+                      style={{
+                        padding: '0 32px 32px 32px',
+                        color: COLORS.textMuted,
+                        fontSize: '16px',
+                        lineHeight: '1.7',
+                        fontWeight: 450,
+                      }}>
+                      <div
+                        style={{
+                          height: '1px',
+                          backgroundColor: COLORS.border,
+                          marginBottom: '24px',
+                        }}
+                      />
+                      {faq.answer}
                     </div>
                   </motion.div>
                 )}
@@ -101,6 +171,10 @@ const FAQ = () => {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+      `}</style>
     </section>
   );
 };

@@ -10,10 +10,9 @@ import FAQ from '@/components/home/faq';
 import HomeService from '@/components/home/home-service';
 import ContactForm from '@/components/home/form';
 
-
 export default function HomePage() {
   const [showServices, setShowServices] = useState(false);
-  
+
   useEffect(() => {
     const handleShowServices = () => setShowServices(true);
     window.addEventListener('showServices', handleShowServices);
@@ -31,7 +30,6 @@ export default function HomePage() {
       <WhyCrestcode />
       <FAQ />
       <ContactForm />
-
     </>
   );
 }
