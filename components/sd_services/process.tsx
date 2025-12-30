@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Check } from 'lucide-react';
 
 function process() {
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
@@ -27,70 +26,51 @@ function process() {
   const phases = [
     {
       number: 1,
-      title: 'Project kickoff and requirements elicitation',
-      duration: 'The kickoff meeting takes just one day, while requirements elicitation may last up to 5-8 weeks depending on the project scale.',
+      title: 'Business analysis',
       items: [
-        'conduct a kickoff meeting to introduce the team, discuss expectations, and align on business goals',
-        'establish communication processes, tools, and reporting frequency',
-        'prepare the project workspace in tools like Jira and Confluence',
-        'brief the team on project goals, scope, and initial risk assessments',
-        'collaborate with the Client on vision and user requirements through regular calls',
-        'hold workshops to gather and refine requirements',
-        'evaluate risks, assess business impact, and prepare a risk mitigation plan',
-        'create a project roadmap and define major milestones',
+        'During the Business Analysis stage, we introduce the team, align on goals, and set clear expectations.We establish communication processes, select tools like Jira and Confluence, and prepare the project workspace.Through regular calls and collaborative workshops with the Client, we gather and refine requirements, evaluate risks, and establish a risk mitigation plan.The result of the business analysis phase is a well-defined project roadmap with clear milestones, ensuring the entire team is aligned from the start.'
       ],
     },
     {
       number: 2,
-      title: 'UI/UX services',
-      duration: 'The design team typically works in parallel with business analysts, and the phase takes 3-6 weeks alongside requirements elicitation.',
+      title: 'Architecture definition',
       items: [
-        'prepare prototypes, mood boards, and design concepts',
-        'define a unique selling proposition for the product',
-        'conduct competitor analysis and user behavior research',
-        'develop wireframes, interactive prototypes, and detailed UI designs',
-        'refine designs based on client feedback through iterative revisions',
-        'document design specifications and prepare assets for development',
-        'create a branded UI kit with reusable components such as icons, buttons, colors, and fonts',
+        'The definition of architecture is a part of the business analysis process, but this step is worth additional attention. This is where the technical product foundation is defined. The choices made here defined the future product scalability, security tech stack, structure, key design components, data flows, integration points, and much more. For every Client, we strive to select the most suitable tech stack, taking into consideration the project budget, timelines, and the work scope.'
       ],
     },
     {
       number: 3,
-      title: 'Development',
-      duration: 'The development process occurs in iterations, with each sprint lasting two weeks.',
+      title: 'UI/UX design',
       items: [
-        'write and review code for features defined in the sprint plan',
-        'monitor development progress and address blockers promptly',
-        'conduct daily stand-ups to align tasks and priorities',
-        'the tech lead monitors the team and ensures code quality',
-        'we implement robust version control to maintain a high standard of code quality',
-        'the Client participates in progress reviews and provides feedback on completed features',
+        'The UI/UX design phase runs in parallel with business analysis. Our design team starts by preparing mood boards, prototypes, and initial concepts, and defining the product\'s unique selling proposition. We also conduct competitor analysis and study user behavior – all these efforts aim for one purpose: to direct us in the right design direction. Based on our conclusions, we create wireframes, interactive prototypes, and detailed UI designs, refining them through Client feedback and iterations. This step\'s deliverables include documented design specifications, development-ready assets, and a branded UI kit with reusable components like icons, buttons, colors, and fonts.'
       ],
     },
     {
       number: 4,
-      title: 'Testing',
-      duration: 'Testing is conducted throughout the sprint, beginning mid-sprint and culminating in a demo meeting.',
+      title: 'Product development',
       items: [
-        'QA specialists perform manual testing as the first step',
-        'prepare test cases for automated testing using tools like Selenium and TestNG',
-        'conduct usability, performance, security, and other types of testing',
-        'use CI/CD pipelines to ensure seamless integration of new features',
-        'document test results and collaborate with developers to resolve issues',
-        'showcase new features in a demo meeting at the end of the sprint',
+        'The software development phase runs in two-week sprints. During each sprint, our team writes and reviews code for a pre-approved list of features for this sprint, while the Tech Lead oversees quality and progress. The Client is actively involved through regular progress reviews, providing feedback on completed features to keep development aligned with the project goals.'
       ],
     },
     {
       number: 5,
-      title: 'Support & Maintenance',
-      duration: 'This phase is optional and ongoing – we continue to cooperate after the successful project launch.',
+      title: 'Quality assurance',
       items: [
-        'deliver a final report and request Client confirmation for project closure',
-        'perform knowledge transfer and provide training to ensure smooth handover',
-        'monitor system performance and proactively resolve technical issues',
-        'implement technology updates to maintain compatibility and security',
-        'develop and roll out new features based on evolving Client needs',
-        'provide ongoing reports on maintenance activities and product performance',
+        'The quality assurance phase runs throughout each sprint, starting mid-sprint and concluding with a demo meeting. QA specialists begin with manual testing to catch issues, then prepare and run automated test cases using tools like Selenium and TestNG. We conduct various types of testing, including usability, performance, and security and document all results that will become part of the print report. Each sprint ends with a demo, during which new features are reviewed with the Client.'
+      ],
+    },
+    {
+      number: 6,
+      title: 'DevOps',
+      items: [
+        'The DevOps phase supports the entire development cycle by ensuring smooth deployment, scalability, and system reliability. Not all projects require the involvement of our DevOps specialists, but we always suggest applying DevOps practices to our Clients if we see that they could benefit the project outcomes. Our DevOps services include system performance monitoring, managing different development environments, handling regular backups, disaster recovery setup, implementing best security practices, and making any possible effort to streamline development workflows, increase software quality, and reduce time to market.'
+      ],
+    },
+    {
+      number: 7,
+      title: 'Maintenance and support',
+      items: [
+        'The support and maintenance phase is optional and ongoing, continuing after the successful project launch. We begin by delivering a final report and confirming project closure with the Client. We provide knowledge transfer, send all available documentation to one place, hold training sessions, and answer any questions regarding the product. Our team also monitors system performance, resolves technical issues proactively, and implements necessary technology updates to ensure the product adheres to the latest security and performance standards.'
       ],
     },
   ];
@@ -100,15 +80,14 @@ function process() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <div className="text-center mb-16 sm:mb-20 lg:mb-24 animate-fade-in">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Crestcode's development{' '}
+            Our software product development{' '}
             <span className="text-blue-600">
               process
             </span>
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            The development process starts when we sign a contract with the Client. Our business software
-            development process is a carefully elaborated and polished set of activities that allows us to deliver
-            high-quality software within short timeframes.
+            We provide end-to-end software product development services, growing products from initial ideas to fully functional applications. 
+            We do it through our well-established development processes, talented software engineers, and our strong commitment to business success.
           </p>
         </div>
 
@@ -150,26 +129,19 @@ function process() {
                       </p>
                     </div>
 
-                    <ul className="space-y-4 sm:space-y-5">
+                    <div className="space-y-6">
                       {phase.items.map((item, itemIndex) => (
-                        <li
+                        <p
                           key={itemIndex}
-                          className="flex items-start gap-3 sm:gap-4 group hover:translate-x-1 transition-all duration-300"
+                          className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed hover:text-gray-900 transition-all duration-300"
                           style={{
                             animationDelay: `${itemIndex * 30}ms`,
                           }}
                         >
-                          <div className="flex-shrink-0 mt-0.5">
-                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-500 flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:bg-blue-600 transition-all duration-300 group-hover:scale-125 group-hover:-rotate-12">
-                              <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
-                            </div>
-                          </div>
-                          <span className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed group-hover:text-gray-900 group-hover:font-medium transition-all duration-300">
-                            {item}
-                          </span>
-                        </li>
+                          {item}
+                        </p>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 </div>
               </div>

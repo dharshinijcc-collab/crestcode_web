@@ -13,6 +13,7 @@ import {
   Server,
   Smartphone,
   Workflow,
+  Brain,
 } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -67,34 +68,24 @@ function Header() {
       label: 'Services',
       subMenu: [
         {
-          key: 'software-product-development',
-          label: 'Software product development',
+          key: 'custom-software-development',
+          label: 'Custom Software Development',
           icon: <Boxes size={16} />,
         },
         {
+          key: 'ai-ml',
+          label: 'AI & ML',
+          icon: <Brain size={16} />,
+        },
+        {
           key: 'web-development',
-          label: 'Web development',
+          label: 'Web Development',
           icon: <Globe size={16} />,
         },
         {
           key: 'mobile-app-development',
-          label: 'Mobile app development',
+          label: 'Mobile App Development',
           icon: <Smartphone size={16} />,
-        },
-        {
-          key: 'UX-design',
-          label: 'UX/UI design',
-          icon: <Palette size={16} />,
-        },
-        {
-          key: 'backend-development',
-          label: 'Backend development',
-          icon: <Server size={16} />,
-        },
-        {
-          key: 'qa-and-testing',
-          label: 'QA and Testing',
-          icon: <Bug size={16} />,
         },
       ],
     },
@@ -348,7 +339,15 @@ function Header() {
                         {menu.subMenu.map((sub) => (
                           <motion.button
                             key={sub.key}
-                            onClick={() => router.push('/services')}
+                            onClick={() => {
+                              if (sub.key === 'custom-software-development') {
+                                router.push('/sd_services');
+                              } else if (sub.key === 'ai-ml') {
+                                router.push('/aiml_services');
+                              } else {
+                                router.push('/services');
+                              }
+                            }}
                             style={{
                               width: '100%',
                               textAlign: 'left',

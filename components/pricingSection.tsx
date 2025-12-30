@@ -31,7 +31,11 @@ import EditableText from './admin/editableText';
 import { WishlistFormRef } from './hero-section';
 import { useRouter } from 'next/navigation';
 
-function PricingSection({ wishlistFormRef }: HeaderProps) {
+interface PricingSectionProps {
+  wishlistFormRef?: WishlistFormRef;
+}
+
+function PricingSection({ wishlistFormRef }: PricingSectionProps) {
   const { config, saveConfigToServer, isAdmin } = useAdmin();
   const [selectedPlan, setSelectedPlan] = useState('Yearly');
   const router = useRouter();

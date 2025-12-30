@@ -6,23 +6,20 @@ export default function hero() {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjAzIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-40"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex items-center gap-2 text-sm text-white/70 mb-12 animate-fade-in">
+        <div className="flex items-center gap-2 text-xs text-white/70 mb-12 animate-fade-in">
           <span className="hover:text-white transition-colors cursor-pointer">Home</span>
-          <ChevronRight className="w-4 h-4" />
-          <span className="text-white/90">Software Development Services</span>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-white/90">AI & ML</span>
         </div>
 
         <div className="max-w-4xl animate-slide-up">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-            <span className="text-[#4A9EFF] animate-gradient-text">Software development</span>{' '}
-            <span>services</span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-8 leading-tight">
+            <span className="text-[#4A9EFF] animate-gradient-text">Custom Artificial Intelligence (AI)</span>{' '}
+            <span>solutions for your business</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-white/90 mb-12 leading-relaxed max-w-3xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            At Crestcode, we provide end-to-end software development backed by industry-specific
-            expertise, advisory support, and system maintenance, including maintenance of complex
-            legacy solutions. Our software engineering services encompass both the classic
-            outsourcing model and staff augmentation.
+            We bring businesses simple and advanced AI-powered solutions, from predictive analytics to intelligent automation. Let’s Make an AI Revolution. Together.
           </p>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-12 animate-fade-in" style={{ animationDelay: '0.4s' }}>

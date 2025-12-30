@@ -15,6 +15,7 @@ import {
   HelpCircle,
   MessageSquareQuote,
   Briefcase,
+  Brain,
 } from 'lucide-react';
 
 export default function Footer() {
@@ -51,34 +52,24 @@ export default function Footer() {
 
   const services = [
     {
-      key: 'software-product-development',
-      label: 'Software product development',
+      key: 'custom-software-development',
+      label: 'Custom Software Development',
       icon: <Boxes size={16} />,
     },
     {
+      key: 'ai-ml',
+      label: 'AI & ML',
+      icon: <Brain size={16} />,
+    },
+    {
       key: 'web-development',
-      label: 'Web development',
+      label: 'Web Development',
       icon: <Globe size={16} />,
     },
     {
       key: 'mobile-app-development',
-      label: 'Mobile app development',
+      label: 'Mobile App Development',
       icon: <Smartphone size={16} />,
-    },
-    {
-      key: 'UX-design',
-      label: 'UX/UI design',
-      icon: <Palette size={16} />,
-    },
-    {
-      key: 'backend-development',
-      label: 'Backend development',
-      icon: <Server size={16} />,
-    },
-    {
-      key: 'qa-and-testing',
-      label: 'QA and Testing',
-      icon: <Bug size={16} />,
     },
   ];
   const about = [

@@ -9,20 +9,17 @@ export default function hero() {
         <div className="flex items-center gap-2 text-sm text-white/70 mb-12 animate-fade-in">
           <span className="hover:text-white transition-colors cursor-pointer">Home</span>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-white/90">Software Development Services</span>
+          <span className="text-white/90">Software Product Development Company</span>
         </div>
 
         <div className="max-w-4xl animate-slide-up">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-            <span className="text-[#4A9EFF] animate-gradient-text">Software development</span>{' '}
-            <span>services</span>
+            <span className="text-[#4A9EFF] animate-gradient-text">Software Product development</span>{' '}
+            <span>Company</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-white/90 mb-12 leading-relaxed max-w-3xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            At Crestcode, we provide end-to-end software development backed by industry-specific
-            expertise, advisory support, and system maintenance, including maintenance of complex
-            legacy solutions. Our software engineering services encompass both the classic
-            outsourcing model and staff augmentation.
+            Transform your vision into reality with our expert software product development services, delivering innovative, scalable solutions tailored to your business needs.
           </p>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-12 animate-fade-in" style={{ animationDelay: '0.4s' }}>
