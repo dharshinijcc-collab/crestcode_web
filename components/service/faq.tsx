@@ -9,24 +9,28 @@ const ServicesFAQ = () => {
 
   const faqs = [
     {
-      question: "Can I trust my information's confidentiality with your team?",
-      answer: "Absolutely! We take data confidentiality and security very seriously. All team members sign comprehensive NDAs and confidentiality agreements. We implement industry-standard security protocols including encrypted communication, secure code repositories, and access controls. Our development processes follow GDPR and other relevant data protection regulations. We can also sign custom NDAs tailored to your specific requirements. Your intellectual property, business data, and project information remain completely confidential throughout and after the project lifecycle."
+      question: "What platforms do you develop mobile apps for?",
+      answer: "We develop mobile apps for iOS (iPhone, iPad), Android (smartphones, tablets), and cross-platform solutions using React Native and Flutter. Our iOS apps are built with Swift following Apple's guidelines, while Android apps use Kotlin for optimal performance. For cross-platform needs, we leverage frameworks that allow single codebase deployment across both platforms while maintaining native-like performance and user experience."
     },
     {
-      question: "How much would my development project cost? Can I get a tailored estimate?",
-      answer: "Development project costs vary based on complexity, features, timeline, and technology stack. A simple website might cost $5,000-$15,000, while complex enterprise applications can range from $50,000 to $500,000+. To get a tailored estimate, we need to understand your specific requirements, desired features, user base, and timeline. We provide free consultations and detailed project breakdowns. Our estimates include development, testing, deployment, and initial support. Contact us with your project details, and we'll provide a comprehensive quote within 2-3 business days."
+      question: "How do you ensure mobile app security and data protection?",
+      answer: "We implement comprehensive security measures including encryption for data at rest and in transit, secure authentication mechanisms, and regular security audits. Our apps follow platform-specific security guidelines (Apple's App Store and Google Play requirements). We integrate secure APIs, implement proper session management, and use industry-standard security libraries. Additionally, we ensure compliance with data protection regulations like GDPR and handle user permissions appropriately for camera, location, and other sensitive features."
     },
     {
-      question: "How to reduce software development services costs?",
-      answer: "To reduce software development costs, start with clear requirements and detailed project planning to avoid rework. Choose the right technology stack to optimize development speed and maintenance. Consider agile development methodologies for iterative progress and early feedback. Leverage open-source technologies and reusable components where appropriate. Opt for MVP development to validate ideas before full investment. Implement automated testing to reduce manual QA costs. Consider offshore or nearshore development teams for cost efficiency. Finally, maintain clear communication to prevent misunderstandings and delays."
+      question: "What's the difference between native and cross-platform mobile app development?",
+      answer: "Native apps are built specifically for iOS or Android using platform-specific languages (Swift/Kotlin), offering optimal performance and full device feature access. Cross-platform apps use frameworks like React Native or Flutter, allowing single codebase deployment across both platforms. Native apps provide better performance and deeper device integration, ideal for complex apps requiring extensive hardware interaction. Cross-platform development offers faster development cycles and cost efficiency, suitable for content-focused apps with moderate hardware requirements."
     },
     {
-      question: "What are the biggest benefits of outsourcing a software development services firm?",
-      answer: "Outsourcing software development provides access to specialized expertise and talent without the overhead of hiring in-house. It reduces operational costs significantly while maintaining high quality. You get faster time-to-market with experienced teams following proven methodologies. Outsourcing allows you to focus on core business activities while technical experts handle development. It provides scalability to ramp up or down based on project needs. You also gain exposure to global best practices and innovative approaches. Additionally, it offers risk sharing and flexibility in resource allocation."
+      question: "How do you handle mobile app testing and quality assurance?",
+      answer: "We conduct comprehensive testing including functional testing, UI/UX testing, performance testing, and device compatibility testing across various screen sizes and OS versions. We use automated testing frameworks for unit and integration tests, complemented by manual testing for user experience validation. Our QA process includes real device testing on multiple iOS and Android devices, network condition testing, battery usage optimization, and accessibility testing. We also perform security testing and ensure compliance with app store guidelines for smooth approval processes."
     },
     {
-      question: "How to choose a software development services company?",
-      answer: "When choosing a software development company, consider their portfolio and case studies to verify relevant experience. Check client testimonials and reviews for reliability. Evaluate their technical expertise and technology stack alignment. Ensure they have clear communication processes and project management methodologies. Compare pricing models and ensure transparency. Look for companies that offer post-development support and maintenance. Finally, assess their understanding of your industry and business requirements."
+      question: "What happens after the mobile app is launched?",
+      answer: "Post-launch, we provide ongoing support including bug fixes, performance monitoring, and feature updates. We track app analytics and user feedback to identify improvement opportunities. Our maintenance services include updating apps for new OS versions, optimizing for new devices, and ensuring compatibility with evolving platform requirements. We also offer feature enhancements, API integrations, and scalability improvements as your user base grows. Regular security updates and performance optimizations ensure your app remains reliable and competitive in the app stores."
+    },
+    {
+      question: "How do you optimize mobile apps for performance and user experience?",
+      answer: "We optimize performance through efficient code architecture, proper memory management, and optimized asset loading. Our apps implement lazy loading, caching strategies, and background processing to ensure smooth performance. We focus on intuitive UI/UX design following platform guidelines (Apple's Human Interface Guidelines and Google's Material Design). We optimize battery usage, minimize app size, and ensure fast startup times. User experience optimization includes responsive design, smooth animations, offline functionality where appropriate, and seamless onboarding flows."
     }
   ];
 
@@ -43,11 +47,11 @@ const ServicesFAQ = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Find answers to common questions about our software development services and how we can help your business succeed
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Find answers to common questions about our mobile app development services and how we can help bring your app ideas to life
           </p>
         </motion.div>
 
@@ -66,7 +70,7 @@ const ServicesFAQ = () => {
                 className="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset transition-colors"
               >
                 <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-gray-900 pr-4">
+                  <h3 className="text-base font-semibold text-gray-900 pr-4">
                     {faq.question}
                   </h3>
                   <div className="flex-shrink-0">
@@ -90,7 +94,7 @@ const ServicesFAQ = () => {
                     className="overflow-hidden"
                   >
                     <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-gray-600 leading-relaxed text-sm">
                         {faq.answer}
                       </p>
                     </div>

@@ -56,11 +56,11 @@ function advanced_services() {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div className="text-center mb-12 sm:mb-16 animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-light mb-6 sm:mb-8">
             <span className="text-blue-600 font-normal">Advanced tech</span>
             <span className="text-gray-900"> services</span>
           </h1>
-          <p className="text-gray-600 text-base sm:text-lg lg:text-xl max-w-5xl mx-auto leading-relaxed px-4">
+          <p className="text-gray-600 text-sm sm:text-base lg:text-lg max-w-5xl mx-auto leading-relaxed px-4">
             We are savvy in advanced technologies and incorporate them into our software engineering services when they can bring value to our Clients.
           </p>
         </div>
@@ -83,7 +83,7 @@ function advanced_services() {
                 >
                   {service.icon}
                 </div>
-                <span className={`text-sm sm:text-base lg:text-lg font-medium transition-all duration-500 text-center whitespace-nowrap
+                <span className={`text-xs sm:text-sm lg:text-base font-medium transition-all duration-500 text-center whitespace-nowrap
                   ${activeService === service.id
                     ? 'text-blue-600'
                     : 'text-gray-500 group-hover:text-gray-700'}`}
@@ -101,10 +101,10 @@ function advanced_services() {
 
           <div className="bg-white rounded-lg transition-all duration-700 ease-in-out animate-fade-in-up"
                key={activeService}>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-900 mb-6 sm:mb-8">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-light text-gray-900 mb-4 sm:mb-6">
               {activeServiceData.title}
             </h2>
-            <p className="text-gray-700 text-base sm:text-lg leading-relaxed max-w-4xl">
+            <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-4xl">
               {activeServiceData.description}
             </p>
           </div>

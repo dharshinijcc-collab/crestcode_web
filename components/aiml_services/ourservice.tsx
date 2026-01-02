@@ -37,20 +37,20 @@ function process() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-12 sm:mb-16 text-center">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-12 sm:mb-16 text-center">
           Our AI software development <span className="text-blue-600">services</span>
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {services.map((service, index) => (
             <div key={index} className="flex flex-col h-full bg-gray-50 rounded-lg p-6 sm:p-8 transition-all duration-300 ease-out hover:bg-white hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
-              <div className="mb-6">
+              <div className="mb-4">
                 <service.icon className="w-12 h-12 sm:w-14 sm:h-14 text-blue-600 stroke-[1.5] transition-all duration-300 group-hover:scale-110 group-hover:text-blue-700" />
               </div>
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 line-clamp-3 transition-colors duration-300 group-hover:text-blue-600">
+              <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-3 line-clamp-3 transition-colors duration-300 group-hover:text-blue-600">
                 {service.title}
               </h2>
-              <p className="text-gray-600 leading-relaxed text-base sm:text-lg flex-1 transition-colors duration-300 group-hover:text-gray-700">
+              <p className="text-gray-600 leading-relaxed text-sm sm:text-base flex-1 transition-colors duration-300 group-hover:text-gray-700">
                 {service.description}
               </p>
             </div>

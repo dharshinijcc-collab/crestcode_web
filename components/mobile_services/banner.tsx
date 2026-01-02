@@ -1,6 +1,6 @@
 export default function banner() {
   return (
-    <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#0a1628] via-[#1a2850] to-[#4a3366] overflow-hidden">
+    <section className="relative py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#0a1628] via-[#1a2850] to-[#4a3366] overflow-hidden">
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-0 w-96 h-96 bg-[#4A9EFF] rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#FF5757] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
@@ -10,9 +10,11 @@ export default function banner() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="lg:flex-1 animate-slide-in-left">
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight">
-              Unlock AI-powered growth
-              <br />Start your journey with custom AI solutions built for business impact.
+              Build Your Custom Mobile App
             </h3>
+            <p className="text-base sm:text-lg text-white/90 mt-4 leading-relaxed">
+              We turn ideas into high-performance iOS, Android, and cross-platform apps users love.
+            </p>
           </div>
 
           <div className="lg:flex-none animate-slide-in-right">

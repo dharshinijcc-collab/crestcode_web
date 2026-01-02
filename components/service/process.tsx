@@ -97,15 +97,15 @@ function process() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <div className="text-center mb-16 sm:mb-20 lg:mb-24 animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+        <div className="text-center mb-8 sm:mb-10 lg:mb-12 animate-fade-in">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             Crestcode's development{' '}
             <span className="text-blue-600">
               process
             </span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
             The development process starts when we sign a contract with the Client. Our business software
             development process is a carefully elaborated and polished set of activities that allows us to deliver
             high-quality software within short timeframes.
@@ -126,7 +126,7 @@ function process() {
                 transitionDelay: `${index * 100}ms`,
               }}
             >
-              <div className="relative pb-16 sm:pb-20 lg:pb-28">
+              <div className="relative pb-4 sm:pb-8 lg:pb-12">
                 {index < phases.length - 1 && (
                   <div className="absolute left-8 sm:left-10 lg:left-12 top-20 sm:top-24 lg:top-28 bottom-0 w-1 bg-gradient-to-b from-blue-400 via-blue-300 to-transparent"></div>
                 )}
@@ -141,16 +141,16 @@ function process() {
                   </div>
 
                   <div className="flex-1 min-w-0 pt-2 sm:pt-3 lg:pt-4">
-                    <div className="mb-6 sm:mb-8">
-                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-blue-600 transition-colors duration-300">
+                    <div className="mb-3 sm:mb-4">
+                      <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-blue-600 transition-colors duration-300">
                         {phase.title}
                       </h2>
-                      <p className="text-base sm:text-lg lg:text-lg text-gray-600 leading-relaxed">
+                      <p className="text-sm sm:text-base lg:text-base text-gray-600 leading-relaxed">
                         {phase.duration}
                       </p>
                     </div>
 
-                    <ul className="space-y-4 sm:space-y-5">
+                    <ul className="space-y-2 sm:space-y-3">
                       {phase.items.map((item, itemIndex) => (
                         <li
                           key={itemIndex}
@@ -164,7 +164,7 @@ function process() {
                               <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                             </div>
                           </div>
-                          <span className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed group-hover:text-gray-900 group-hover:font-medium transition-all duration-300">
+                          <span className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed group-hover:text-gray-900 group-hover:font-medium transition-all duration-300">
                             {item}
                           </span>
                         </li>

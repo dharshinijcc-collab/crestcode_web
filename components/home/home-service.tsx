@@ -25,7 +25,7 @@ const serviceData: ServiceItem[] = [
     title: 'Web Development',
     description:
       'Our web development services cover everything from simple websites to complex web applications. We use modern frameworks and best practices to build responsive, fast, and secure web solutions that work seamlessly across all devices.',
-    link: '/web-development',
+    link: '/web_services',
   },
   {
     title: 'Mobile App Development',

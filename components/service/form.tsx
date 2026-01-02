@@ -59,7 +59,7 @@ function ContactForm() {
         viewport={{ once: true }}
         style={{
           flex: '1 1 50%',
-          padding: '80px 6% 60px 8%',
+          padding: '60px 6% 40px 8%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -69,7 +69,7 @@ function ContactForm() {
           <motion.h1
             variants={itemSlide}
             style={{
-              fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+              fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
               fontWeight: 800,
               color: COLORS.primary,
               marginBottom: '60px',
@@ -118,7 +118,7 @@ function ContactForm() {
                 />
                 <p
                   style={{
-                    fontSize: '20px',
+                    fontSize: '18px',
                     fontWeight: 500,
                     margin: 0,
                     color: i === 0 ? COLORS.textWhite : COLORS.textMuted,
@@ -146,7 +146,7 @@ function ContactForm() {
             href="mailto:contact@crestcode.in"
             style={{
               color: COLORS.accentRed,
-              fontSize: '22px',
+              fontSize: '20px',
               fontWeight: 700,
               textDecoration: 'none',
               display: 'flex',
@@ -166,7 +166,7 @@ function ContactForm() {
         transition={{ duration: 0.8 }}
         style={{
           flex: '1 1 50%',
-          padding: '80px 8% 60px 6%',
+          padding: '60px 8% 40px 6%',
           backgroundColor: COLORS.bgRight,
           minWidth: '350px',
         }}>
@@ -195,7 +195,7 @@ function ContactForm() {
                     paddingBottom: '12px',
                     color: COLORS.textWhite,
                     outline: 'none',
-                    fontSize: '18px',
+                    fontSize: '16px',
                     resize: 'none',
                   }}
                 />
@@ -214,7 +214,7 @@ function ContactForm() {
                     paddingBottom: '12px',
                     color: COLORS.textWhite,
                     outline: 'none',
-                    fontSize: '18px',
+                    fontSize: '16px',
                   }}
                 />
               )}
@@ -254,7 +254,7 @@ function ContactForm() {
                 alignItems: 'center',
                 gap: '8px',
                 cursor: 'pointer',
-                fontSize: '16px',
+                fontSize: '15px',
               }}>
               <Paperclip size={18} /> Attach file
             </button>
@@ -266,7 +266,7 @@ function ContactForm() {
                 backgroundColor: COLORS.accentRed,
                 color: 'white',
                 padding: '16px 60px',
-                fontSize: '18px',
+                fontSize: '16px',
                 fontWeight: 700,
                 border: 'none',
                 cursor: 'pointer',

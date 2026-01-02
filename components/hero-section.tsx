@@ -695,7 +695,7 @@ const HeroSection = forwardRef<WishlistFormRef>((props, ref) => {
             transition={{ duration: 1, ease: 'easeOut' }}
             className="bounce-in">
             <motion.h1
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-5xl xl:text-8xl font-black text-white leading-tight mb-8 text-shimmer"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-4xl font-black text-white leading-tight mb-8 text-shimmer"
               style={{
                 fontFamily: "'Urbanist', sans-serif",
                 textShadow: '0 4px 8px rgba(0,0,0,0.3)',
@@ -730,7 +730,7 @@ const HeroSection = forwardRef<WishlistFormRef>((props, ref) => {
             </motion.h1>
 
             <motion.p
-              className="text-xl sm:text-2xl md:text-3xl lg:text-2xl text-white/95 font-normal max-w-5xl mx-auto mb-12 description-clamp leading-relaxed"
+              className="text-base sm:text-lg md:text-xl lg:text-lg text-white/95 font-normal max-w-5xl mx-auto mb-12 description-clamp leading-relaxed"
               style={{
                 fontFamily: "'Urbanist', sans-serif",
                 textShadow: '0 2px 4px rgba(0,0,0,0.2)',

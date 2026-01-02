@@ -40,13 +40,13 @@ export default function ourservices() {
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+        <div className="text-center mb-10">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6">
             Our <span className="text-[#4A9EFF]">services</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-4xl mx-auto">
+          <p className="text-base text-gray-600 max-w-4xl mx-auto">
             For over a decade, we have been accumulating knowledge and expertise in several services
             that became our specialization.
           </p>
@@ -80,12 +80,12 @@ function ServiceCard({
   onLearnMore: () => void;
 }) {
   return (
-    <div className="group hover:bg-gradient-to-br hover:from-gray-50 hover:to-blue-50/20 p-8 rounded-lg transition-all duration-500 hover:shadow-2xl hover:shadow-[#4A9EFF]/10 hover:border hover:border-[#4A9EFF]/20 border border-transparent">
-      <div className="mb-6">
+    <div className="group hover:bg-gradient-to-br hover:from-gray-50 hover:to-blue-50/20 p-6 rounded-lg transition-all duration-500 hover:shadow-2xl hover:shadow-[#4A9EFF]/10 hover:border hover:border-[#4A9EFF]/20 border border-transparent">
+      <div className="mb-4">
         {icon}
       </div>
-      <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-[#4A9EFF] transition-colors duration-300">{title}</h3>
-      <p className="text-gray-600 leading-relaxed mb-6">
+      <h3 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-[#4A9EFF] transition-colors duration-300">{title}</h3>
+      <p className="text-sm text-gray-600 leading-relaxed mb-4">
         {description}
       </p>
       <button

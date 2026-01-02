@@ -27,60 +27,34 @@ function process() {
   const phases = [
     {
       number: 1,
-      title: 'Exploratory Stage',
-      duration: 'This is the foundational step in artificial intelligence development services, where we identify the opportunities to implement Artificial Intelligence and Machine Learning for a particular business. During this stage, we:',
-      items: [
-        'analyze the company’s existing data, its quality, volume, variety, and sources;',
-        'collect, clean, and preprocess data;',
-        'Identify business challenges that the AI solution needs to address;',
-        'access the company’s existing IT infrastructure to determine how well the existing systems can integrate with AI;',
-        'system architecture, considering computational and data processing and storing needs;',
-        'technology stack;', 
-  'develop the roadmap with steps, milestones, timelines, resources required, and clear goals.',
-      ],
+      title: 'Discovery & planning',
+      description: 'We dive into your business objectives, audience needs, and market landscape, researching competitors and trends to shape a winning strategy. We define a clear scope, set realistic budgets, and craft a roadmap with milestones, ensuring your app launches on time and maximizes ROI.'
     },
     {
       number: 2,
-      title: 'Design and development',
-      duration: 'This step is about developing the framework within which the AI operates, including user interfaces for applications and the backend activities. We work on: ',
-      items: [
-        'how the app should look and draw mockups;',
-        'integration with existing systems;',
-'backend system development;',
-'comprehensive testing.',
-      ],
+      title: 'UI/UX design',
+      description: 'We craft intuitive wireframes and interactive prototypes, prioritizing smooth navigation and accessibility. We align visuals with your brand, testing with real users to perfect experience. Our goal is to design interfaces that keep users engaged and help them achieve their goals within app.'
     },
     {
       number: 3,
-      title: 'Model selection and training',
-      duration: 'We establish selection criteria like accuracy, efficiency, scalability, speed, ability to handle different data types, etc. Then we train the model.',
-      items: [
-        'model selection: supervised, unsupervised, semi-supervised, reinforcement learning, deep learning;',
-        'preparation of training, validation, and testing datasets;',
-        'evaluating the model and parameter tuning;',
-        'documentation of the model selection process, model training parameters, validation results, and any iterations made.',
-      ],
+      title: 'App development',
+      description: 'Our mobile app development services guarantee that your app has clean code, integrates core features, APIs, and robust security like encryption. Using agile methods, we deliver regular updates for transparency and adapt to your business needs.'
     },
     {
       number: 4,
-      title: 'Deployment and operational integrity',
-      duration: 'We transition the solution from the development and testing environment into live and operational use.',
-      items: [
-        'deployment planning;',
-        'environmental setup;',
-        'model deployment;',
-        'application integration;',
-        'data migration;',
-        'monitoring and logging;',
-        'user training and support;',
-        'post-deployment monitoring',
-      ],
+      title: 'Quality assurance (QA) & testing',
+      description: 'We rigorously test functionality, usability, security, and compatibility across 50+ devices and platforms. By simulating real-world scenarios, we catch issues early, ensuring a flawless app experience.'
     },
     {
       number: 5,
-      title: 'Maintenance and continuous improvement',
-      duration: 'We offer an extra mile in fine-tuning and calibrating the AI system. We monitor the system after the deployment, adjusting its work based on gathered data about its performance and feedback.'
+      title: 'Deployment',
+      description: 'We manage App Store and Google Play submissions, navigating strict guidelines for a smooth rollout. Our expertise ensures your app goes live without hiccups, ready to reach users instantly, whether it is a fitness tracker or a business tool.'
     },
+    {
+      number: 6,
+      title: 'Post-launch support & maintenance',
+      description: 'We provide ongoing updates, monitor performance, and fix issues fast to keep your app reliable. From adding new features to adapting to OS changes, we ensure your app stays competitive.'
+    }
   ];
 
   return (
@@ -88,15 +62,12 @@ function process() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <div className="text-center mb-16 sm:mb-20 lg:mb-24 animate-fade-in">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Crestcode's development{' '}
             <span className="text-blue-600">
-              process
+              Mobile app development process
             </span>
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            The development process starts when we sign a contract with the Client. Our business software
-            development process is a carefully elaborated and polished set of activities that allows us to deliver
-            high-quality software within short timeframes.
+            At Crestcode, we have a well-defined process of developing mobile applications that we've refined over 13 years. Each step tackles real challenges, delivering results that are supposed to drive business growth and captivate users.
           </p>
         </div>
 
@@ -133,32 +104,12 @@ function process() {
                       <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-blue-600 transition-colors duration-300">
                         {phase.title}
                       </h2>
-                      <p className="text-sm sm:text-base lg:text-base text-gray-600 leading-relaxed">
-                        {phase.duration}
-                      </p>
                     </div>
 
-                    {phase.items && (
-                      <ul className="space-y-2 sm:space-y-3">
-                        {phase.items.map((item, itemIndex) => (
-                          <li
-                            key={itemIndex}
-                            className="flex items-start gap-3 sm:gap-4 group hover:translate-x-1 transition-all duration-300"
-                            style={{
-                              animationDelay: `${itemIndex * 30}ms`,
-                            }}
-                          >
-                            <div className="flex-shrink-0 mt-0.5">
-                              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-500 flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:bg-blue-600 transition-all duration-300 group-hover:scale-125 group-hover:-rotate-12">
-                                <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
-                              </div>
-                            </div>
-                            <span className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed group-hover:text-gray-900 group-hover:font-medium transition-all duration-300">
-                              {item}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+                    {phase.description && (
+                      <p className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed group-hover:text-gray-900 group-hover:font-medium transition-all duration-300">
+                        {phase.description}
+                      </p>
                     )}
                   </div>
                 </div>

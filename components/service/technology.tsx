@@ -32,14 +32,14 @@ export default function TechnologiesSection() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
       <div className="text-center mb-20 animate-fadeIn">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-8">
           <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
-            Technologies
+            Technologies We Master
           </span>
-          <span className="text-gray-900"> we master</span>
         </h1>
+      
 
-        <p className="text-gray-700 text-base sm:text-lg lg:text-xl leading-relaxed max-w-4xl mx-auto">
+        <p className="text-gray-700 text-sm sm:text-base lg:text-lg leading-relaxed max-w-4xl mx-auto">
           We leverage a versatile and robust tech stack mastered by our highly skilled specialists, carefully selected through a rigorous hiring process. Our team's expertise is continually enriched through a knowledge-sharing process, ensuring the latest technologies, practices, and tools are effectively applied to new projects.
         </p>
       </div>

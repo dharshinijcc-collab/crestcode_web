@@ -13,12 +13,12 @@ export default function hero() {
         </div>
 
         <div className="max-w-4xl animate-slide-up">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-8 leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-8 leading-tight">
             <span className="text-[#4A9EFF] animate-gradient-text">Custom Artificial Intelligence (AI)</span>{' '}
             <span>solutions for your business</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-white/90 mb-12 leading-relaxed max-w-3xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <p className="text-base sm:text-lg text-white/90 mb-12 leading-relaxed max-w-3xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
             We bring businesses simple and advanced AI-powered solutions, from predictive analytics to intelligent automation. Let’s Make an AI Revolution. Together.
           </p>
 

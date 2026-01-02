@@ -89,7 +89,7 @@ function Header() {
         },
       ],
     },
-    { key: 'solutions', label: 'Solutions' },
+    { key: 'hackathon', label: 'Hackathon' },
     {
       key: 'about',
       label: 'About',
@@ -121,7 +121,6 @@ function Header() {
         },
       ],
     },
-    { key: 'blogs', label: 'Blogs' },
   ];
 
   return (
@@ -344,6 +343,10 @@ function Header() {
                                 router.push('/sd_services');
                               } else if (sub.key === 'ai-ml') {
                                 router.push('/aiml_services');
+                              } else if (sub.key === 'web-development') {
+                                router.push('/web_services');
+                              } else if (sub.key === 'mobile-app-development') {
+                                router.push('/mobile_services');
                               } else {
                                 router.push('/services');
                               }

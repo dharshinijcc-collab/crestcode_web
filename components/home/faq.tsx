@@ -63,7 +63,7 @@ const FAQ = () => {
           style={{ textAlign: 'center', marginBottom: '80px' }}>
           <h2
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
@@ -73,7 +73,7 @@ const FAQ = () => {
           </h2>
           <p
             style={{
-              fontSize: '18px',
+              fontSize: '16px',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '600px',
@@ -121,7 +121,7 @@ const FAQ = () => {
                 }}>
                 <h3
                   style={{
-                    fontSize: '18px',
+                    fontSize: '16px',
                     fontWeight: 700,
                     color: COLORS.textBlack,
                     margin: 0,
@@ -151,7 +151,7 @@ const FAQ = () => {
                       style={{
                         padding: '0 32px 32px 32px',
                         color: COLORS.textMuted,
-                        fontSize: '16px',
+                        fontSize: '14px',
                         lineHeight: '1.7',
                         fontWeight: 450,
                       }}>

@@ -38,11 +38,11 @@ export default function mvp() {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4 animate-fade-in">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-4 animate-fade-in">
           Custom AI solutions for businesses of any{' '}
           <span className="text-[#4A9EFF] animate-gradient-text">scale</span>
         </h2>
-        <p className="text-lg text-gray-600 text-center mb-16 max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
+        <p className="text-base text-gray-600 text-center mb-12 max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
           We excel in developing software solutions for various business types and stages, combining
           product expertise with a commitment to scalability, reliability, and success.
         </p>
@@ -66,10 +66,10 @@ export default function mvp() {
           </div>
 
           <div className="bg-white p-8 lg:p-12 rounded-lg shadow-md animate-scale-in">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <h3 className="text-xl sm:text-2xl font-bold mb-4 text-gray-900 animate-fade-in" style={{ animationDelay: '0.1s' }}>
               {activeContent?.title}
             </h3>
-            <p className="text-gray-600 leading-relaxed text-lg animate-fade-in" style={{ animationDelay: '0.2s' }}>{activeContent?.description}</p>
+            <p className="text-gray-600 leading-relaxed text-base animate-fade-in" style={{ animationDelay: '0.2s' }}>{activeContent?.description}</p>
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ const COLORS = {
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
-const TestimonialSection = () => {
+const testimonials = () => {
   return (
     <section
       style={{
@@ -53,7 +53,7 @@ const TestimonialSection = () => {
           background: 'rgba(255, 255, 255, 0.4)',
           backdropFilter: 'blur(20px)',
           borderRadius: '24px',
-          padding: '24px',
+          padding: '38px',
           border: '1px solid rgba(255, 255, 255, 0.7)',
           boxShadow: '0 20px 40px -10px rgba(0,0,0,0.02)',
         }}>
@@ -81,7 +81,7 @@ const TestimonialSection = () => {
               <div style={{ marginBottom: '4px' }}>
                 <Text
                   style={{
-                    fontSize: '18px',
+                    fontSize: '20px',
                     fontWeight: 800,
                     color: COLORS.inkBlue,
                     fontFamily: FONT_FAMILY,
@@ -119,12 +119,12 @@ const TestimonialSection = () => {
                   opacity: 0.9,
                   fontWeight: 900,
                 }}>
-                “
+                "
               </div>
 
               <Paragraph
                 style={{
-                  fontSize: 'clamp(0.875rem, 1.5vw, 1.25rem)',
+                  fontSize: 'clamp(1rem, 1.8vw, 1.5rem)',
                   fontWeight: 700,
                   lineHeight: 1.5,
                   color: COLORS.inkBlue,
@@ -133,10 +133,11 @@ const TestimonialSection = () => {
                   margin: 0,
                   letterSpacing: '-0.02em',
                 }}>
-               We strive to become a technological partner to our Clients, which means a lot to us. 
-               It’s about saying no to unfeasible ideas, offering proactive and practical advice, 
-               maintaining open and honest communication, and avoiding unrealistic expectations. 
-               We help minimize unnecessary costs and stay in touch like a trusted personal assistant, ensuring every decision delivers genuine value.
+                 A well-structured development process is foundation of successful software projects. By combining clear planning, an agile approach, 
+                 and continuous early feedback from Client, we ensure that every product we build perfectly aligns with business goals. 
+    Our approach minimizes risks, optimizes resources, and delivers high-quality applications on time and within budget.
+
+
 
               </Paragraph>
             </div>
@@ -151,4 +152,4 @@ const TestimonialSection = () => {
   );
 };
 
-export default TestimonialSection;
+export default testimonials;

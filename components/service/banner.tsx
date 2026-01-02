@@ -9,13 +9,13 @@ export default function banner() {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="lg:flex-1 animate-slide-in-left">
-            <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
               Get a free quote for your project development from our expert team!
             </h3>
           </div>
 
           <div className="lg:flex-none animate-slide-in-right">
-            <button className="w-full lg:w-auto bg-[#FF5757] hover:bg-[#ff4040] text-white px-8 lg:px-12 py-4 sm:py-5 rounded-sm font-medium transition-all duration-300 hover:shadow-2xl hover:shadow-[#FF5757]/50 hover:-translate-y-2 text-base sm:text-lg relative group overflow-hidden active:scale-95">
+            <button className="w-full lg:w-auto bg-[#FF5757] hover:bg-[#ff4040] text-white px-8 lg:px-12 py-4 sm:py-5 rounded-sm font-medium transition-all duration-300 hover:shadow-2xl hover:shadow-[#FF5757]/50 hover:-translate-y-2 text-sm sm:text-base relative group overflow-hidden active:scale-95">
               <span className="relative z-10">Get in touch</span>
               <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
