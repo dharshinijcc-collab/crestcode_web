@@ -29,7 +29,6 @@ export default function HomePage() {
       <IndustriesSection />
       <WhyCrestcode />
       <FAQ />
-      <ContactForm />
     </>
   );
 }

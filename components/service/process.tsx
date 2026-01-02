@@ -1,23 +1,40 @@
-import { useEffect, useState } from 'react';
-import { Check } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Check, Clock } from 'lucide-react';
 
-function process() {
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
+// --- INDUSTRIAL DESIGN TOKENS ---
+const COLORS = {
+  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
+  primary: '#4F46E5', // Precision Indigo
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+function DevelopmentProcess() {
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(
+    new Set()
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = parseInt(entry.target.getAttribute('data-section') || '0');
+            const id = parseInt(
+              entry.target.getAttribute('data-section') || '0'
+            );
             setVisibleSections((prev) => new Set(Array.from(prev).concat(id)));
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.2 }
     );
 
-    document.querySelectorAll('.process-section').forEach((section) => {
+    document.querySelectorAll('.process-step').forEach((section) => {
       observer.observe(section);
     });
 
@@ -27,150 +44,256 @@ function process() {
   const phases = [
     {
       number: 1,
-      title: 'Project kickoff and requirements elicitation',
-      duration: 'The kickoff meeting takes just one day, while requirements elicitation may last up to 5-8 weeks depending on the project scale.',
+      title: 'Project Kickoff & Discovery',
+      duration: 'Duration: 1 Day Kickoff | 5-8 Weeks Elicitation',
       items: [
-        'conduct a kickoff meeting to introduce the team, discuss expectations, and align on business goals',
-        'establish communication processes, tools, and reporting frequency',
-        'prepare the project workspace in tools like Jira and Confluence',
-        'brief the team on project goals, scope, and initial risk assessments',
-        'collaborate with the Client on vision and user requirements through regular calls',
-        'hold workshops to gather and refine requirements',
-        'evaluate risks, assess business impact, and prepare a risk mitigation plan',
-        'create a project roadmap and define major milestones',
+        'Conduct kickoff meeting to align on business goals',
+        'Establish communication tools and reporting frequency',
+        'Prepare project workspace in Jira and Confluence',
+        'Evaluate risks and prepare mitigation plans',
+        'Create a project roadmap and define major milestones',
       ],
     },
     {
       number: 2,
-      title: 'UI/UX services',
-      duration: 'The design team typically works in parallel with business analysts, and the phase takes 3-6 weeks alongside requirements elicitation.',
+      title: 'UI/UX Engineering',
+      duration: 'Duration: 3-6 Weeks (Parallel Execution)',
       items: [
-        'prepare prototypes, mood boards, and design concepts',
-        'define a unique selling proposition for the product',
-        'conduct competitor analysis and user behavior research',
-        'develop wireframes, interactive prototypes, and detailed UI designs',
-        'refine designs based on client feedback through iterative revisions',
-        'document design specifications and prepare assets for development',
-        'create a branded UI kit with reusable components such as icons, buttons, colors, and fonts',
+        'Prepare prototypes and high-fidelity design concepts',
+        'Conduct competitor analysis and user research',
+        'Develop interactive wireframes and UI designs',
+        'Create a branded UI kit with reusable components',
+        'Document design specifications for development',
       ],
     },
     {
       number: 3,
-      title: 'Development',
-      duration: 'The development process occurs in iterations, with each sprint lasting two weeks.',
+      title: 'Agile Development',
+      duration: 'Cycle: Bi-weekly Sprints',
       items: [
-        'write and review code for features defined in the sprint plan',
-        'monitor development progress and address blockers promptly',
-        'conduct daily stand-ups to align tasks and priorities',
-        'the tech lead monitors the team and ensures code quality',
-        'we implement robust version control to maintain a high standard of code quality',
-        'the Client participates in progress reviews and provides feedback on completed features',
+        'Write and review code based on sprint planning',
+        'Conduct daily stand-ups to align priorities',
+        'Tech lead oversight for absolute code quality',
+        'Robust version control and CI/CD implementation',
+        'Client participation in progress reviews',
       ],
     },
     {
       number: 4,
-      title: 'Testing',
-      duration: 'Testing is conducted throughout the sprint, beginning mid-sprint and culminating in a demo meeting.',
+      title: 'QA & Rigorous Testing',
+      duration: 'Cycle: Continuous Integration',
       items: [
-        'QA specialists perform manual testing as the first step',
-        'prepare test cases for automated testing using tools like Selenium and TestNG',
-        'conduct usability, performance, security, and other types of testing',
-        'use CI/CD pipelines to ensure seamless integration of new features',
-        'document test results and collaborate with developers to resolve issues',
-        'showcase new features in a demo meeting at the end of the sprint',
+        'Manual and automated testing (Selenium/TestNG)',
+        'Conduct usability, performance, and security audits',
+        'CI/CD pipelines for seamless feature integration',
+        'Collaborative bug resolution with developers',
+        'End-of-sprint demo and stakeholder sign-off',
       ],
     },
     {
       number: 5,
       title: 'Support & Maintenance',
-      duration: 'This phase is optional and ongoing – we continue to cooperate after the successful project launch.',
+      duration: 'Phase: Optional & Ongoing',
       items: [
-        'deliver a final report and request Client confirmation for project closure',
-        'perform knowledge transfer and provide training to ensure smooth handover',
-        'monitor system performance and proactively resolve technical issues',
-        'implement technology updates to maintain compatibility and security',
-        'develop and roll out new features based on evolving Client needs',
-        'provide ongoing reports on maintenance activities and product performance',
+        'Perform knowledge transfer and team training',
+        'Monitor system performance and proactive resolution',
+        'Implement technology updates and security patches',
+        'Roll out new features based on user evolution',
+        'Ongoing performance reports and maintenance activities',
       ],
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <div className="text-center mb-16 sm:mb-20 lg:mb-24 animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Crestcode's development{' '}
-            <span className="text-blue-600">
-              process
-            </span>
+    <section
+      style={{
+        padding: '40px 24px',
+        backgroundColor: COLORS.bgBase,
+        fontFamily: FONT_PRIMARY,
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+      {/* 1. ENGINEERING GRID OVERLAY */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `radial-gradient(${COLORS.textMuted}22 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          opacity: 0.5,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: '1000px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 10,
+        }}>
+        {/* HEADER SECTION */}
+        <div style={{ textAlign: 'center', marginBottom: '70px' }}>
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontWeight: 800,
+              color: COLORS.textBlack,
+              letterSpacing: '-0.04em',
+              marginBottom: '24px',
+            }}>
+            Crestcode's{' '}
+            <span style={{ color: COLORS.primary }}>Development Process</span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            The development process starts when we sign a contract with the Client. Our business software
-            development process is a carefully elaborated and polished set of activities that allows us to deliver
-            high-quality software within short timeframes.
+          <p
+            style={{
+              fontSize: '18px',
+              color: COLORS.textMuted,
+              lineHeight: '1.6',
+              maxWidth: '800px',
+              margin: '0 auto',
+            }}>
+            A carefully elaborated set of activities designed to deliver
+            high-quality architectures within predictable timeframes.
           </p>
         </div>
 
-        <div className="relative space-y-0">
+        {/* TIMELINE STEPS */}
+        <div style={{ position: 'relative' }}>
           {phases.map((phase, index) => (
             <div
               key={phase.number}
               data-section={phase.number}
-              className={`process-section transition-all duration-1000 ${
-                visibleSections.has(phase.number)
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-12'
-              }`}
+              className="process-step"
               style={{
+                position: 'relative',
+                paddingBottom: index === phases.length - 1 ? 0 : '100px',
+                opacity: visibleSections.has(phase.number) ? 1 : 0,
+                transform: visibleSections.has(phase.number)
+                  ? 'translateY(0)'
+                  : 'translateY(40px)',
+                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                 transitionDelay: `${index * 100}ms`,
-              }}
-            >
-              <div className="relative pb-16 sm:pb-20 lg:pb-28">
-                {index < phases.length - 1 && (
-                  <div className="absolute left-8 sm:left-10 lg:left-12 top-20 sm:top-24 lg:top-28 bottom-0 w-1 bg-gradient-to-b from-blue-400 via-blue-300 to-transparent"></div>
-                )}
+              }}>
+              {/* Vertical Connector Line */}
+              {index < phases.length - 1 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '40px',
+                    top: '80px',
+                    bottom: 0,
+                    width: '2px',
+                    background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
+                    opacity: visibleSections.has(phase.number + 1) ? 1 : 0.2,
+                    transition: 'opacity 1s ease',
+                  }}
+                />
+              )}
 
-                <div className="flex gap-6 sm:gap-8 lg:gap-10">
-                  <div className="flex-shrink-0 relative z-10">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-500 hover:scale-110 group border-2 border-blue-200 hover:border-blue-400">
-                      <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                        {phase.number}
-                      </span>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '40px',
+                  alignItems: 'flex-start',
+                }}>
+                {/* CIRCULAR NUMBER BADGE */}
+                <div
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '50%',
+                    background: visibleSections.has(phase.number)
+                      ? COLORS.primary
+                      : COLORS.white,
+                    border: `2px solid ${COLORS.primary}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    boxShadow: visibleSections.has(phase.number)
+                      ? `0 10px 20px -5px ${COLORS.primary}66`
+                      : 'none',
+                    transition: 'all 0.6s ease',
+                    zIndex: 2,
+                  }}>
+                  <span
+                    style={{
+                      fontSize: '28px',
+                      fontWeight: 800,
+                      color: visibleSections.has(phase.number)
+                        ? COLORS.white
+                        : COLORS.primary,
+                    }}>
+                    {phase.number}
+                  </span>
+                </div>
+
+                {/* CONTENT AREA */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ marginBottom: '32px' }}>
+                    <h2
+                      style={{
+                        fontSize: '28px',
+                        fontWeight: 800,
+                        color: COLORS.textBlack,
+                        marginBottom: '12px',
+                        letterSpacing: '-0.02em',
+                      }}>
+                      {phase.title}
+                    </h2>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: COLORS.primary,
+                        fontSize: '14px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                      }}>
+                      <Clock size={16} /> {phase.duration}
                     </div>
                   </div>
 
-                  <div className="flex-1 min-w-0 pt-2 sm:pt-3 lg:pt-4">
-                    <div className="mb-6 sm:mb-8">
-                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-blue-600 transition-colors duration-300">
-                        {phase.title}
-                      </h2>
-                      <p className="text-base sm:text-lg lg:text-lg text-gray-600 leading-relaxed">
-                        {phase.duration}
-                      </p>
-                    </div>
-
-                    <ul className="space-y-4 sm:space-y-5">
-                      {phase.items.map((item, itemIndex) => (
-                        <li
-                          key={itemIndex}
-                          className="flex items-start gap-3 sm:gap-4 group hover:translate-x-1 transition-all duration-300"
+                  <ul
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns:
+                        'repeat(auto-fit, minmax(280px, 1fr))',
+                      gap: '16px',
+                      padding: 0,
+                      listStyle: 'none',
+                    }}>
+                    {phase.items.map((item, i) => (
+                      <li
+                        key={i}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          background: 'rgba(255,255,255,0.6)',
+                          padding: '12px 16px',
+                          borderRadius: '8px',
+                          border: `1px solid ${COLORS.border}`,
+                        }}>
+                        <Check
+                          size={16}
+                          color={COLORS.primary}
+                          strokeWidth={3}
+                        />
+                        <span
                           style={{
-                            animationDelay: `${itemIndex * 30}ms`,
-                          }}
-                        >
-                          <div className="flex-shrink-0 mt-0.5">
-                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-500 flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:bg-blue-600 transition-all duration-300 group-hover:scale-125 group-hover:-rotate-12">
-                              <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
-                            </div>
-                          </div>
-                          <span className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed group-hover:text-gray-900 group-hover:font-medium transition-all duration-300">
-                            {item}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                            fontSize: '15px',
+                            color: COLORS.textMuted,
+                            fontWeight: 500,
+                          }}>
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -179,53 +302,18 @@ function process() {
       </div>
 
       <style>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fade-in-delayed {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
-        }
-
-        .animate-fade-in-delayed {
-          animation: fade-in-delayed 0.8s ease-out 0.3s backwards;
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-
-        @media (max-width: 640px) {
-          .process-section {
-            animation: fadeIn 0.6s ease-out;
-          }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        
+        @media (max-width: 768px) {
+          .process-step { padding-bottom: 60px !important; }
+          div[style*="gap: 40px"] { gap: 20px !important; }
+          div[style*="width: 80px"] { width: 60px !important; height: 60px !important; }
+          span[style*="fontSize: 28px"] { fontSize: 20px !important; }
+          div[style*="left: 40px"] { left: 30px !important; }
         }
       `}</style>
-    </div>
+    </section>
   );
 }
 
-export default process;
+export default DevelopmentProcess;

@@ -19,6 +19,7 @@ import React, {
   useContext,
 } from 'react';
 import { WishlistFormRef } from '@/components/hero-section';
+import Form from '@/components/home/form';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -70,6 +71,7 @@ function RootLayoutContent({ children }: RootLayoutProps) {
         <div style={{ paddingTop: 'var(--admin-bar-height, 0)' }}>
           <Header />
           <main>{children}</main>
+          <Form />
           <Footer />
           {showScroll && (
             <FloatButton
