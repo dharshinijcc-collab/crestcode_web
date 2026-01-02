@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 
 // --- THEME TOKENS ---
 const COLORS = {
-  bgLeft: '#020617', // Your deep dark bg
-  bgRight: '#0B1224', // Slightly lighter for form contrast
-  primary: '#4F46E5', // Industrial Indigo
-  accentRed: '#FF5757', // Action Red
+  bgLeft: '#020617',
+  bgRight: '#0B1224',
+  primary: '#4F46E5',
+  accentRed: '#FF5757',
   textWhite: '#F8FAFC',
   textMuted: '#94A3B8',
   border: 'rgba(255, 255, 255, 0.1)',
@@ -27,22 +27,20 @@ function ContactForm() {
     console.log('Form submitted:', formData);
   };
 
-  // --- ANIMATION VARIANTS ---
   const containerFade = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const itemSlide = {
-    hidden: { x: -30, opacity: 0 },
-    visible: { x: 0, opacity: 1, transition: { duration: 0.6 } },
+    hidden: { x: -20, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.4 } },
   };
 
   return (
     <div
-      id="contact-form"
       style={{
-        minHeight: '100vh',
+        minHeight: 'auto', // Removed 100vh for compactness
         backgroundColor: COLORS.bgLeft,
         color: COLORS.textWhite,
         display: 'flex',
@@ -50,199 +48,212 @@ function ContactForm() {
         flexWrap: 'wrap',
         fontFamily: FONT_FAMILY,
         overflow: 'hidden',
+        padding: '40px 0', // Reduced section padding
       }}>
-      {/* LEFT SIDE: STEPS & INFO */}
+      {/* LEFT SIDE: STEPS & INFO (Condensed) */}
       <motion.div
         variants={containerFade}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         style={{
-          flex: '1 1 50%',
-          padding: '80px 6% 60px 8%',
+          flex: '1 1 40%',
+          padding: '40px 4% 40px 6%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
-          minWidth: '350px',
+          justifyContent: 'center',
+          minWidth: '320px',
         }}>
-        <div>
-          <motion.h1
-            variants={itemSlide}
+        <motion.h1
+          variants={itemSlide}
+          style={{
+            fontSize: 'clamp(2rem, 4vw, 3rem)', // Smaller font size
+            fontWeight: 800,
+            color: COLORS.primary,
+            marginBottom: '30px', // Reduced margin
+            letterSpacing: '-0.04em',
+          }}>
+          Let's start
+        </motion.h1>
+
+        <div style={{ position: 'relative', paddingLeft: '35px' }}>
+          <div
             style={{
-              fontSize: 'clamp(3rem, 5vw, 4.5rem)',
-              fontWeight: 800,
-              color: COLORS.primary,
-              marginBottom: '60px',
-              letterSpacing: '-0.04em',
-            }}>
-            Let's start
-          </motion.h1>
+              position: 'absolute',
+              left: '16px',
+              top: '8px',
+              bottom: '8px',
+              width: '2px',
+              background: `linear-gradient(to bottom, ${COLORS.primary}, ${COLORS.border})`,
+            }}
+          />
 
-          <div style={{ position: 'relative', paddingLeft: '45px' }}>
-            {/* PROGRESS LINE */}
-            <div
-              style={{
-                position: 'absolute',
-                left: '21px',
-                top: '10px',
-                bottom: '10px',
-                width: '2px',
-                background: `linear-gradient(to bottom, ${COLORS.primary}, ${COLORS.border})`,
-              }}
-            />
-
-            {[
-              { num: '1', text: 'Tell us your vision' },
-              { num: '2', text: 'Expert Discovery session' },
-              { num: '3', text: 'Receive your custom roadmap' },
-              { num: '4', text: 'Launch your project' },
-            ].map((step, i) => (
-              <motion.div
-                key={i}
-                variants={itemSlide}
-                style={{ marginBottom: '40px', position: 'relative' }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: '-30px',
-                    top: '6px',
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                    backgroundColor:
-                      i === 0 ? COLORS.primary : COLORS.textMuted,
-                    border: `4px solid ${COLORS.bgLeft}`,
-                    boxShadow: i === 0 ? `0 0 15px ${COLORS.primary}` : 'none',
-                    zIndex: 2,
-                  }}
-                />
-                <p
-                  style={{
-                    fontSize: '20px',
-                    fontWeight: 500,
-                    margin: 0,
-                    color: i === 0 ? COLORS.textWhite : COLORS.textMuted,
-                  }}>
-                  <span style={{ opacity: 0.5, marginRight: '10px' }}>
-                    {step.num}.
-                  </span>{' '}
-                  {step.text}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+          {[
+            { num: '1', text: 'Vision' },
+            { num: '2', text: 'Discovery' },
+            { num: '3', text: 'Roadmap' },
+            { num: '4', text: 'Launch' },
+          ].map((step, i) => (
+            <motion.div
+              key={i}
+              variants={itemSlide}
+              style={{ marginBottom: '18px', position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '-24px',
+                  top: '6px',
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50%',
+                  backgroundColor: i === 0 ? COLORS.primary : COLORS.textMuted,
+                  border: `3px solid ${COLORS.bgLeft}`,
+                  boxShadow: i === 0 ? `0 0 10px ${COLORS.primary}` : 'none',
+                  zIndex: 2,
+                }}
+              />
+              <p
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  margin: 0,
+                  color: i === 0 ? COLORS.textWhite : COLORS.textMuted,
+                }}>
+                <span style={{ opacity: 0.5 }}>{step.num}.</span> {step.text}
+              </p>
+            </motion.div>
+          ))}
         </div>
 
-        <motion.div variants={itemSlide} style={{ marginTop: '40px' }}>
-          <p
-            style={{
-              color: COLORS.textMuted,
-              marginBottom: '8px',
-              fontSize: '15px',
-            }}>
-            If you have any questions, email us
-          </p>
+        <motion.div variants={itemSlide} style={{ marginTop: '30px' }}>
           <a
             href="mailto:contact@crestcode.in"
             style={{
               color: COLORS.accentRed,
-              fontSize: '22px',
+              fontSize: '16px',
               fontWeight: 700,
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
+              gap: '8px',
             }}>
-            <Mail size={20} /> contact@crestcode.in
+            <Mail size={16} /> contact@crestcode.in
           </a>
         </motion.div>
       </motion.div>
 
-      {/* RIGHT SIDE: THE FORM */}
+      {/* RIGHT SIDE: THE FORM (Compact Grid) */}
       <motion.div
-        initial={{ opacity: 0, x: 50 }}
+        initial={{ opacity: 0, x: 30 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
         style={{
-          flex: '1 1 50%',
-          padding: '80px 8% 60px 6%',
+          flex: '1 1 55%',
+          padding: '40px 6% 40px 4%',
           backgroundColor: COLORS.bgRight,
-          minWidth: '350px',
+          borderRadius: '16px',
+          marginRight: '20px',
         }}>
-        <form onSubmit={handleSubmit} style={{ maxWidth: '600px' }}>
-          {['My Name*', 'Email Address*', 'Message*'].map((label, i) => (
-            <div key={i} style={{ marginBottom: '50px' }}>
+        <form onSubmit={handleSubmit}>
+          {/* Row for Name and Email */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '30px',
+              marginBottom: '30px',
+            }}>
+            <div>
               <label
                 style={{
                   display: 'block',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: COLORS.textMuted,
-                  marginBottom: '15px',
+                  marginBottom: '8px',
                   fontWeight: 600,
                 }}>
-                {label}
+                NAME*
               </label>
-              {label === 'Message*' ? (
-                <textarea
-                  required
-                  placeholder="Describe your idea"
-                  style={{
-                    width: '100%',
-                    background: 'transparent',
-                    border: 'none',
-                    borderBottom: `1px solid ${COLORS.border}`,
-                    paddingBottom: '12px',
-                    color: COLORS.textWhite,
-                    outline: 'none',
-                    fontSize: '18px',
-                    resize: 'none',
-                  }}
-                />
-              ) : (
-                <input
-                  required
-                  type={label.includes('Email') ? 'email' : 'text'}
-                  placeholder={
-                    label.includes('Name') ? 'John Smith' : 'name@company.com'
-                  }
-                  style={{
-                    width: '100%',
-                    background: 'transparent',
-                    border: 'none',
-                    borderBottom: `1px solid ${COLORS.border}`,
-                    paddingBottom: '12px',
-                    color: COLORS.textWhite,
-                    outline: 'none',
-                    fontSize: '18px',
-                  }}
-                />
-              )}
+              <input
+                required
+                type="text"
+                placeholder="John Smith"
+                style={{
+                  width: '100%',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: `1px solid ${COLORS.border}`,
+                  paddingBottom: '8px',
+                  color: COLORS.textWhite,
+                  outline: 'none',
+                  fontSize: '15px',
+                }}
+              />
             </div>
-          ))}
+            <div>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '12px',
+                  color: COLORS.textMuted,
+                  marginBottom: '8px',
+                  fontWeight: 600,
+                }}>
+                EMAIL*
+              </label>
+              <input
+                required
+                type="email"
+                placeholder="name@company.com"
+                style={{
+                  width: '100%',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: `1px solid ${COLORS.border}`,
+                  paddingBottom: '8px',
+                  color: COLORS.textWhite,
+                  outline: 'none',
+                  fontSize: '15px',
+                }}
+              />
+            </div>
+          </div>
 
-          <p
-            style={{
-              fontSize: '12px',
-              color: COLORS.textMuted,
-              lineHeight: 1.6,
-              marginBottom: '40px',
-            }}>
-            By clicking Send, Crestcode will process your data as per our
-            <span style={{ color: COLORS.accentRed, cursor: 'pointer' }}>
-              {' '}
-              Privacy notice
-            </span>
-            .
-          </p>
+          <div style={{ marginBottom: '25px' }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '12px',
+                color: COLORS.textMuted,
+                marginBottom: '8px',
+                fontWeight: 600,
+              }}>
+              MESSAGE*
+            </label>
+            <textarea
+              required
+              placeholder="Briefly describe your idea"
+              rows={2}
+              style={{
+                width: '100%',
+                background: 'transparent',
+                border: 'none',
+                borderBottom: `1px solid ${COLORS.border}`,
+                paddingBottom: '8px',
+                color: COLORS.textWhite,
+                outline: 'none',
+                fontSize: '15px',
+                resize: 'none',
+              }}
+            />
+          </div>
 
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '20px',
+              marginBottom: '30px',
             }}>
             <button
               type="button"
@@ -252,11 +263,11 @@ function ContactForm() {
                 color: COLORS.textWhite,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: '6px',
                 cursor: 'pointer',
-                fontSize: '16px',
+                fontSize: '14px',
               }}>
-              <Paperclip size={18} /> Attach file
+              <Paperclip size={14} /> Attach
             </button>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -265,49 +276,45 @@ function ContactForm() {
               style={{
                 backgroundColor: COLORS.accentRed,
                 color: 'white',
-                padding: '16px 60px',
-                fontSize: '18px',
+                padding: '10px 40px',
+                fontSize: '16px',
                 fontWeight: 700,
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: `0 10px 20px -5px ${COLORS.accentRed}66`,
+                borderRadius: '4px',
               }}>
               Send
             </motion.button>
           </div>
 
-          {/* MANAGER FOOTER */}
           <div
             style={{
-              marginTop: '80px',
-              paddingTop: '40px',
-              borderTop: `1px solid ${COLORS.border}`,
               display: 'flex',
-              justifyContent: 'space-between',
               alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '20px',
+              justifyContent: 'space-between',
+              paddingTop: '20px',
+              borderTop: `1px solid ${COLORS.border}`,
             }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <img
                 src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150"
-                alt="Account Manager"
+                alt="Manager"
                 style={{
-                  width: '56px',
-                  height: '56px',
+                  width: '40px',
+                  height: '40px',
                   borderRadius: '50%',
                   objectFit: 'cover',
                 }}
               />
               <div>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: '16px' }}>
+                <p style={{ margin: 0, fontWeight: 700, fontSize: '14px' }}>
                   Elizabeth K.
                 </p>
                 <p
                   style={{
                     margin: 0,
                     color: COLORS.textMuted,
-                    fontSize: '13px',
+                    fontSize: '11px',
                   }}>
                   Account Manager
                 </p>
@@ -316,18 +323,19 @@ function ContactForm() {
             <button
               type="button"
               style={{
-                border: `2px solid ${COLORS.accentRed}`,
+                border: `1px solid ${COLORS.accentRed}`,
                 color: COLORS.accentRed,
                 background: 'none',
-                padding: '10px 20px',
+                padding: '6px 15px',
                 fontWeight: 700,
-                fontSize: '14px',
+                fontSize: '12px',
                 cursor: 'pointer',
+                borderRadius: '4px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: '5px',
               }}>
-              <Calendar size={16} /> Book a consultation
+              <Calendar size={12} /> Book Call
             </button>
           </div>
         </form>
@@ -335,7 +343,6 @@ function ContactForm() {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        input::placeholder, textarea::placeholder { color: #334155; opacity: 1; }
         input:focus, textarea:focus { border-bottom: 1px solid ${COLORS.primary} !important; }
       `}</style>
     </div>

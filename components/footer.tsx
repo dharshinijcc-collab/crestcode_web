@@ -2,14 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
-import { useAdmin } from './admin/context';
 import {
   Boxes,
   Globe,
   Smartphone,
-  Palette,
-  Bug,
-  Server,
   Users,
   Workflow,
   HelpCircle,
@@ -18,398 +14,323 @@ import {
   Brain,
 } from 'lucide-react';
 
+// --- INDUSTRIAL DESIGN TOKENS ---
+const COLORS = {
+  bgDeep: '#020617', // Matches your deep dark sections
+  primary: '#4F46E5', // Industrial Indigo
+  textWhite: '#F8FAFC',
+  textDim: '#94A3B8', // Muted Slate
+  border: 'rgba(255, 255, 255, 0.08)',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
 export default function Footer() {
-  const { config } = useAdmin();
-  const footerConfig = { ...config };
   const router = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
   const scrollToSection = (sectionId: string) => {
     if (isHomePage) {
-      // If on home page, just scroll to section
       const element = document.getElementById(sectionId);
       if (element) element.scrollIntoView({ behavior: 'smooth' });
     } else {
-      // If on different page, navigate to home with section hash
       router.push(`/#${sectionId}`);
     }
-  };
-
-  const navigateToRoute = (route: string) => {
-    router.push(route);
-  };
-
-  const getSectionId = (item: string) => {
-    const sectionMap: { [key: string]: string } = {
-      Features: 'features', // Maps to hubs section
-      Pricing: 'pricing',
-      Security: 'security',
-      Integrations: 'boards', // Maps to boards section
-    };
-    return sectionMap[item] || item.toLowerCase();
   };
 
   const services = [
     {
       key: 'custom-software-development',
-      label: 'Custom Software Development',
-      icon: <Boxes size={16} />,
+      label: 'Software Development',
+      icon: <Boxes size={18} />,
     },
-    {
-      key: 'ai-ml',
-      label: 'AI & ML',
-      icon: <Brain size={16} />,
-    },
-    {
-      key: 'web-development',
-      label: 'Web Development',
-      icon: <Globe size={16} />,
-    },
+    { key: 'ai-ml', label: 'AI & Machine Learning', icon: <Brain size={18} /> },
+    { key: 'web-development', label: 'Web Systems', icon: <Globe size={18} /> },
     {
       key: 'mobile-app-development',
-      label: 'Mobile App Development',
-      icon: <Smartphone size={16} />,
+      label: 'Mobile Engineering',
+      icon: <Smartphone size={18} />,
     },
   ];
+
   const about = [
-    { key: 'team', label: 'Team', icon: <Users size={16} /> },
-    { key: 'how-we-work', label: 'How We Work', icon: <Workflow size={16} /> },
-    { key: 'faq', label: 'FAQ', icon: <HelpCircle size={16} /> },
+    { key: 'team', label: 'Our Team', icon: <Users size={18} /> },
+    {
+      key: 'how-we-work',
+      label: 'Engineering Process',
+      icon: <Workflow size={18} />,
+    },
+    { key: 'faq', label: 'Technical FAQ', icon: <HelpCircle size={18} /> },
     {
       key: 'testimonials',
-      label: 'Testimonials',
-      icon: <MessageSquareQuote size={16} />,
+      label: 'Client Stories',
+      icon: <MessageSquareQuote size={18} />,
     },
-    { key: 'careers', label: 'Careers', icon: <Briefcase size={16} /> },
+    { key: 'careers', label: 'Careers', icon: <Briefcase size={18} /> },
   ];
 
   return (
-    <>
-      <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
-      `}</style>
-
-      <footer
+    <footer
+      style={{
+        backgroundColor: COLORS.bgDeep,
+        color: COLORS.textWhite,
+        padding: '80px 24px 40px 24px',
+        fontFamily: FONT_PRIMARY,
+        // borderTop: `1px solid ${COLORS.border}`,
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+      {/* Background Subtle Gradient Flare */}
+      <div
         style={{
-          backgroundColor: '#1a1b23',
-          color: 'white',
-          paddingTop: '3rem',
-          paddingBottom: '2rem',
-          fontFamily: "'Urbanist', sans-serif",
+          position: 'absolute',
+          bottom: '-10%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '600px',
+          height: '300px',
+          background:
+            'radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          zIndex: 0,
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
         }}>
         <div
           style={{
-            maxWidth: '80rem',
-            margin: '0 auto',
-            padding: '0 1.5rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '60px',
+            marginBottom: '80px',
           }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr auto auto',
-              gap: '3rem',
-              alignItems: 'flex-start',
-              marginBottom: '2.5rem',
-            }}
-            className="md:grid-cols-3">
-            {/* Left Section - Brand & Description */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  // gap: '0.5rem',
-                  marginBottom: '1rem',
-                }}>
+          {/* 1. BRAND SECTION */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                marginBottom: '24px',
+              }}>
+              <img
+                src="https://crestcode.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.fd2671e3.png&w=1920&q=100"
+                alt="Logo"
+                style={{ width: '40px', height: '40px', objectFit: 'contain' }}
+              />
+              <div>
                 <div
                   style={{
-                    width: 48,
-                    height: 48,
-                    marginRight: '16px',
-                    // background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})`,
-                    borderRadius: '14px',
-                    display: 'grid',
-                    placeItems: 'center',
-                    // boxShadow: `0 8px 32px ${COLORS.primary}30`,
-                    position: 'relative',
+                    fontSize: '24px',
+                    fontWeight: 800,
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1,
                   }}>
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 2,
-                      // background: 'white',
-                      borderRadius: '12px',
-                      display: 'grid',
-                      placeItems: 'center',
-                    }}>
-                    <img
-                      src="https://crestcode.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.fd2671e3.png&w=1920&q=100"
-                      alt="Crestcode"
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        objectFit: 'contain',
-                      }}
-                    />
-                  </div>
+                  Crestcode
                 </div>
-                <div>
-                  <div
-                    style={{
-                      fontSize: '24px',
-                      fontWeight: '900',
-                      color: 'white',
-                      letterSpacing: '-0.02em',
-                      lineHeight: 1,
-                    }}>
-                    Crestcode
-                  </div>
-                  <div
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: '500',
-                      color: '#9ca3af',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      marginTop: '2px',
-                    }}>
-                    Engineering Excellence
-                  </div>
+                <div
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: COLORS.primary,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    marginTop: '4px',
+                  }}>
+                  Engineering Excellence
                 </div>
               </div>
-
-              <p
-                style={{
-                  color: '#9ca3af',
-                  marginBottom: '1.5rem',
-                  fontSize: '1rem',
-                  lineHeight: '1.6',
-                  maxWidth: '320px',
-                  fontWeight: '400',
-                  fontFamily: "'Urbanist', sans-serif",
-                }}>
-                Performance technical consultancy providing full-spectrum
-                engineering expertise
-              </p>
-
-              {/* Social Icons */}
-              {/* <div style={{ display: 'flex', gap: '0.75rem' }}>
-                <motion.a
-                  href={footerConfig.footer.socialLinks.twitter}
-                  style={{
-                    color: '#6b7280',
-                    padding: '0.5rem',
-                    borderRadius: '8px',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                  whileHover={{
-                    backgroundColor: '#374151',
-                    color: '#ffffff',
-                    scale: 1.1
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Twitter size={18} />
-                </motion.a>
-
-                <motion.a
-                  href={footerConfig.footer.socialLinks.facebook}
-                  style={{
-                    color: '#6b7280',
-                    padding: '0.5rem',
-                    borderRadius: '8px',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                  whileHover={{
-                    backgroundColor: '#374151',
-                    color: '#ffffff',
-                    scale: 1.1
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Facebook size={18} />
-                </motion.a>
-
-                <motion.a
-                  href={footerConfig.footer.socialLinks.pinterest}
-                  style={{
-                    color: '#6b7280',
-                    padding: '0.5rem',
-                    borderRadius: '8px',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                  whileHover={{
-                    backgroundColor: '#374151',
-                    color: '#ffffff',
-                    scale: 1.1
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <svg style={{ width: '18px', height: '18px' }} fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.11.22.081.343-.09.353-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.748-1.378 0 0-.599 2.282-.744 2.840-.282 1.084-1.064 2.456-1.549 3.235C9.584 23.815 10.77 24.001 12.017 24.001c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z" />
-                  </svg>
-                </motion.a>
-              </div> */}
-            </motion.div>
-
-            {/* Middle Section - Product Links */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}>
-              <h4
-                style={{
-                  fontWeight: '600',
-                  marginBottom: '1.25rem',
-                  fontSize: '1rem',
-                  color: '#ffffff',
-                  fontFamily: "'Urbanist', sans-serif",
-                }}>
-                Services
-              </h4>
-
-              <ul
-                style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.75rem',
-                }}>
-                {services.map((service, index) => (
-                  <motion.li key={service.key}>
-                    <motion.button
-                      onClick={() => scrollToSection(getSectionId(service.key))}
-                      style={{
-                        color: '#9ca3af',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: '1rem',
-                        transition: 'color 0.3s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: 0,
-                        fontWeight: 400,
-                        fontFamily: "'Urbanist', sans-serif",
-                      }}
-                      whileHover={{
-                        color: '#ffffff',
-                        x: 4,
-                      }}
-                      initial={{ opacity: 0, x: 10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
-                      viewport={{ once: true }}>
-                      {service.icon}
-                      {service.label}
-                    </motion.button>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Right Section - Legal Links */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}>
-              <h4
-                style={{
-                  fontWeight: '600',
-                  marginBottom: '1.25rem',
-                  fontSize: '1rem',
-                  color: '#ffffff',
-                  fontFamily: "'Urbanist', sans-serif",
-                }}>
-                About
-              </h4>
-
-              <ul
-                style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.75rem',
-                }}>
-                {about.map((item, index) => (
-                  <motion.li key={item.key}>
-                    <motion.button
-                      onClick={() => navigateToRoute(`/${item.key}`)}
-                      style={{
-                        color: '#9ca3af',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: '1rem',
-                        transition: 'color 0.3s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        textAlign: 'left',
-                        padding: 0,
-                        fontWeight: 400,
-                        fontFamily: "'Urbanist', sans-serif",
-                      }}
-                      whileHover={{ color: '#ffffff', x: 4 }}
-                      initial={{ opacity: 0, x: 10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
-                      viewport={{ once: true }}>
-                      {item.icon}
-                      {item.label}
-                    </motion.button>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-
-          {/* Copyright */}
-          <motion.div
-            style={{
-              borderTop: '1px solid #2d3748',
-              paddingTop: '1.5rem',
-              textAlign: 'center',
-            }}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}>
+            </div>
             <p
               style={{
-                fontSize: '1rem',
-                color: '#6b7280',
-                margin: 0,
-                fontWeight: '400',
-                fontFamily: "'Urbanist', sans-serif",
+                color: COLORS.textDim,
+                fontSize: '15px',
+                lineHeight: '1.7',
+                maxWidth: '300px',
+                fontWeight: 500,
               }}>
-              {/* {footerConfig.footer.copyright} */}© 2025 Crestcode. All
-              rights reserved.
+              High-performance technical consultancy providing full-spectrum
+              engineering for the next generation of digital infrastructure.
             </p>
           </motion.div>
+
+          {/* 2. SERVICES LINKS */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}>
+            <h4
+              style={{
+                fontSize: '14px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                marginBottom: '28px',
+                color: COLORS.textWhite,
+              }}>
+              Capabilities
+            </h4>
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+              }}>
+              {services.map((service) => (
+                <li key={service.key}>
+                  <button
+                    onClick={() => scrollToSection(service.key)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      color: COLORS.textDim,
+                      cursor: 'pointer',
+                      fontSize: '15px',
+                      fontWeight: 500,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      transition: '0.3s all',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#FFF';
+                      e.currentTarget.style.transform = 'translateX(5px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = COLORS.textDim;
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}>
+                    <span style={{ color: COLORS.primary }}>
+                      {service.icon}
+                    </span>
+                    {service.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* 3. ABOUT LINKS */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}>
+            <h4
+              style={{
+                fontSize: '14px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                marginBottom: '28px',
+                color: COLORS.textWhite,
+              }}>
+              Expertise
+            </h4>
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+              }}>
+              {about.map((item) => (
+                <li key={item.key}>
+                  <button
+                    onClick={() => router.push(`/${item.key}`)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      color: COLORS.textDim,
+                      cursor: 'pointer',
+                      fontSize: '15px',
+                      fontWeight: 500,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      transition: '0.3s all',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#FFF';
+                      e.currentTarget.style.transform = 'translateX(5px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = COLORS.textDim;
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}>
+                    <span style={{ color: COLORS.primary }}>{item.icon}</span>
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
-      </footer>
-    </>
+
+        {/* 4. COPYRIGHT FOOTER */}
+        <div
+          style={{
+            borderTop: `1px solid ${COLORS.border}`,
+            paddingTop: '40px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '20px',
+          }}>
+          <p
+            style={{
+              fontSize: '14px',
+              color: COLORS.textDim,
+              fontWeight: 500,
+              margin: 0,
+            }}>
+            © 2025 Crestcode Consultancy. All technical rights reserved.
+          </p>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            <span
+              style={{
+                fontSize: '13px',
+                color: COLORS.textDim,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}>
+              Privacy Policy
+            </span>
+            <span
+              style={{
+                fontSize: '13px',
+                color: COLORS.textDim,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}>
+              Terms of Service
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+      `}</style>
+    </footer>
   );
 }

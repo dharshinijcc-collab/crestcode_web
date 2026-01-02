@@ -200,7 +200,7 @@ function Header() {
                 display: 'flex',
                 alignItems: 'center',
                 cursor: 'pointer',
-                zIndex: 1100,
+                zIndex: 100,
               }}
               onClick={() => router.push('/')}
               whileHover={{ scale: 1.02 }}
@@ -242,8 +242,7 @@ function Header() {
                 <div
                   style={{
                     fontSize: '24px',
-                    fontWeight: '900',
-                    color: COLORS.textMain,
+                    fontWeight: 800,
                     letterSpacing: '-0.02em',
                     lineHeight: 1,
                   }}>
@@ -252,11 +251,11 @@ function Header() {
                 <div
                   style={{
                     fontSize: '11px',
-                    fontWeight: '500',
-                    color: COLORS.textMuted,
-                    letterSpacing: '0.1em',
+                    fontWeight: 700,
+                    color: COLORS.primary,
+                    letterSpacing: '0.15em',
                     textTransform: 'uppercase',
-                    marginTop: '2px',
+                    marginTop: '4px',
                   }}>
                   Engineering Excellence
                 </div>

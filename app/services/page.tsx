@@ -8,7 +8,6 @@ import Testimonial from '@/components/service/Testimonial';
 import Banner from '@/components/service/banner';
 import TechnologiesSection from '@/components/service/technology';
 import ServicesFAQ from '@/components/service/faq';
-import Form from '@/components/service/form';
 
 export default function ServicesPage() {
   return (
@@ -22,7 +21,6 @@ export default function ServicesPage() {
       <Process />
       <TechnologiesSection />
       <ServicesFAQ />
-      <Form />
     </>
   );
 }
