@@ -8,7 +8,6 @@ import Testimonials from '@/components/mobile_services/testimonials';
 import ImageHeading from '@/components/mobile_services/ImageHeading';
 import Process from '@/components/mobile_services/process';
 import FAQ from '@/components/service/faq';
-import Form from '@/components/service/form';
 import Native_vs_hybrid from '@/components/mobile_services/native_vs_hybrid';
 
 
@@ -27,7 +26,7 @@ export default function MobileServicesPage() {
       />
       <Process />
       <FAQ />
-      <Form />
+  
     </>
   );
 }

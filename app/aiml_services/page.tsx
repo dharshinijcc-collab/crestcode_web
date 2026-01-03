@@ -8,7 +8,6 @@ import Process from '@/components/aiml_services/process';
 import Banner from '@/components/aiml_services/banner';
 import ImageHeading from '@/components/aiml_services/ImageHeading';
 import FAQ from '@/components/home/faq';
-import Form from '@/components/service/form';
 
 export default function AimlServicesPage() {
   return (
@@ -24,7 +23,7 @@ export default function AimlServicesPage() {
       <Process />
       <Banner />
       <FAQ />
-      <Form />
+  
     </>
   );
 }

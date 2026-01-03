@@ -27,6 +27,7 @@ function process() {
     {
       number: 1,
       title: 'Business analysis',
+      duration: '2-4 weeks',
       items: [
         'During the Business Analysis stage, we introduce the team, align on goals, and set clear expectations.We establish communication processes, select tools like Jira and Confluence, and prepare the project workspace.Through regular calls and collaborative workshops with the Client, we gather and refine requirements, evaluate risks, and establish a risk mitigation plan.The result of the business analysis phase is a well-defined project roadmap with clear milestones, ensuring the entire team is aligned from the start.'
       ],
@@ -34,6 +35,7 @@ function process() {
     {
       number: 2,
       title: 'Architecture definition',
+      duration: '1-2 weeks',
       items: [
         'The definition of architecture is a part of the business analysis process, but this step is worth additional attention. This is where the technical product foundation is defined. The choices made here defined the future product scalability, security tech stack, structure, key design components, data flows, integration points, and much more. For every Client, we strive to select the most suitable tech stack, taking into consideration the project budget, timelines, and the work scope.'
       ],
@@ -41,6 +43,7 @@ function process() {
     {
       number: 3,
       title: 'UI/UX design',
+      duration: '3-6 weeks',
       items: [
         'The UI/UX design phase runs in parallel with business analysis. Our design team starts by preparing mood boards, prototypes, and initial concepts, and defining the product\'s unique selling proposition. We also conduct competitor analysis and study user behavior – all these efforts aim for one purpose: to direct us in the right design direction. Based on our conclusions, we create wireframes, interactive prototypes, and detailed UI designs, refining them through Client feedback and iterations. This step\'s deliverables include documented design specifications, development-ready assets, and a branded UI kit with reusable components like icons, buttons, colors, and fonts.'
       ],
@@ -48,6 +51,7 @@ function process() {
     {
       number: 4,
       title: 'Product development',
+      duration: '8-12 weeks per sprint',
       items: [
         'The software development phase runs in two-week sprints. During each sprint, our team writes and reviews code for a pre-approved list of features for this sprint, while the Tech Lead oversees quality and progress. The Client is actively involved through regular progress reviews, providing feedback on completed features to keep development aligned with the project goals.'
       ],
@@ -55,6 +59,7 @@ function process() {
     {
       number: 5,
       title: 'Quality assurance',
+      duration: 'Ongoing throughout development',
       items: [
         'The quality assurance phase runs throughout each sprint, starting mid-sprint and concluding with a demo meeting. QA specialists begin with manual testing to catch issues, then prepare and run automated test cases using tools like Selenium and TestNG. We conduct various types of testing, including usability, performance, and security and document all results that will become part of the print report. Each sprint ends with a demo, during which new features are reviewed with the Client.'
       ],
@@ -62,6 +67,7 @@ function process() {
     {
       number: 6,
       title: 'DevOps',
+      duration: 'Ongoing throughout project',
       items: [
         'The DevOps phase supports the entire development cycle by ensuring smooth deployment, scalability, and system reliability. Not all projects require the involvement of our DevOps specialists, but we always suggest applying DevOps practices to our Clients if we see that they could benefit the project outcomes. Our DevOps services include system performance monitoring, managing different development environments, handling regular backups, disaster recovery setup, implementing best security practices, and making any possible effort to streamline development workflows, increase software quality, and reduce time to market.'
       ],
@@ -69,6 +75,7 @@ function process() {
     {
       number: 7,
       title: 'Maintenance and support',
+      duration: 'Ongoing after launch',
       items: [
         'The support and maintenance phase is optional and ongoing, continuing after the successful project launch. We begin by delivering a final report and confirming project closure with the Client. We provide knowledge transfer, send all available documentation to one place, hold training sessions, and answer any questions regarding the product. Our team also monitors system performance, resolves technical issues proactively, and implements necessary technology updates to ensure the product adheres to the latest security and performance standards.'
       ],

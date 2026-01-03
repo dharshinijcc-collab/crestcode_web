@@ -20,6 +20,8 @@ import React, {
 } from 'react';
 import { WishlistFormRef } from '@/components/hero-section';
 import Form from '@/components/home/form';
+import { ContactFormProvider } from '@/components/ContactFormContext';
+import GlobalContactFormModal from '@/components/GlobalContactFormModal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -65,7 +67,7 @@ function RootLayoutContent({ children }: RootLayoutProps) {
   };
 
   return (
-    <WishlistFormContext.Provider value={wishlistFormRef}>
+    <ContactFormProvider>
       <div style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
         <AdminBar />
         <div style={{ paddingTop: 'var(--admin-bar-height, 0)' }}>
@@ -101,8 +103,9 @@ function RootLayoutContent({ children }: RootLayoutProps) {
           )}
         </div>
         <LoginModal />
+        <GlobalContactFormModal />
       </div>
-    </WishlistFormContext.Provider>
+    </ContactFormProvider>
   );
 }
 

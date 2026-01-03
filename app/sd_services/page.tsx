@@ -7,7 +7,7 @@ import Banner from '@/components/service/banner';
 import Techstack from '@/components/sd_services/Techstack';
 import Process from '@/components/sd_services/process';
 import Faq from '@/components/service/faq';
-import Form from '@/components/service/form';
+
 
 export default function SdServicesPage() {
   return (
@@ -20,7 +20,7 @@ export default function SdServicesPage() {
       <Techstack />
       <Process />
       <Faq />
-      <Form />
+    
     </>
   );
 }

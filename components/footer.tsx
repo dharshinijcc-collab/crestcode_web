@@ -62,12 +62,12 @@ export default function Footer() {
       icon: <Workflow size={18} />,
     },
     { key: 'faq', label: 'Technical FAQ', icon: <HelpCircle size={18} /> },
+    { key: 'careers', label: 'Careers', icon: <Briefcase size={18} /> },
     {
       key: 'testimonials',
       label: 'Client Stories',
       icon: <MessageSquareQuote size={18} />,
     },
-    { key: 'careers', label: 'Careers', icon: <Briefcase size={18} /> },
   ];
 
   return (
@@ -254,7 +254,15 @@ export default function Footer() {
               {about.map((item) => (
                 <li key={item.key}>
                   <button
-                    onClick={() => router.push(`/${item.key}`)}
+                    onClick={() => {
+                      if (item.key === 'faq') {
+                        router.push('/faqs');
+                      } else if (item.key === 'careers') {
+                        router.push('/careers');
+                      } else {
+                        router.push(`/${item.key}`);
+                      }
+                    }}
                     style={{
                       background: 'none',
                       border: 'none',
@@ -306,24 +314,32 @@ export default function Footer() {
             © 2025 Crestcode Consultancy. All technical rights reserved.
           </p>
           <div style={{ display: 'flex', gap: '24px' }}>
-            <span
+            <button
+              onClick={() => router.push('/privacy-policy')}
               style={{
                 fontSize: '13px',
                 color: COLORS.textDim,
                 fontWeight: 700,
                 cursor: 'pointer',
+                background: 'none',
+                border: 'none',
+                padding: 0,
               }}>
               Privacy Policy
-            </span>
-            <span
+            </button>
+            <button
+              onClick={() => router.push('/terms-of-service')}
               style={{
                 fontSize: '13px',
                 color: COLORS.textDim,
                 fontWeight: 700,
                 cursor: 'pointer',
+                background: 'none',
+                border: 'none',
+                padding: 0,
               }}>
               Terms of Service
-            </span>
+            </button>
           </div>
         </div>
       </div>

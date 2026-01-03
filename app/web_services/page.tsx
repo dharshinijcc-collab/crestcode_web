@@ -8,7 +8,6 @@ import Banner from '@/components/web_services/banner';
 import Process from '@/components/web_services/process';
 import Testimonials from '@/components/web_services/testimonials';
 import FAQ from '@/components/service/faq';
-import Form from '@/components/service/form';
 
 export default function WebServicesPage() {
   return (
@@ -21,7 +20,7 @@ export default function WebServicesPage() {
       <Testimonials />
       <Process />
       <FAQ />
-      <Form />
+    
     </>
   );
 }

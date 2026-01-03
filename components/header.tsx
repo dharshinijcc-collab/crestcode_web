@@ -14,8 +14,10 @@ import {
   Smartphone,
   Workflow,
   Brain,
+  FileText,
 } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useContactForm } from './ContactFormContext';
 
 const COLORS = {
   bgBase: '#FAFBFC',
@@ -39,6 +41,7 @@ function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === '/';
+  const { openModal } = useContactForm();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -89,7 +92,12 @@ function Header() {
         },
       ],
     },
-    { key: 'hackathon', label: 'Hackathon' },
+    {
+      key: 'hackathon',
+      label: 'Hackathon',
+      icon: <Bug size={16} />,
+    },
+    { key: 'blogs', label: 'Blogs', icon: <FileText size={16} /> },
     {
       key: 'about',
       label: 'About',
@@ -110,14 +118,14 @@ function Header() {
           icon: <HelpCircle size={16} />,
         },
         {
-          key: 'testimonials',
-          label: 'Testimonials',
-          icon: <MessageSquareQuote size={16} />,
-        },
-        {
           key: 'careers',
           label: 'Careers',
           icon: <Briefcase size={16} />,
+        },
+        {
+          key: 'testimonials',
+          label: 'Testimonials',
+          icon: <MessageSquareQuote size={16} />,
         },
       ],
     },
@@ -299,6 +307,10 @@ function Header() {
                     onClick={() =>
                       menu.key === 'services'
                         ? scrollToSection('services')
+                        : menu.key === 'blogs'
+                        ? router.push('/blogs')
+                        : menu.key === 'hackathon'
+                        ? router.push('/hackathon')
                         : null
                     }>
                     {menu.label}
@@ -346,6 +358,10 @@ function Header() {
                                 router.push('/web_services');
                               } else if (sub.key === 'mobile-app-development') {
                                 router.push('/mobile_services');
+                              } else if (sub.key === 'faq') {
+                                router.push('/faqs');
+                              } else if (sub.key === 'careers') {
+                                router.push('/careers');
                               } else {
                                 router.push('/services');
                               }
@@ -398,7 +414,11 @@ function Header() {
                 scale: 1.05,
                 boxShadow: `0 16px 32px -8px ${COLORS.primary}50`,
               }}
-              whileTap={{ scale: 0.95 }}>
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                console.log('Header Contact button clicked');
+                openModal();
+              }}>
               {/* Button shine effect */}
               <motion.div
                 style={{

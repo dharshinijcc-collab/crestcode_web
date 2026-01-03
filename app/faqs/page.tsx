@@ -1,7 +1,7 @@
-import FaqSection from '@/components/faqs';
+import CompleteFAQPage from '@/components/FAQ/CompleteFAQPage';
 
 const FAQS = () => {
-  return <FaqSection />;
+  return <CompleteFAQPage />;
 };
 
 export default FAQS;

@@ -1,11 +1,11 @@
 'use client';
-import PrivacyPolicy from '@/components/privacypolicy';
+import TermsOfService from '@/components/termsofservice';
 import React from 'react';
 
 const page = () => {
   return (
     <div>
-      <PrivacyPolicy />
+      <TermsOfService />
     </div>
   );
 }
