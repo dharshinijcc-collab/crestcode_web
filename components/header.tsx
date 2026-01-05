@@ -92,11 +92,6 @@ function Header() {
         },
       ],
     },
-    {
-      key: 'hackathon',
-      label: 'Hackathon',
-      icon: <Bug size={16} />,
-    },
     { key: 'blogs', label: 'Blogs', icon: <FileText size={16} /> },
     {
       key: 'about',
@@ -108,9 +103,14 @@ function Header() {
           icon: <Users size={16} />,
         },
         {
-          key: 'how-we-work',
-          label: 'How We Work',
-          icon: <Workflow size={16} />,
+          key: 'hackathon',
+          label: 'Hackathon',
+          icon: <Bug size={16} />,
+        },
+        {
+          key: 'internship',
+          label: 'Internship',
+          icon: <Briefcase size={16} />,
         },
         {
           key: 'faq',
@@ -309,8 +309,6 @@ function Header() {
                         ? scrollToSection('services')
                         : menu.key === 'blogs'
                         ? router.push('/blogs')
-                        : menu.key === 'hackathon'
-                        ? router.push('/hackathon')
                         : null
                     }>
                     {menu.label}
@@ -350,7 +348,9 @@ function Header() {
                           <motion.button
                             key={sub.key}
                             onClick={() => {
-                              if (sub.key === 'custom-software-development') {
+                              if (sub.key === 'team') {
+                                router.push('/team');
+                              } else if (sub.key === 'custom-software-development') {
                                 router.push('/sd_services');
                               } else if (sub.key === 'ai-ml') {
                                 router.push('/aiml_services');
@@ -358,6 +358,10 @@ function Header() {
                                 router.push('/web_services');
                               } else if (sub.key === 'mobile-app-development') {
                                 router.push('/mobile_services');
+                              } else if (sub.key === 'hackathon') {
+                                router.push('/hackathon');
+                              } else if (sub.key === 'internship') {
+                                router.push('/internship');
                               } else if (sub.key === 'faq') {
                                 router.push('/faqs');
                               } else if (sub.key === 'careers') {
