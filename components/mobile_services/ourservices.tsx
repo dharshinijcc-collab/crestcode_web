@@ -1,107 +1,170 @@
-import { Apple, Smartphone, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+'use client';
 
-function ourservices() {
-  const [isNavOpen, setIsNavOpen] = useState(false);
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Apple, Smartphone } from 'lucide-react';
+
+// --- INDUSTRIAL DESIGN TOKENS ---
+const COLORS = {
+  bgBase: '#FFFFFF', // Kept as white
+  primary: '#2563EB', // Precision Blue
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  cardBg: '#F8FAFC', // Slate 50 for cards
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+export default function MobileServices() {
+  const services = [
+    {
+      id: 'ios',
+      icon: <Apple size={48} strokeWidth={1.5} />,
+      title: 'iOS app development',
+      description:
+        'Expert native development for Apple products. We leverage all gadget capabilities, including Touch ID, Face ID, Apple Pay, and Apple Wallet. This means a fully native experience for users with maximum performance across iOS, iPad, macOS, and watchOS ecosystems.',
+    },
+    {
+      id: 'android',
+      icon: <Smartphone size={48} strokeWidth={1.5} />,
+      title: 'Android app development',
+      description:
+        'Android apps built with Kotlin ensuring broad device compatibility across the fragmented smartphone landscape. We ensure seamless launches for different OS versions and integration of modern technologies like AI, voice control, and IoT.',
+    },
+    {
+      id: 'cross-platform',
+      icon: (
+        <img
+          src="/cross-platform.png"
+          alt="Cross-platform"
+          style={{ width: '48px', height: '48px' }}
+        />
+      ),
+      title: 'Cross-platform apps',
+      description:
+        'Target both iOS and Android platforms at once. Cross-platform development allows you to build a single codebase that works across multiple operating systems, reducing development time and costs while maintaining native-like user experiences.',
+    },
+    {
+      id: 'pwa',
+      icon: (
+        <img
+          src="/pwa.png"
+          alt="PWA"
+          style={{ width: '48px', height: '48px' }}
+        />
+      ),
+      title: 'Progressive Web Apps (PWAs)',
+      description:
+        'PWAs deliver app-like experiences in browsers, installable on any device without app stores. They offer offline functionality, push notifications, and fast loading times while being easily discoverable via simple URLs.',
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <nav className="fixed top-8 right-8 z-50">
-        <button
-          onClick={() => setIsNavOpen(!isNavOpen)}
-          className="bg-slate-900 text-white px-6 py-3 rounded flex items-center gap-2 hover:bg-slate-800 transition-colors"
-        >
-          <span className="font-medium">Navigate</span>
-          <ChevronDown className="w-4 h-4" />
-        </button>
-        {isNavOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded border border-gray-200">
-            <a href="#ios" className="block px-4 py-2 hover:bg-gray-100 transition-colors">iOS Development</a>
-            <a href="#android" className="block px-4 py-2 hover:bg-gray-100 transition-colors">Android Development</a>
-            <a href="public/cross-platform.png" className="block px-4 py-2 hover:bg-gray-100 transition-colors">Cross-platform</a>
-            <a href="public/pwa.png" className="block px-4 py-2 hover:bg-gray-100 transition-colors">PWAs</a>
-          </div>
-        )}
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
-        <div className="mb-12 space-y-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-semibold text-gray-900">
+    <section
+      style={{
+        backgroundColor: COLORS.bgBase,
+        fontFamily: FONT_PRIMARY,
+        padding: '40px 24px',
+      }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* CENTERED HEADER - Standardized with other sections */}
+        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontWeight: 800,
+              color: COLORS.textBlack,
+              letterSpacing: '-0.04em',
+              marginBottom: '24px',
+              lineHeight: 1.1,
+            }}>
             Our custom{' '}
-            <span className="text-blue-600">mobile app development</span>{' '}
-            Services
+            <span style={{ color: COLORS.primary }}>
+              Mobile app development
+            </span>{' '}
+            services
           </h1>
-          <p className="text-base text-gray-700">
-            We offer comprehensive{' '}
-            <span className="font-bold">end-to-end</span>{' '}
-            mobile app development services, covering every major platform and technology:
+          <p
+            style={{
+              fontSize: '18px',
+              color: COLORS.textMuted,
+              lineHeight: '1.6',
+              maxWidth: '800px',
+              margin: '0 auto',
+              fontWeight: 500,
+            }}>
+            We offer comprehensive end-to-end mobile engineering, covering every
+            major platform and technology ecosystem.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          <section
-            id="ios"
-            className="space-y-4 p-6 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-sm hover:-translate-y-1 cursor-default"
-          >
-            <div className="w-16 h-16 flex items-center justify-center">
-              <Apple className="w-12 h-12 text-blue-600 stroke-[1.5]" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
-              iOS app development
-            </h2>
-            <p className="text-gray-700 leading-relaxed text-base">
-              Expert native development for Apple products. The iOS ecosystem encompasses a variety of gadgets: iOS, iPad, macOS, tvOS, and watchOS. Our expertise in developing native applications enables us to use all gadget capabilities, including camera, GPS, Touch ID, Face ID, Apple Pay, Apple Wallet, and more. This means a fully native experience for the user with maximum possible opportunities, allowing for the development of applications of any complexity.
-            </p>
-          </section>
+        {/* STANDARDIZED GRID LAYOUT */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
+            gap: '32px',
+          }}>
+          {services.map((service, index) => (
+            <div
+              key={service.id}
+              className="service-card-industrial"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                backgroundColor: COLORS.cardBg,
+                borderRadius: '16px',
+                padding: '38px',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                cursor: 'pointer',
+                border: '1px solid transparent',
+              }}>
+              <div
+                style={{
+                  marginBottom: '32px',
+                  color: COLORS.primary,
+                  transition: 'transform 0.3s ease',
+                }}
+                className="icon-wrapper">
+                {service.icon}
+              </div>
 
-          <section
-            id="android"
-            className="space-y-4 p-6 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-sm hover:-translate-y-1 cursor-default"
-          >
-            <div className="w-16 h-16 flex items-center justify-center">
-              <Smartphone className="w-12 h-12 text-blue-600 stroke-[1.5]" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
-              Android app development
-            </h2>
-            <p className="text-gray-700 leading-relaxed text-base">
-              Android apps that we build with Kotlin. We ensure broad device compatibility across the fragmented Android smartphone and tablet landscape, seamless launch for devices with different Android versions, integration of modern technologies like AI, voice control, and IoT, and assurance that your apps exceed user expectations.
-            </p>
-          </section>
+              <h2
+                style={{
+                  fontSize: '24px',
+                  fontWeight: 700,
+                  color: COLORS.textBlack,
+                  marginBottom: '20px',
+                  letterSpacing: '-0.02em',
+                }}>
+                {service.title}
+              </h2>
 
-          <section
-            id="cross-platform"
-            className="space-y-4 p-6 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-sm hover:-translate-y-1 cursor-default"
-          >
-            <div className="w-16 h-16 flex items-center justify-center">
-              <img src="/cross-platform.png" alt="Cross-platform" className="w-12 h-12" />
+              <p
+                style={{
+                  fontSize: '16px',
+                  color: COLORS.textMuted,
+                  lineHeight: '1.7',
+                  margin: 0,
+                  fontWeight: 450,
+                }}>
+                {service.description}
+              </p>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
-              Cross-platform apps
-            </h2>
-            <p className="text-gray-700 leading-relaxed text-base">
-              Sometimes it's reasonable to target both iOS and Android platforms at once. Cross-platform development allows you to build a single codebase that works across multiple operating systems, reducing development time and costs while maintaining high performance and native-like user experiences.
-            </p>
-          </section>
-
-          <section
-            id="pwa"
-            className="space-y-4 p-6 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-sm hover:-translate-y-1 cursor-default"
-          >
-            <div className="w-16 h-16 flex items-center justify-center">
-              <img src="/pwa.png" alt="PWA" className="w-12 h-12" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
-              Progressive Web Apps (PWAs)
-            </h2>
-            <p className="text-gray-700 leading-relaxed text-base">
-              Our PWAs deliver app-like experiences in browsers, installable on any device without app stores. They offer offline functionality, push notifications, and fast loading times while being easily discoverable through search engines and accessible via simple URLs.
-            </p>
-          </section>
+          ))}
         </div>
       </div>
-    </div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        @media (max-width: 768px) {
+          div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+    </section>
   );
 }
-
-export default ourservices;

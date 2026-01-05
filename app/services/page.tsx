@@ -17,7 +17,10 @@ export default function ServicesPage() {
       <MVP />
       <Testimonial />
       <AdvancedServices />
-      <Banner />
+      <Banner
+        title="Get a free quote for your project development."
+        description="Consult with our expert team today to unlock AI-powered growth and custom solutions built for real business impact."
+      />
       <Process />
       <TechnologiesSection />
       <ServicesFAQ />

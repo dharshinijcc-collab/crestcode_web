@@ -67,7 +67,7 @@ const WhyCrestcode = () => {
   return (
     <section
       style={{
-        padding: '120px 24px',
+        padding: '40px 24px',
         backgroundColor: COLORS.bgDark,
         color: COLORS.textWhite,
         fontFamily: FONT_FAMILY,

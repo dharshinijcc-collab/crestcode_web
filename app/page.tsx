@@ -22,13 +22,13 @@ export default function HomePage() {
   usePageTitle('Crestcode - high-performance technical consultancy');
 
   return (
-    <>
+    <div style={{ backgroundColor: '#F8FAFC' }}>
       <Hero />
       <HomeService />
       <TestimonialSection />
       <IndustriesSection />
       <WhyCrestcode />
       <FAQ />
-    </>
+    </div>
   );
 }

@@ -53,7 +53,7 @@ function Services() {
     <section
       style={{
         backgroundColor: COLORS.bgDark,
-        padding: '70px 24px',
+        padding: '40px 24px',
         fontFamily: FONT_FAMILY,
         position: 'relative',
         overflow: 'hidden',

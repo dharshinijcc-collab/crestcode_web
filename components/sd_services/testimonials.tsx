@@ -1,122 +1,125 @@
+'use client';
+
 import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
 
 const { Text, Paragraph } = Typography;
 
-// --- INDUSTRIAL DESIGN TOKENS ---
+// --- UNIFIED INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgLight: 'linear-gradient(135deg, #FFF5F2 0%, #F8FAFC 50%, #F0F7FF 100%)',
-  inkBlue: '#1E293B',
-  slateMuted: '#64748B',
-  accentIndigo: '#4F46E5',
+  bgBase: '#F3F5F9', // Matches standard Industrial Slate-Blue
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  primary: '#4F46E5', // Industrial Indigo
+  border: '#E2E8F0', // Crisp Edge
+  white: '#FFFFFF',
 };
 
-const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
-const testimonials = () => {
+const Testimonials = () => {
   return (
     <section
       style={{
-        padding: '20px 24px',
-        background: COLORS.bgLight,
+        padding: '40px 24px', // Standardized Section Padding
+        backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         justifyContent: 'center',
+        fontFamily: FONT_PRIMARY,
       }}>
-      {/* Background Decorative "Industrial" Glow */}
+      {/* 1. ENGINEERING GRID OVERLAY */}
       <div
         style={{
           position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '600px',
-          height: '300px',
-          background:
-            'radial-gradient(circle, rgba(79, 70, 229, 0.03) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          zIndex: 0,
+          inset: 0,
+          backgroundImage: `radial-gradient(${COLORS.textMuted}22 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          pointerEvents: 'none',
+          opacity: 0.6,
         }}
       />
 
+      {/* 2. GLASS-MORPHIC CONTAINER */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          maxWidth: '1350px',
+          maxWidth: '1250px',
           width: '100%',
           zIndex: 1,
-          background: 'rgba(255, 255, 255, 0.4)',
-          backdropFilter: 'blur(20px)',
-          borderRadius: '24px',
-          padding: '38px',
-          border: '1px solid rgba(255, 255, 255, 0.7)',
-          boxShadow: '0 20px 40px -10px rgba(0,0,0,0.02)',
+          background: 'rgba(255, 255, 255, 0.7)',
+          backdropFilter: 'blur(24px)',
+          borderRadius: '24px', // Matches Bento card standard
+          padding: '80px 60px', // Premium Breathing Room
+          border: `1px solid ${COLORS.white}`,
+          boxShadow: '0 30px 60px -15px rgba(0,0,0,0.05)',
         }}>
-        <Row gutter={[48, 32]} align="middle">
-          {/* Author Branding (Left) */}
-          <Col xs={24} md={8} lg={6}>
+        <Row gutter={[64, 48]} align="middle">
+          {/* Founder Branding (Left) */}
+          <Col xs={24} md={8} lg={7}>
             <div style={{ textAlign: 'center' }}>
               <div
                 style={{
-                  width: '120px',
-                  height: '120px',
-                  margin: '0 auto 24px auto',
-                  borderRadius: '16px', // Industrial Sharp-Round
+                  width: '160px',
+                  height: '160px',
+                  margin: '0 auto 32px auto',
+                  borderRadius: '20px',
                   overflow: 'hidden',
-                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-                  border: '4px solid white',
+                  boxShadow: `0 20px 40px -10px rgba(79, 70, 229, 0.25)`,
+                  border: `4px solid ${COLORS.white}`,
                 }}>
-                {/* Replace with actual image path */}
                 <img
                   src="/asfar.jpg"
-                  alt="asfar"
+                  alt="Asfarul Huda"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
-              <div style={{ marginBottom: '4px' }}>
+              <div style={{ marginBottom: '6px' }}>
                 <Text
                   style={{
-                    fontSize: '20px',
+                    fontSize: '24px',
                     fontWeight: 800,
-                    color: COLORS.inkBlue,
-                    fontFamily: FONT_FAMILY,
+                    color: COLORS.textBlack,
+                    fontFamily: FONT_PRIMARY,
                     display: 'block',
+                    letterSpacing: '-0.02em',
                   }}>
                   Asfarul Huda
                 </Text>
               </div>
               <Text
                 style={{
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  color: COLORS.slateMuted,
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  color: COLORS.primary,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
+                  letterSpacing: '0.15em',
                 }}>
                 CEO & Founder
               </Text>
             </div>
           </Col>
 
-          {/* Testimonial Quote (Right) */}
-          <Col xs={24} md={16} lg={18}>
-            <div style={{ position: 'relative', paddingLeft: '60px' }}>
-              {/* Modern Industrial Quote Icon */}
+          {/* Vision Quote (Right) */}
+          <Col xs={24} md={16} lg={17}>
+            <div style={{ position: 'relative', paddingLeft: '20px' }}>
+              {/* Refined Quote Mark */}
               <div
                 style={{
-                  position: 'absolute',
-                  top: '-10px',
-                  left: 0,
-                  fontSize: '70px',
-                  color: COLORS.inkBlue,
+                  fontSize: '110px',
+                  color: COLORS.primary,
                   lineHeight: 1,
                   fontFamily: 'serif',
-                  opacity: 0.9,
+                  opacity: 0.1,
+                  position: 'absolute',
+                  top: '-50px',
+                  left: '-20px',
+                  userSelect: 'none',
                   fontWeight: 900,
                 }}>
                 “
@@ -124,32 +127,43 @@ const testimonials = () => {
 
               <Paragraph
                 style={{
-                  fontSize: 'clamp(1rem, 1.8vw, 1.5rem)',
-                  fontWeight: 700,
-                  lineHeight: 1.5,
-                  color: COLORS.inkBlue,
-                  fontFamily: FONT_FAMILY,
-                  fontStyle: 'italic',
+                  fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
+                  fontWeight: 600,
+                  lineHeight: 1.7,
+                  color: COLORS.textBlack,
+                  fontFamily: FONT_PRIMARY,
                   margin: 0,
-                  letterSpacing: '-0.02em',
+                  letterSpacing: '-0.01em',
+                  fontStyle: 'normal',
                 }}>
-               Every great product starts with a clear purpose and the right team behind it. 
-               At Crestcode, we are proud to become the right team for businesses from all over the world – growing together, 
-               solving problems as a team, and developing products that drive real business results.
-
-
-
+                Every great product starts with a{' '}
+                <span style={{ color: COLORS.primary }}>clear purpose</span> and
+                the right team behind it. At Crestcode, we are proud to become
+                that team for businesses worldwide – growing together, solving
+                complex challenges, and developing digital solutions that drive{' '}
+                <span style={{ fontWeight: 800 }}>real-world results.</span>
               </Paragraph>
+
+              {/* Architectural Accent Line */}
+              <div
+                style={{
+                  width: '80px',
+                  height: '4px',
+                  backgroundColor: COLORS.primary,
+                  marginTop: '48px',
+                  borderRadius: '2px',
+                }}
+              />
             </div>
           </Col>
         </Row>
       </motion.div>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
       `}</style>
     </section>
   );
 };
 
-export default testimonials;
+export default Testimonials;

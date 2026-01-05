@@ -1,22 +1,42 @@
-import { useEffect, useState } from 'react';
+'use client';
 
-function process() {
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Check, Clock } from 'lucide-react';
+
+// --- INDUSTRIAL DESIGN TOKENS ---
+const COLORS = {
+  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
+  primary: '#4F46E5', // Precision Indigo
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+function SoftwareProductProcess() {
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(
+    new Set()
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = parseInt(entry.target.getAttribute('data-section') || '0');
+            const id = parseInt(
+              entry.target.getAttribute('data-section') || '0'
+            );
             setVisibleSections((prev) => new Set(Array.from(prev).concat(id)));
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
-    document.querySelectorAll('.process-section').forEach((section) => {
+    document.querySelectorAll('.software-step').forEach((section) => {
       observer.observe(section);
     });
 
@@ -26,130 +46,274 @@ function process() {
   const phases = [
     {
       number: 1,
-      title: 'Business analysis',
-      duration: '2-4 weeks',
+      title: 'Business Analysis',
+      duration: 'Timeline: 2-4 Weeks',
       items: [
-        'During the Business Analysis stage, we introduce the team, align on goals, and set clear expectations.We establish communication processes, select tools like Jira and Confluence, and prepare the project workspace.Through regular calls and collaborative workshops with the Client, we gather and refine requirements, evaluate risks, and establish a risk mitigation plan.The result of the business analysis phase is a well-defined project roadmap with clear milestones, ensuring the entire team is aligned from the start.'
+        'Stakeholder goal alignment & expectation setting',
+        'Workspace setup in Jira & Confluence',
+        'Requirements refinement via collaborative workshops',
+        'Risk evaluation & mitigation planning',
+        'Finalized project roadmap with clear milestones',
       ],
     },
     {
       number: 2,
-      title: 'Architecture definition',
-      duration: '1-2 weeks',
+      title: 'Architecture Definition',
+      duration: 'Timeline: 1-2 Weeks',
       items: [
-        'The definition of architecture is a part of the business analysis process, but this step is worth additional attention. This is where the technical product foundation is defined. The choices made here defined the future product scalability, security tech stack, structure, key design components, data flows, integration points, and much more. For every Client, we strive to select the most suitable tech stack, taking into consideration the project budget, timelines, and the work scope.'
+        'Technical product foundation definition',
+        'Scalability & security tech stack selection',
+        'Data flow & integration point mapping',
+        'Budget-optimized structure planning',
       ],
     },
     {
       number: 3,
-      title: 'UI/UX design',
-      duration: '3-6 weeks',
+      title: 'UI/UX Design',
+      duration: 'Timeline: 3-6 Weeks (Parallel)',
       items: [
-        'The UI/UX design phase runs in parallel with business analysis. Our design team starts by preparing mood boards, prototypes, and initial concepts, and defining the product\'s unique selling proposition. We also conduct competitor analysis and study user behavior – all these efforts aim for one purpose: to direct us in the right design direction. Based on our conclusions, we create wireframes, interactive prototypes, and detailed UI designs, refining them through Client feedback and iterations. This step\'s deliverables include documented design specifications, development-ready assets, and a branded UI kit with reusable components like icons, buttons, colors, and fonts.'
+        'Mood boards, prototypes & initial concepts',
+        'Competitor analysis & user behavior study',
+        'Interactive wireframes & high-fidelity UI',
+        'Branded UI kit with reusable components',
+        'Development-ready design specifications',
       ],
     },
     {
       number: 4,
-      title: 'Product development',
-      duration: '8-12 weeks per sprint',
+      title: 'Product Development',
+      duration: 'Cycle: Bi-weekly Agile Sprints',
       items: [
-        'The software development phase runs in two-week sprints. During each sprint, our team writes and reviews code for a pre-approved list of features for this sprint, while the Tech Lead oversees quality and progress. The Client is actively involved through regular progress reviews, providing feedback on completed features to keep development aligned with the project goals.'
+        'Code execution for pre-approved sprint features',
+        'Daily stand-ups for priority alignment',
+        'Tech Lead oversight for code integrity',
+        'Client-side progress reviews & feedback loops',
       ],
     },
     {
       number: 5,
-      title: 'Quality assurance',
-      duration: 'Ongoing throughout development',
+      title: 'Quality Assurance',
+      duration: 'Cycle: Continuous Throughout Sprints',
       items: [
-        'The quality assurance phase runs throughout each sprint, starting mid-sprint and concluding with a demo meeting. QA specialists begin with manual testing to catch issues, then prepare and run automated test cases using tools like Selenium and TestNG. We conduct various types of testing, including usability, performance, and security and document all results that will become part of the print report. Each sprint ends with a demo, during which new features are reviewed with the Client.'
+        'Manual testing for immediate bug discovery',
+        'Automated test cases (Selenium/TestNG)',
+        'Usability, performance & security audits',
+        'End-of-sprint demo & stakeholder review',
       ],
     },
     {
       number: 6,
-      title: 'DevOps',
-      duration: 'Ongoing throughout project',
+      title: 'DevOps & Deployment',
+      duration: 'Phase: Ongoing Infrastructure',
       items: [
-        'The DevOps phase supports the entire development cycle by ensuring smooth deployment, scalability, and system reliability. Not all projects require the involvement of our DevOps specialists, but we always suggest applying DevOps practices to our Clients if we see that they could benefit the project outcomes. Our DevOps services include system performance monitoring, managing different development environments, handling regular backups, disaster recovery setup, implementing best security practices, and making any possible effort to streamline development workflows, increase software quality, and reduce time to market.'
+        'System performance monitoring & scaling',
+        'Deployment environment management',
+        'Disaster recovery & backup protocols',
+        'CI/CD pipeline optimization',
       ],
     },
     {
       number: 7,
-      title: 'Maintenance and support',
-      duration: 'Ongoing after launch',
+      title: 'Maintenance & Support',
+      duration: 'Phase: Optional Post-Launch',
       items: [
-        'The support and maintenance phase is optional and ongoing, continuing after the successful project launch. We begin by delivering a final report and confirming project closure with the Client. We provide knowledge transfer, send all available documentation to one place, hold training sessions, and answer any questions regarding the product. Our team also monitors system performance, resolves technical issues proactively, and implements necessary technology updates to ensure the product adheres to the latest security and performance standards.'
+        'Final reporting & project closure',
+        'Knowledge transfer & training sessions',
+        'Proactive technical issue resolution',
+        'Continuous security & performance updates',
       ],
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <div className="text-center mb-16 sm:mb-20 lg:mb-24 animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Our software product development{' '}
-            <span className="text-blue-600">
-              process
-            </span>
+    <section
+      style={{
+        padding: '120px 24px',
+        backgroundColor: COLORS.bgBase,
+        fontFamily: FONT_PRIMARY,
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+      {/* 1. ENGINEERING GRID OVERLAY */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `radial-gradient(${COLORS.textMuted}22 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          opacity: 0.5,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: '1000px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 10,
+        }}>
+        {/* CENTERED HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: '100px' }}>
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontWeight: 800,
+              color: COLORS.textBlack,
+              letterSpacing: '-0.04em',
+              marginBottom: '24px',
+              lineHeight: 1.1,
+            }}>
+            Our Software Product{' '}
+            <span style={{ color: COLORS.primary }}>Engineering Process</span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            We provide end-to-end software product development services, growing products from initial ideas to fully functional applications. 
-            We do it through our well-established development processes, talented software engineers, and our strong commitment to business success.
+          <p
+            style={{
+              fontSize: '18px',
+              color: COLORS.textMuted,
+              lineHeight: '1.6',
+              maxWidth: '800px',
+              margin: '0 auto',
+              fontWeight: 500,
+            }}>
+            A refined, end-to-end methodology designed to grow products from
+            initial concepts to fully functional, market-ready applications.
           </p>
         </div>
 
-        <div className="relative space-y-0">
+        {/* TIMELINE ARCHITECTURE */}
+        <div style={{ position: 'relative' }}>
           {phases.map((phase, index) => (
             <div
               key={phase.number}
               data-section={phase.number}
-              className={`process-section transition-all duration-1000 ${
-                visibleSections.has(phase.number)
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-12'
-              }`}
+              className="software-step"
               style={{
+                position: 'relative',
+                paddingBottom: index === phases.length - 1 ? 0 : '100px',
+                opacity: visibleSections.has(phase.number) ? 1 : 0,
+                transform: visibleSections.has(phase.number)
+                  ? 'translateY(0)'
+                  : 'translateY(40px)',
+                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                 transitionDelay: `${index * 100}ms`,
-              }}
-            >
-              <div className="relative pb-4 sm:pb-8 lg:pb-12">
-                {index < phases.length - 1 && (
-                  <div className="absolute left-8 sm:left-10 lg:left-12 top-20 sm:top-24 lg:top-28 bottom-0 w-1 bg-gradient-to-b from-blue-400 via-blue-300 to-transparent"></div>
-                )}
+              }}>
+              {/* Vertical Connector Line (Indigo Glow) */}
+              {index < phases.length - 1 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '40px',
+                    top: '80px',
+                    bottom: 0,
+                    width: '2px',
+                    background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
+                    opacity: visibleSections.has(phase.number + 1) ? 1 : 0.2,
+                    transition: 'opacity 1s ease',
+                  }}
+                />
+              )}
 
-                <div className="flex gap-6 sm:gap-8 lg:gap-10">
-                  <div className="flex-shrink-0 relative z-10">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-500 hover:scale-110 group border-2 border-blue-200 hover:border-blue-400">
-                      <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                        {phase.number}
-                      </span>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '40px',
+                  alignItems: 'flex-start',
+                }}>
+                {/* CIRCULAR NUMBER BADGE */}
+                <div
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '50%',
+                    background: visibleSections.has(phase.number)
+                      ? COLORS.primary
+                      : COLORS.white,
+                    border: `2px solid ${COLORS.primary}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    boxShadow: visibleSections.has(phase.number)
+                      ? `0 10px 20px -5px ${COLORS.primary}66`
+                      : 'none',
+                    transition: 'all 0.6s ease',
+                    zIndex: 2,
+                    color: visibleSections.has(phase.number)
+                      ? COLORS.white
+                      : COLORS.primary,
+                  }}>
+                  <span style={{ fontSize: '28px', fontWeight: 800 }}>
+                    {phase.number}
+                  </span>
+                </div>
+
+                {/* CONTENT AREA */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ marginBottom: '28px' }}>
+                    <h2
+                      style={{
+                        fontSize: '28px',
+                        fontWeight: 800,
+                        color: COLORS.textBlack,
+                        marginBottom: '8px',
+                        letterSpacing: '-0.02em',
+                      }}>
+                      {phase.title}
+                    </h2>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: COLORS.primary,
+                        fontSize: '14px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                      }}>
+                      <Clock size={16} /> {phase.duration}
                     </div>
                   </div>
 
-                  <div className="flex-1 min-w-0 pt-2 sm:pt-3 lg:pt-4">
-                    <div className="mb-3 sm:mb-4">
-                      <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-blue-600 transition-colors duration-300">
-                        {phase.title}
-                      </h2>
-                      <p className="text-sm sm:text-base lg:text-base text-gray-600 leading-relaxed">
-                        {phase.duration}
-                      </p>
-                    </div>
-
-                    <div className="space-y-3">
-                      {phase.items.map((item, itemIndex) => (
-                        <p
-                          key={itemIndex}
-                          className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed hover:text-gray-900 transition-all duration-300"
+                  {/* BENTO-GRID LIST ITEMS */}
+                  <ul
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns:
+                        'repeat(auto-fit, minmax(280px, 1fr))',
+                      gap: '12px',
+                      padding: 0,
+                      listStyle: 'none',
+                    }}>
+                    {phase.items.map((item, i) => (
+                      <li
+                        key={i}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          background: 'rgba(255,255,255,0.6)',
+                          padding: '12px 16px',
+                          borderRadius: '8px',
+                          border: `1px solid ${COLORS.border}`,
+                        }}>
+                        <Check
+                          size={16}
+                          color={COLORS.primary}
+                          strokeWidth={3}
+                        />
+                        <span
                           style={{
-                            animationDelay: `${itemIndex * 30}ms`,
-                          }}
-                        >
+                            fontSize: '15px',
+                            color: COLORS.textMuted,
+                            fontWeight: 500,
+                          }}>
                           {item}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -158,53 +322,18 @@ function process() {
       </div>
 
       <style>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fade-in-delayed {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
-        }
-
-        .animate-fade-in-delayed {
-          animation: fade-in-delayed 0.8s ease-out 0.3s backwards;
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-
-        @media (max-width: 640px) {
-          .process-section {
-            animation: fadeIn 0.6s ease-out;
-          }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        
+        @media (max-width: 768px) {
+          .software-step { padding-bottom: 60px !important; }
+          div[style*="gap: 40px"] { gap: 20px !important; }
+          div[style*="width: 80px"] { width: 60px !important; height: 60px !important; }
+          span[style*="fontSize: 28px"] { fontSize: 20px !important; }
+          div[style*="left: 40px"] { left: 30px !important; }
         }
       `}</style>
-    </div>
+    </section>
   );
 }
 
-export default process;
+export default SoftwareProductProcess;

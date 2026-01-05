@@ -1,116 +1,260 @@
-import { Key, Navigation, Settings, Type, Image, BarChart3 } from 'lucide-react';
+'use client';
 
-function features() {
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+  Key,
+  Navigation,
+  Settings,
+  Type,
+  Image,
+  BarChart3,
+  Check,
+} from 'lucide-react';
+
+// --- INDUSTRIAL DESIGN TOKENS ---
+const COLORS = {
+  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
+  primary: '#4F46E5', // Precision Indigo
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+export default function MobileFeatures() {
   const features = [
     {
-      icon: Key,
-      title: 'User access & identity',
-      description: 'We implement core authentication flows to keep users secure and engaged from the start.',
+      icon: <Key size={32} />,
+      title: 'User Access & Identity',
+      description:
+        'Core authentication flows to keep users secure and engaged from the first interaction.',
       points: [
-        'user registration and login',
-        'social sign-in (Google, Apple, Facebook)',
-        'password reset and verification',
-        'role-based access (if needed)'
-      ]
+        'Secure registration and login',
+        'Social sign-in (Google, Apple, Facebook)',
+        'Password verification protocols',
+        'Role-based access control',
+      ],
     },
     {
-      icon: Navigation,
-      title: 'Content discovery & navigation',
-      description: 'Smooth navigation helps users get what they need with zero frustration.',
+      icon: <Navigation size={32} />,
+      title: 'Navigation Systems',
+      description:
+        'Smooth navigation patterns designed for zero-friction user journeys.',
       points: [
-        'bottom tab and side menu navigation',
-        'splash screen and onboarding flows',
-        'in-app search and sorting',
-        'scrollable lists and grid layouts'
-      ]
+        'Bottom tab & side menu systems',
+        'Intuitive onboarding flows',
+        'In-app search & smart sorting',
+        'Dynamic grid & list layouts',
+      ],
     },
     {
-      icon: Settings,
-      title: 'User profile & settings',
-      description: 'Let users manage their experience and preferences easily.',
+      icon: <Settings size={32} />,
+      title: 'Profile Architecture',
+      description:
+        'Granular user management and preference handling for tailored experiences.',
       points: [
-        'profile creation and editing',
-        'avatar upload and image crop',
-        'language and notification preferences',
-        'light/dark mode toggle'
-      ]
+        'Identity creation & editing',
+        'Optimized avatar processing',
+        'Notification & locale logic',
+        'Native dark/light mode support',
+      ],
     },
     {
-      icon: Type,
-      title: 'Input & interaction',
-      description: 'Core components to collect and process user input.',
+      icon: <Type size={32} />,
+      title: 'Input & Interaction',
+      description:
+        'Robust components designed to collect and process complex user data.',
       points: [
-        'forms with validation',
-        'ratings, reviews, and comments',
-        'image and file uploads',
-        'contact forms and feedback modules'
-      ]
+        'Forms with real-time validation',
+        'Rating & review modules',
+        'Secure file & media uploads',
+        'Interactive feedback systems',
+      ],
     },
     {
-      icon: Image,
-      title: 'Content display',
-      description: 'Clean presentation of your app\'s content or services.',
+      icon: <Image size={32} />,
+      title: 'Content Display',
+      description:
+        "High-performance presentation of your app's core digital assets.",
       points: [
-        'list and card views',
-        'image galleries and carousels',
-        'product, article, or service detail pages',
-        'expandable sections and tabs'
-      ]
+        'Advanced list & card views',
+        'Galleries & media carousels',
+        'Dynamic service detail pages',
+        'Expandable architectural sections',
+      ],
     },
     {
-      icon: BarChart3,
-      title: 'Core analytics & performance',
-      description: 'We ensure your app captures the right data and performs smoothly.',
+      icon: <BarChart3 size={32} />,
+      title: 'Analytics & Integrity',
+      description:
+        'Ensuring your application captures the right data and performs flawlessly.',
       points: [
-        'screen tracking with Google/Firebase Analytics',
-        'crash and performance monitoring',
-        'basic offline support and loading states',
-        'device permission handling'
-      ]
-    }
+        'Firebase/Google screen tracking',
+        'Crash & performance monitoring',
+        'Offline caching & loading states',
+        'Device permission handling',
+      ],
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0 sm:py-2 lg:py-4">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-4 lg:mb-6">
-          Mobile app development{' '}
-          <span className="text-blue-600 font-bold">features</span>
-        </h1>
+    <section
+      style={{
+        backgroundColor: COLORS.bgBase,
+        color: COLORS.textBlack,
+        fontFamily: FONT_PRIMARY,
+        padding: '40px 24px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+      {/* ARCHITECTURAL BACKGROUND GRID */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `radial-gradient(${COLORS.textMuted}22 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          opacity: 0.6,
+          pointerEvents: 'none',
+        }}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-12">
+      <div
+        style={{
+          maxWidth: '1250px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 10,
+        }}>
+        {/* CENTERED HEADER */}
+        <div
+          style={{
+            textAlign: 'center',
+            marginBottom: '100px',
+            maxWidth: '900px',
+            margin: '0 auto 100px auto',
+          }}>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              color: COLORS.textBlack,
+              marginBottom: '24px',
+              lineHeight: 1.1,
+            }}>
+            Mobile app development{' '}
+            <span style={{ color: COLORS.primary }}>features</span>
+          </motion.h1>
+        </div>
+
+        {/* FEATURES GRID */}
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '40px',
+          }}>
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
-              className="flex flex-col group cursor-pointer transition-all duration-500 ease-out hover:translate-y-[-8px]"
-            >
-              <div className="relative mb-4 sm:mb-6 inline-w-fit">
-                <feature.icon
-                  className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-blue-600 transition-all duration-500 group-hover:scale-110 group-hover:text-blue-700"
-                  strokeWidth={1.5}
-                />
-                <div className="absolute inset-0 bg-blue-100 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10" />
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -8 }}
+              style={{
+                backgroundColor: COLORS.white,
+                padding: '30px',
+                borderRadius: '24px',
+                border: `1px solid ${COLORS.border}`,
+                boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)',
+                transition: 'all 0.3s ease',
+              }}>
+              {/* Icon Section */}
+              <div
+                style={{
+                  color: COLORS.primary,
+                  marginBottom: '24px',
+                  background: `${COLORS.primary}08`,
+                  padding: '12px',
+                  borderRadius: '12px',
+                  width: 'fit-content',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: `1px solid ${COLORS.primary}15`,
+                }}>
+                {feature.icon}
               </div>
-              <h2 className="text-base sm:text-lg font-normal text-gray-900 mb-2 sm:mb-3 transition-colors duration-500 group-hover:text-blue-600">
+
+              <h2
+                style={{
+                  fontSize: '22px',
+                  fontWeight: 700,
+                  color: COLORS.textBlack,
+                  marginBottom: '16px',
+                  letterSpacing: '-0.02em',
+                }}>
                 {feature.title}
               </h2>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-3 transition-colors duration-500 group-hover:text-gray-700">
+
+              <p
+                style={{
+                  fontSize: '15px',
+                  color: COLORS.textMuted,
+                  lineHeight: '1.6',
+                  marginBottom: '24px',
+                  fontWeight: 500,
+                }}>
                 {feature.description}
               </p>
-              <ul className="space-y-1.5">
-                {feature.points.map((point, pointIndex) => (
-                  <li key={pointIndex} className="text-xs sm:text-sm text-gray-600 leading-relaxed flex items-start gap-2">
-                    <span className="text-blue-600 mt-1">•</span>
-                    <span className="transition-colors duration-500 group-hover:text-gray-700">{point}</span>
+
+              {/* Technical Points */}
+              <ul
+                style={{
+                  padding: 0,
+                  margin: 0,
+                  listStyle: 'none',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                }}>
+                {feature.points.map((point, pIndex) => (
+                  <li
+                    key={pIndex}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                    }}>
+                    <Check size={14} color={COLORS.primary} strokeWidth={3} />
+                    <span
+                      style={{
+                        fontSize: '14px',
+                        color: COLORS.textBlack,
+                        fontWeight: 500,
+                      }}>
+                      {point}
+                    </span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+      `}</style>
+    </section>
   );
 }
-
-export default features;

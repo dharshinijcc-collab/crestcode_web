@@ -279,50 +279,42 @@
 // }
 
 // export default Hero;
+'use client';
+
 import React from 'react';
 import { Button, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import {
   ArrowRightOutlined,
-  RocketOutlined,
-  SafetyCertificateOutlined,
   ThunderboltFilled,
+  CodeOutlined,
+  GlobalOutlined,
+  SafetyCertificateOutlined,
 } from '@ant-design/icons';
 
-const { Title, Paragraph } = Typography;
-
-// --- MODERN INDUSTRIAL LIGHT THEME ---
+// --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F8FAFC', // Slate 50 (Very light gray-blue)
-  bgSecondary: '#F1F5F9', // Slate 100
-  primary: '#4F46E5', // Professional Indigo
+  bgBase: '#F8FAFC',
+  primary: '#4F46E5', // Indigo
   secondary: '#0EA5E9', // Sky Blue
-  textMain: '#0F172A', // Slate 900 (Deep ink)
-  textMuted: '#475569', // Slate 600
+  textMain: '#0F172A',
+  textMuted: '#475569',
+  border: '#E2E8F0',
 };
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
-function Hero() {
+function MainCompanyHero() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 25, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   };
 
   return (
-    <div
+    <section
       style={{
         minHeight: '100vh',
         backgroundColor: COLORS.bgBase,
@@ -330,184 +322,318 @@ function Hero() {
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        marginLeft: '90px',
+        padding: ' 24px',
         fontFamily: FONT_FAMILY,
-        padding: '0 24px',
+        paddingBottom: '50px',
+        paddingTop: '120px',
       }}>
-      {/* 1. DYNAMIC WAVE BACKGROUND PATTERN */}
+      {/* 1. ARCHITECTURAL GRID OVERLAY */}
       <div
         style={{
           position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          lineHeight: 0,
-          zIndex: 1,
-        }}>
-        <svg
-          viewBox="0 0 1440 320"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: '100%', height: 'auto' }}>
-          <path
-            fill="rgba(79, 70, 229, 0.03)"
-            d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,186.7C1248,160,1344,128,1392,112L1440,96V320H1392C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320H0Z"></path>
-          <path
-            fill="rgba(14, 165, 233, 0.04)"
-            d="M0,224L60,213.3C120,203,240,181,360,186.7C480,192,600,224,720,224C840,224,960,192,1080,181.3C1200,171,1320,181,1380,186.7L1440,192V320H1380C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320H0Z"></path>
-        </svg>
-      </div>
-
-      {/* 2. FLOATING DATA ORBS (Abstract pattern) */}
-      <motion.div
-        animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        style={{
-          position: 'absolute',
-          top: '15%',
-          right: '5%',
-          width: '300px',
-          height: '300px',
-          background:
-            'radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%)',
-          filter: 'blur(40px)',
+          inset: 0,
+          backgroundImage: `radial-gradient(${COLORS.primary}15 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+          maskImage: 'linear-gradient(to bottom, black, transparent)',
+          pointerEvents: 'none',
           zIndex: 0,
         }}
       />
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        
-        .hero-btn-primary {
-          background: ${COLORS.primary} !important;
-          border: none !important;
-          height: 60px !important;
-          padding: 0 36px !important;
-          border-radius: 14px !important;
-          font-weight: 700 !important;
-          font-size: 16px !important;
-          box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.3) !important;
-          display: flex !important;
-          align-items: center !important;
-          gap: 12px !important;
-          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        }
-
-        .hero-btn-primary:hover {
-          transform: translateY(-4px) scale(1.02) !important;
-          box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.4) !important;
-        }
-
-        .hero-btn-secondary {
-          background: rgba(255, 255, 255, 0.8) !important;
-          border: 1px solid #E2E8F0 !important;
-          color: ${COLORS.textMain} !important;
-          height: 60px !important;
-          padding: 0 36px !important;
-          border-radius: 14px !important;
-          font-weight: 600 !important;
-          font-size: 16px !important;
-          backdrop-filter: blur(8px);
-          transition: all 0.3s ease !important;
-        }
-
-        .hero-btn-secondary:hover {
-          background: #FFFFFF !important;
-          border-color: ${COLORS.primary} !important;
-          transform: translateY(-2px);
-        }
-      `}</style>
-
-      {/* 3. CONTENT AREA */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+      <div
         style={{
+          maxWidth: '1400px',
+          margin: '0 auto',
+          width: '100%',
+          position: 'relative',
           zIndex: 10,
-          textAlign: 'center',
-          maxWidth: '1100px',
         }}>
-        {/* ENTERPRISE BADGE */}
-        <motion.div style={{ marginBottom: '40px' }}>
-          <span
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid #E2E8F0',
-              padding: '10px 20px',
-              borderRadius: '100px',
-              fontSize: '14px',
-              fontWeight: 700,
-              color: COLORS.textMain,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}>
-            <ThunderboltFilled /> Scale Engineering with Crestcode
-          </span>
-        </motion.div>
-
-        {/* HEADLINE */}
-        <motion.h1
+        <div
           style={{
-            fontSize: 'clamp(2.5rem, 6.5vw, 5rem)',
-            fontWeight: 800,
-            color: COLORS.textMain,
-            lineHeight: 1.1,
-            letterSpacing: '-0.04em',
-            marginBottom: '32px',
-            fontFamily: FONT_FAMILY,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '64px',
+            alignItems: 'center',
           }}>
-          We Own the{' '}
-          <span
-            style={{
-              background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-            Engineering.
-          </span>
-          <br />
-          You Own the Vision.
-        </motion.h1>
+          {/* --- LEFT SIDE: THE ENGINEERING PROMISE --- */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible">
+            {/* <motion.div style={{ marginBottom: '12px' }}>
+              <span
+                style={{
+                  background: '#FFF',
+                  border: `1px solid ${COLORS.border}`,
+                  padding: '8px 16px',
+                  borderRadius: '100px',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  color: COLORS.primary,
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}>
+                <ThunderboltFilled /> High-Performance Technical Consultancy
+              </span>
+            </motion.div> */}
 
-        {/* DESCRIPTION */}
-        <motion.p
-          style={{
-            fontSize: 'clamp(1.1rem, 2.2vw, 1.4rem)',
-            color: COLORS.textMuted,
-            lineHeight: 1.7,
-            maxWidth: '900px',
-            margin: '0 auto 56px auto',
-            fontWeight: 450,
-            fontFamily: FONT_FAMILY,
-          }}>
-          Crestcode is a high-performance technical consultancy providing
-          full-spectrum engineering expertise and strategic advisory for
-          enterprises building the next generation of digital infrastructure.
-        </motion.p>
+            <motion.h1
+              style={{
+                fontSize: 'clamp(2.8rem, 5vw, 4.5rem)',
+                fontWeight: 800,
+                color: COLORS.textMain,
+                lineHeight: 1.05,
+                letterSpacing: '-0.05em',
+                marginBottom: '32px',
+              }}>
+              We Own the <br />
+              <span
+                style={{
+                  background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}>
+                Engineering.
+              </span>
+              <br />
+              You Own the Vision.
+            </motion.h1>
 
-        {/* ACTIONS */}
-        <motion.div
-          style={{
-            display: 'flex',
-            gap: '20px',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            marginBottom: '100px',
-          }}>
-          <Button type="primary" size="large" className="hero-btn-primary">
-            Initiate Project <ArrowRightOutlined />
-          </Button>
-          <Button size="large" className="hero-btn-secondary">
-            Our Services
-          </Button>
-        </motion.div>
+            <motion.p
+              style={{
+                fontSize: '1.25rem',
+                color: COLORS.textMuted,
+                lineHeight: 1.6,
+                maxWidth: '600px',
+                marginBottom: '48px',
+                fontWeight: 500,
+              }}>
+              Strategizing, architecting, and building the next generation of
+              digital infrastructure for global enterprises and ambitious
+              scale-ups.
+            </motion.p>
 
-        {/* LOGO WALL (The "Industrial" Seal of Approval) */}
-      </motion.div>
-    </div>
+            <motion.div
+              style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              <Button
+                type="primary"
+                size="large"
+                style={{
+                  height: '64px',
+                  padding: '0 40px',
+                  borderRadius: '12px',
+                  fontSize: '18px',
+                  fontWeight: 700,
+                  backgroundColor: COLORS.primary,
+                  boxShadow: `0 20px 40px -10px ${COLORS.primary}44`,
+                }}
+                icon={<ArrowRightOutlined />}>
+                Initiate Project
+              </Button>
+              <Button
+                size="large"
+                style={{
+                  height: '64px',
+                  padding: '0 40px',
+                  borderRadius: '12px',
+                  fontSize: '18px',
+                  fontWeight: 600,
+                  border: `1px solid ${COLORS.border}`,
+                }}>
+                Our Services
+              </Button>
+            </motion.div>
+
+            {/* TRUST INDICATORS */}
+            <motion.div
+              style={{
+                marginTop: '64px',
+                display: 'flex',
+                gap: '32px',
+                alignItems: 'center',
+              }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px',
+                }}>
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span
+                    style={{
+                      fontSize: '28px',
+                      fontWeight: 800,
+                      color: COLORS.primary,
+                      letterSpacing: '-0.02em',
+                    }}>
+                    24/7
+                  </span>
+                  <div
+                    style={{
+                      padding: '4px 8px',
+                      background: '#10B98115',
+                      color: '#10B981',
+                      borderRadius: '6px',
+                      fontSize: '10px',
+                      fontWeight: 800,
+                    }}>
+                    LIVE
+                  </div>
+                </div>
+                <span
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    color: COLORS.textMuted,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                  }}>
+                  Agile Support Cycle
+                </span>
+              </div>
+              <div
+                style={{
+                  width: '1px',
+                  height: '40px',
+                  background: COLORS.border,
+                }}
+              />
+              <div style={{ display: 'flex', gap: '24px' }}>
+                <SafetyCertificateOutlined
+                  style={{ fontSize: '24px', color: COLORS.textMuted }}
+                />
+                <GlobalOutlined
+                  style={{ fontSize: '24px', color: COLORS.textMuted }}
+                />
+                <CodeOutlined
+                  style={{ fontSize: '24px', color: COLORS.textMuted }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* --- RIGHT SIDE: THE TECHNOLOGICAL CANVAS --- */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            style={{ position: 'relative' }}>
+            {/* GLASS MORPHIC LAB CARD */}
+            <div>
+              {/* Replace src with your specific company visual / hero image */}
+              <img
+                src="/code1.jpg"
+                alt="Industrial Engineering Visual"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  borderRadius: '24px',
+                  display: 'block',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+                }}
+              />
+
+              {/* FLOATING TECH BADGE */}
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+                style={{
+                  position: 'absolute',
+                  top: '15%',
+                  left: '-40px',
+                  background: 'rgba(2, 6, 23, 0.9)', // Deep Ink
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: '#FFF',
+                  padding: '14px 20px',
+                  borderRadius: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+                  zIndex: 20,
+                }}>
+                {/* Pulsing Green "Live" Indicator */}
+                <div style={{ position: 'relative', display: 'flex' }}>
+                  <div
+                    style={{
+                      width: '10px',
+                      height: '10px',
+                      background: '#10B981',
+                      borderRadius: '50%',
+                    }}
+                  />
+                  <motion.div
+                    animate={{ scale: [1, 2, 1], opacity: [0.5, 0, 0.5] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    style={{
+                      position: 'absolute',
+                      width: '10px',
+                      height: '10px',
+                      background: '#10B981',
+                      borderRadius: '50%',
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <div
+                    style={{
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      color: '#94A3B8',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                    }}>
+                    Deployment Status
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '15px',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}>
+                    99.9%{' '}
+                    <span style={{ color: '#10B981', fontSize: '12px' }}>
+                      Uptime
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* DECORATIVE BACKGROUND BLURS */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '-10%',
+                right: '-10%',
+                width: '300px',
+                height: '300px',
+                background:
+                  'radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%)',
+                filter: 'blur(60px)',
+                zIndex: 1,
+              }}
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+      `}</style>
+    </section>
   );
 }
 
-export default Hero;
+export default MainCompanyHero;

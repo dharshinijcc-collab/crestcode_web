@@ -287,7 +287,7 @@ function ContactForm() {
             </motion.button>
           </div>
 
-          <div
+          {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -337,7 +337,7 @@ function ContactForm() {
               }}>
               <Calendar size={12} /> Book Call
             </button>
-          </div>
+          </div> */}
         </form>
       </motion.div>
 

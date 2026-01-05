@@ -49,7 +49,7 @@ const FAQ = () => {
   return (
     <section
       style={{
-        padding: '70px 24px',
+        padding: '40px 24px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',

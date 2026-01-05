@@ -76,7 +76,7 @@ const industries = [
 const IndustriesSection = () => {
   return (
     <section
-      style={{ padding: '100px 24px', backgroundColor: COLORS.sectionBg }}>
+      style={{ padding: '40px 24px', backgroundColor: COLORS.sectionBg }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* SECTION HEADER */}
         <div style={{ textAlign: 'center', marginBottom: '80px' }}>

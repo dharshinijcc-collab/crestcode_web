@@ -1,81 +1,84 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
-// --- INDUSTRIAL DESIGN TOKENS ---
+// --- INDUSTRIAL THEME TOKENS (Synced with Services) ---
 const COLORS = {
-  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
-  primary: '#4F46E5', // Precision Indigo
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
-  white: '#FFFFFF',
-  border: '#E2E8F0',
+  bgDark: '#020617', // Deep Space Slate
+  primary: '#4F46E5', // Industrial Indigo
+  textWhite: '#F8FAFC', // Off-white
+  textMuted: '#94A3B8', // Muted Slate
+  border: 'rgba(255, 255, 255, 0.1)',
 };
 
-const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
 const tabs = [
   {
     id: 'enterprise',
-    label: 'Enterprise software development',
+    label: 'Enterprise Software',
     content: {
-      title: 'Enterprise software development',
+      title: 'Enterprise Software Development',
       description:
         'We build high-performance enterprise software that solves real business problems and handles complex workflows and large-scale data across manufacturing, procurement, finance, sales, and HR.',
     },
   },
   {
     id: 'mvp',
-    label: 'MVP development',
+    label: 'MVP Development',
     content: {
-      title: 'MVP development',
+      title: 'MVP Engineering for Scale',
       description:
-        'We help startups and enterprises validate their ideas quickly and cost-effectively. Our MVP approach focuses on building core features that solve the primary problem, allowing you to test your concept with real users and gather valuable feedback before full-scale deployment.',
+        'We help startups and enterprises validate their ideas quickly and cost-effectively. Our MVP approach focuses on building core features that solve the primary problem, allowing you to test your concept with real users and gather valuable feedback.',
     },
   },
   {
     id: 'saas',
-    label: 'SaaS development',
+    label: 'SaaS Platforms',
     content: {
-      title: 'SaaS development',
+      title: 'SaaS Architecture & Development',
       description:
-        'Our SaaS services encompass the entire lifecycle of cloud-based solutions. We create scalable, secure platforms with robust multi-tenancy architecture, seamless integrations, and flexible subscription management systems.',
+        'Our SaaS services encompass the entire lifecycle of cloud-based solutions. We create scalable, secure platforms with robust multi-tenancy architecture, seamless integrations, and flexible subscription systems.',
     },
   },
   {
     id: 'product',
-    label: 'Product development',
+    label: 'Product Design',
     content: {
-      title: 'Product development',
+      title: 'Comprehensive Product Development',
       description:
-        'From concept to market launch, we provide comprehensive product development. Our team combines technical expertise with market insights to build products that resonate with users, scale efficiently, and drive business growth.',
+        'From concept to market launch, we provide comprehensive product development. Our team combines technical expertise with market insights to build products that resonate with users and drive growth.',
     },
   },
 ];
 
 export default function TailoredServices() {
   const [activeTab, setActiveTab] = useState('enterprise');
-
   const activeContent = tabs.find((tab) => tab.id === activeTab)?.content;
 
   return (
     <section
       style={{
+        backgroundColor: COLORS.bgDark,
         padding: '40px 24px',
-        backgroundColor: COLORS.bgBase,
+        fontFamily: FONT_FAMILY,
         position: 'relative',
         overflow: 'hidden',
-        fontFamily: FONT_PRIMARY,
       }}>
-      {/* 1. ENGINEERING GRID OVERLAY */}
+      {/* 1. ARCHITECTURAL BACKGROUND GLOW */}
       <div
         style={{
           position: 'absolute',
-          inset: 0,
-          backgroundImage: `radial-gradient(${COLORS.textMuted}22 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
-          opacity: 0.5,
-          pointerEvents: 'none',
+          bottom: '10%',
+          right: '-5%',
+          width: '600px',
+          height: '600px',
+          background:
+            'radial-gradient(circle, rgba(79, 70, 229, 0.04) 0%, transparent 70%)',
+          filter: 'blur(100px)',
+          zIndex: 0,
         }}
       />
 
@@ -84,7 +87,7 @@ export default function TailoredServices() {
           maxWidth: '1200px',
           margin: '0 auto',
           position: 'relative',
-          zIndex: 10,
+          zIndex: 1,
         }}>
         {/* HEADER SECTION */}
         <motion.div
@@ -96,7 +99,7 @@ export default function TailoredServices() {
             style={{
               fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
               fontWeight: 800,
-              color: COLORS.textBlack,
+              color: COLORS.textWhite,
               letterSpacing: '-0.04em',
               marginBottom: '24px',
             }}>
@@ -105,86 +108,76 @@ export default function TailoredServices() {
           </h2>
           <p
             style={{
-              fontSize: '18px',
               color: COLORS.textMuted,
-              lineHeight: '1.6',
-              maxWidth: '800px',
+              fontSize: '18px',
+              lineHeight: '1.7',
+              maxWidth: '850px',
               margin: '0 auto',
             }}>
             We excel in developing software solutions for various business
-            stages, combining product expertise with a commitment to scalability
-            and reliability.
+            stages, combining industrial-grade expertise with a commitment to
+            scalability and reliability.
           </p>
         </motion.div>
 
-        {/* INTERACTIVE TABS GRID */}
+        {/* INTERACTIVE CONTENT GRID */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '40px',
-            alignItems: 'start',
+            gap: '60px',
+            alignItems: 'center',
           }}>
-          {/* LEFT: VERTICAL TABS */}
-          <div
-            style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {tabs.map((tab, index) => (
-              <motion.button
+          {/* LEFT: VERTICAL TABS (Side Border Style) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {tabs.map((tab) => (
+              <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                whileHover={{ x: 5 }}
-                whileTap={{ scale: 0.98 }}
                 style={{
                   width: '100%',
                   textAlign: 'left',
                   padding: '24px 32px',
                   background:
-                    activeTab === tab.id ? COLORS.white : 'transparent',
-                  border: `1px solid ${
-                    activeTab === tab.id ? COLORS.border : 'transparent'
-                  }`,
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  boxShadow:
                     activeTab === tab.id
-                      ? '0 10px 20px -10px rgba(0,0,0,0.05)'
-                      : 'none',
+                      ? 'rgba(79, 70, 229, 0.1)'
+                      : 'transparent',
+                  border: 'none',
+                  borderLeft: `4px solid ${
+                    activeTab === tab.id ? COLORS.primary : 'transparent'
+                  }`,
+                  cursor: 'pointer',
+                  transition: '0.3s all cubic-bezier(0.4, 0, 0.2, 1)',
+                  fontFamily: FONT_FAMILY,
                 }}>
                 <span
                   style={{
-                    fontSize: '18px',
+                    fontSize: '20px',
                     fontWeight: 700,
                     color:
-                      activeTab === tab.id ? COLORS.primary : COLORS.textMuted,
-                    fontFamily: FONT_PRIMARY,
+                      activeTab === tab.id
+                        ? COLORS.textWhite
+                        : COLORS.textMuted,
                   }}>
                   {tab.label}
                 </span>
-                <ChevronRight
-                  size={18}
-                  style={{
-                    opacity: activeTab === tab.id ? 1 : 0,
-                    color: COLORS.primary,
-                    transition: 'opacity 0.3s',
-                  }}
-                />
-              </motion.button>
+              </button>
             ))}
           </div>
 
-          {/* RIGHT: DYNAMIC CONTENT AREA */}
+          {/* RIGHT: FROSTED GLASS CONTENT AREA */}
           <div
             style={{
-              background: COLORS.white,
-              padding: '56px',
-              borderRadius: '24px',
+              background: 'rgba(255, 255, 255, 0.02)',
               border: `1px solid ${COLORS.border}`,
-              boxShadow: '0 20px 40px -20px rgba(0,0,0,0.08)',
-              minHeight: '400px',
+              borderRadius: '24px',
+              padding: '56px',
+              minHeight: '420px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              backdropFilter: 'blur(12px)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
             }}>
             <AnimatePresence mode="wait">
               <motion.div
@@ -195,35 +188,35 @@ export default function TailoredServices() {
                 transition={{ duration: 0.4, ease: 'easeOut' }}>
                 <h3
                   style={{
-                    fontSize: '28px',
+                    fontSize: '32px',
                     fontWeight: 800,
-                    color: COLORS.textBlack,
+                    color: COLORS.textWhite,
                     marginBottom: '24px',
                     letterSpacing: '-0.02em',
                   }}>
                   {activeContent?.title}
                 </h3>
+
                 <p
                   style={{
-                    fontSize: '17px',
                     color: COLORS.textMuted,
+                    fontSize: '18px',
                     lineHeight: '1.8',
-                    margin: 0,
+                    marginBottom: '40px',
                   }}>
                   {activeContent?.description}
                 </p>
 
-                {/* Decorative Technical Badge */}
+                {/* Industrial Execution Badge */}
                 <div
                   style={{
-                    marginTop: '40px',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
-                    background: `${COLORS.primary}08`,
-                    borderRadius: '6px',
-                    border: `1px solid ${COLORS.primary}15`,
+                    gap: '10px',
+                    padding: '10px 16px',
+                    background: `${COLORS.primary}20`,
+                    borderRadius: '8px',
+                    border: `1px solid ${COLORS.primary}40`,
                   }}>
                   <div
                     style={{
@@ -236,9 +229,10 @@ export default function TailoredServices() {
                   <span
                     style={{
                       fontSize: '12px',
-                      fontWeight: 700,
-                      color: COLORS.primary,
+                      fontWeight: 800,
+                      color: COLORS.textWhite,
                       textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
                     }}>
                     Industrial Standard Execution
                   </span>
@@ -250,7 +244,7 @@ export default function TailoredServices() {
       </div>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
       `}</style>
     </section>
   );

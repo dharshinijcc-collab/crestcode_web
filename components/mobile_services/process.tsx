@@ -1,23 +1,42 @@
-import { useEffect, useState } from 'react';
-import { Check } from 'lucide-react';
+'use client';
 
-function process() {
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Check, Clock } from 'lucide-react';
+
+// --- INDUSTRIAL DESIGN TOKENS (Shared across your platform) ---
+const COLORS = {
+  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
+  primary: '#4F46E5', // Precision Indigo
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+function MobileProcess() {
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(
+    new Set()
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = parseInt(entry.target.getAttribute('data-section') || '0');
+            const id = parseInt(
+              entry.target.getAttribute('data-section') || '0'
+            );
             setVisibleSections((prev) => new Set(Array.from(prev).concat(id)));
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.2 }
     );
 
-    document.querySelectorAll('.process-section').forEach((section) => {
+    document.querySelectorAll('.mobile-process-step').forEach((section) => {
       observer.observe(section);
     });
 
@@ -27,91 +46,257 @@ function process() {
   const phases = [
     {
       number: 1,
-      title: 'Discovery & planning',
-      description: 'We dive into your business objectives, audience needs, and market landscape, researching competitors and trends to shape a winning strategy. We define a clear scope, set realistic budgets, and craft a roadmap with milestones, ensuring your app launches on time and maximizes ROI.'
+      title: 'Discovery & Mobile Strategy',
+      duration: 'Duration: 2-3 Weeks Strategy',
+      items: [
+        'Analyze business objectives and target audience',
+        'Research market trends and competitor apps',
+        'Define core app functionality and MVP scope',
+        'Prepare technical roadmap and release milestones',
+        'Establish security and compliance requirements',
+      ],
     },
     {
       number: 2,
-      title: 'UI/UX design',
-      description: 'We craft intuitive wireframes and interactive prototypes, prioritizing smooth navigation and accessibility. We align visuals with your brand, testing with real users to perfect experience. Our goal is to design interfaces that keep users engaged and help them achieve their goals within app.'
+      icon: null,
+      title: 'UI/UX Engineering',
+      duration: 'Duration: 3-5 Weeks Execution',
+      items: [
+        'Create interactive low-fidelity wireframes',
+        'Design high-fidelity mobile prototypes',
+        'Develop a native-first design system',
+        'Conduct usability testing with target users',
+        'Document touch-gesture and navigation logic',
+      ],
     },
     {
       number: 3,
-      title: 'App development',
-      description: 'Our mobile app development services guarantee that your app has clean code, integrates core features, APIs, and robust security like encryption. Using agile methods, we deliver regular updates for transparency and adapt to your business needs.'
+      title: 'Native & Cross-Platform Dev',
+      duration: 'Cycle: Bi-weekly Agile Sprints',
+      items: [
+        'Perform iOS/Android specific coding',
+        'Integrate secure APIs and backend systems',
+        'Implement biometric and secure authentication',
+        'Conduct daily stand-ups for sprint alignment',
+        'Maintain absolute code quality via Tech Lead',
+      ],
     },
     {
       number: 4,
-      title: 'Quality assurance (QA) & testing',
-      description: 'We rigorously test functionality, usability, security, and compatibility across 50+ devices and platforms. By simulating real-world scenarios, we catch issues early, ensuring a flawless app experience.'
+      title: 'Rigorous QA & Device Lab',
+      duration: 'Cycle: Continuous Integration',
+      items: [
+        'Test on 50+ real iOS and Android devices',
+        'Conduct performance and battery-drain audits',
+        'Execute automated regression and security tests',
+        'Simulate real-world connectivity scenarios',
+        'Obtain stakeholder sign-off on release build',
+      ],
     },
     {
       number: 5,
-      title: 'Deployment',
-      description: 'We manage App Store and Google Play submissions, navigating strict guidelines for a smooth rollout. Our expertise ensures your app goes live without hiccups, ready to reach users instantly, whether it is a fitness tracker or a business tool.'
+      title: 'Deployment & Support',
+      duration: 'Phase: App Store Submission',
+      items: [
+        'Manage App Store and Google Play reviews',
+        'Implement App Store Optimization (ASO)',
+        'Monitor performance with real-time analytics',
+        'Deploy regular security and OS updates',
+        'Provide ongoing maintenance and feature scaling',
+      ],
     },
-    {
-      number: 6,
-      title: 'Post-launch support & maintenance',
-      description: 'We provide ongoing updates, monitor performance, and fix issues fast to keep your app reliable. From adding new features to adapting to OS changes, we ensure your app stays competitive.'
-    }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <div className="text-center mb-16 sm:mb-20 lg:mb-24 animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-            <span className="text-blue-600">
-              Mobile app development process
-            </span>
+    <section
+      style={{
+        padding: '40px 24px',
+        backgroundColor: COLORS.bgBase,
+        fontFamily: FONT_PRIMARY,
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+      {/* 1. ENGINEERING GRID OVERLAY */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `radial-gradient(${COLORS.textMuted}22 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          opacity: 0.5,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: '1000px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 10,
+        }}>
+        {/* HEADER SECTION (Centered as per standard) */}
+        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontWeight: 800,
+              color: COLORS.textBlack,
+              letterSpacing: '-0.04em',
+              marginBottom: '24px',
+              lineHeight: 1.1,
+            }}>
+            Mobile App Development{' '}
+            <span style={{ color: COLORS.primary }}>Process</span>
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            At Crestcode, we have a well-defined process of developing mobile applications that we've refined over 13 years. Each step tackles real challenges, delivering results that are supposed to drive business growth and captivate users.
+          <p
+            style={{
+              fontSize: '18px',
+              color: COLORS.textMuted,
+              lineHeight: '1.6',
+              maxWidth: '800px',
+              margin: '0 auto',
+              fontWeight: 500,
+            }}>
+            A polished methodology refined over 13 years to deliver
+            high-performance mobile architectures within predictable engineering
+            timeframes.
           </p>
         </div>
 
-        <div className="relative space-y-0">
+        {/* TIMELINE ARCHITECTURE */}
+        <div style={{ position: 'relative' }}>
           {phases.map((phase, index) => (
             <div
               key={phase.number}
               data-section={phase.number}
-              className={`process-section transition-all duration-1000 ${
-                visibleSections.has(phase.number)
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-12'
-              }`}
+              className="mobile-process-step"
               style={{
+                position: 'relative',
+                paddingBottom: index === phases.length - 1 ? 0 : '100px',
+                opacity: visibleSections.has(phase.number) ? 1 : 0,
+                transform: visibleSections.has(phase.number)
+                  ? 'translateY(0)'
+                  : 'translateY(40px)',
+                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                 transitionDelay: `${index * 100}ms`,
-              }}
-            >
-              <div className="relative pb-4 sm:pb-8 lg:pb-12">
-                {index < phases.length - 1 && (
-                  <div className="absolute left-8 sm:left-10 lg:left-12 top-20 sm:top-24 lg:top-28 bottom-0 w-1 bg-gradient-to-b from-blue-400 via-blue-300 to-transparent"></div>
-                )}
+              }}>
+              {/* Vertical Connector Line (Indigo Glow) */}
+              {index < phases.length - 1 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '40px',
+                    top: '80px',
+                    bottom: 0,
+                    width: '2px',
+                    background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
+                    opacity: visibleSections.has(phase.number + 1) ? 1 : 0.2,
+                    transition: 'opacity 1s ease',
+                  }}
+                />
+              )}
 
-                <div className="flex gap-6 sm:gap-8 lg:gap-10">
-                  <div className="flex-shrink-0 relative z-10">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-500 hover:scale-110 group border-2 border-blue-200 hover:border-blue-400">
-                      <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                        {phase.number}
-                      </span>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '40px',
+                  alignItems: 'flex-start',
+                }}>
+                {/* CIRCULAR NUMBER BADGE */}
+                <div
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '50%',
+                    background: visibleSections.has(phase.number)
+                      ? COLORS.primary
+                      : COLORS.white,
+                    border: `2px solid ${COLORS.primary}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    boxShadow: visibleSections.has(phase.number)
+                      ? `0 10px 20px -5px ${COLORS.primary}66`
+                      : 'none',
+                    transition: 'all 0.6s ease',
+                    zIndex: 2,
+                    color: visibleSections.has(phase.number)
+                      ? COLORS.white
+                      : COLORS.primary,
+                  }}>
+                  <span style={{ fontSize: '28px', fontWeight: 800 }}>
+                    {phase.number}
+                  </span>
+                </div>
+
+                {/* CONTENT AREA */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ marginBottom: '32px' }}>
+                    <h2
+                      style={{
+                        fontSize: '28px',
+                        fontWeight: 800,
+                        color: COLORS.textBlack,
+                        marginBottom: '12px',
+                        letterSpacing: '-0.02em',
+                      }}>
+                      {phase.title}
+                    </h2>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: COLORS.primary,
+                        fontSize: '14px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                      }}>
+                      <Clock size={16} /> {phase.duration}
                     </div>
                   </div>
 
-                  <div className="flex-1 min-w-0 pt-2 sm:pt-3 lg:pt-4">
-                    <div className="mb-3 sm:mb-4">
-                      <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 hover:text-blue-600 transition-colors duration-300">
-                        {phase.title}
-                      </h2>
-                    </div>
-
-                    {phase.description && (
-                      <p className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed group-hover:text-gray-900 group-hover:font-medium transition-all duration-300">
-                        {phase.description}
-                      </p>
-                    )}
-                  </div>
+                  {/* BENTO-GRID LIST ITEMS */}
+                  <ul
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns:
+                        'repeat(auto-fit, minmax(280px, 1fr))',
+                      gap: '16px',
+                      padding: 0,
+                      listStyle: 'none',
+                    }}>
+                    {phase.items.map((item, i) => (
+                      <li
+                        key={i}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          background: 'rgba(255,255,255,0.6)',
+                          padding: '12px 16px',
+                          borderRadius: '8px',
+                          border: `1px solid ${COLORS.border}`,
+                        }}>
+                        <Check
+                          size={16}
+                          color={COLORS.primary}
+                          strokeWidth={3}
+                        />
+                        <span
+                          style={{
+                            fontSize: '15px',
+                            color: COLORS.textMuted,
+                            fontWeight: 500,
+                          }}>
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -120,53 +305,18 @@ function process() {
       </div>
 
       <style>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fade-in-delayed {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
-        }
-
-        .animate-fade-in-delayed {
-          animation: fade-in-delayed 0.8s ease-out 0.3s backwards;
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-
-        @media (max-width: 640px) {
-          .process-section {
-            animation: fadeIn 0.6s ease-out;
-          }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        
+        @media (max-width: 768px) {
+          .mobile-process-step { padding-bottom: 60px !important; }
+          div[style*="gap: 40px"] { gap: 20px !important; }
+          div[style*="width: 80px"] { width: 60px !important; height: 60px !important; }
+          span[style*="fontSize: 28px"] { fontSize: 20px !important; }
+          div[style*="left: 40px"] { left: 30px !important; }
         }
       `}</style>
-    </div>
+    </section>
   );
 }
 
-export default process;
+export default MobileProcess;
