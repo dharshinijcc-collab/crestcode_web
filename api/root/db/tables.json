@@ -1,0 +1,43 @@
+{
+  "tables": [
+    {
+      "table_name": "users",
+      "columns": [
+        "id SERIAL PRIMARY KEY",
+        "uid VARCHAR",
+        "email TEXT UNIQUE",
+        "password_hash TEXT",
+        "user_name TEXT",
+        "phone TEXT",
+        "is_active INT",
+        "is_email_verified BOOLEAN",
+        "role INT",
+        "created_at TIMESTAMP",
+        "updated_at TIMESTAMP",
+        "last_login TIMESTAMP",
+        "mfa_enabled INT",
+        "mfa_secret TEXT"
+      ]
+    },
+    {
+      "table_name": "admin_users",
+      "columns": [
+        "id SERIAL PRIMARY KEY",
+        "user_name VARCHAR",
+        "email VARCHAR",
+        "password VARCHAR",
+        "is_active INT",
+        "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+        "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+      ]
+    },
+    {
+      "table_name": "site_config",
+      "columns": [
+        "id INT PRIMARY KEY DEFAULT 1",
+        "config_json JSON NOT NULL",
+        "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+      ]
+    }
+  ]
+}

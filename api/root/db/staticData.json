@@ -1,0 +1,1126 @@
+{
+  "admin_users": [
+    {
+      "id": "01",
+      "user_name": "dockly-admin",
+      "email": "karthikrajay.cc@gmail.com",
+      "password": "admin123",
+      "is_active": 1
+    }
+  ],
+  "site_config": [
+    {
+      "id": 1,
+      "config_json": {
+        "siteName": "Dockly",
+        "logo": { "src": "/dockly-logo.png", "alt": "Dockly Logo" },
+        "header": {
+          "menus": [
+            {
+              "key": "howItWorks",
+              "label": "How it Works",
+              "subMenu": [
+                { "key": "hubs", "label": "Hubs", "sectionId": "hubs" },
+                { "key": "b0oards", "label": "Boards", "sectionId": "boards" }
+              ]
+            },
+            { "key": "security", "label": "Security", "sectionId": "security" },
+            { "key": "pricing", "label": "Pricing", "sectionId": "pricing" },
+            { "key": "faqs", "label": "FAQs", "sectionId": "faqs" }
+          ],
+          "buttons": { "waitlist": "Join the Waitlist" }
+        },
+        "hero": {
+          "title": "Organize Your",
+          "cycleWords": [
+            { "word": "Family", "image": "/family.png", "color": "#60A5FA" },
+            { "word": "Finances", "image": "/finance.png", "color": "#34D399" },
+            { "word": "Home", "image": "/home.png", "color": "#FB923C" },
+            { "word": "Health", "image": "/health.png", "color": "#F472B6" },
+            {
+              "word": "Digital Life",
+              "image": "/planner1.png",
+              "color": "#8b5cf6"
+            }
+          ],
+          "subtitle": "Connect and Organize everything that matters - from accounts and files to finances and family planning. Dockly brings it all together in one beautiful, intelligent workspace.",
+          "emailPlaceholder": "Enter your email address",
+          "waitlistButton": "Join the Waitlist",
+          "features": [
+            { "text": "First Month Free", "icon": "Gift", "color": "#f59e0b" },
+            {
+              "text": "Gain Control of Your Digital Life",
+              "icon": "Settings",
+              "color": "#3b82f6"
+            },
+            {
+              "text": "Bank-Level Security",
+              "icon": "Shield",
+              "color": "#06b6d4"
+            }
+          ]
+        },
+        "features": {
+          "title": "Everything You Need. Beautifully Connected",
+          "subtitle": "                     Managing modern life has become overly complex - scattered across apps, accounts, and spreadsheets.\n\nDockly provides digital clarity by connecting and organizing everything that matters - so you can take control of today, and be prepared for whatever comes tomorrow. ",
+          "items": [
+            {
+              "icon": "Link",
+              "title": "Connect Everything",
+              "description": "Link all your accounts and services, bookmarks, files, and important information in one secure place",
+              "gradient": "linear-gradient(135deg, #3b82f6, #8b5cf6)"
+            },
+            {
+              "icon": "Brain",
+              "title": "Smart Organization",
+              "description": "All your stuff, curated automatically in contextual Boards across Family, Finances, Home, and Health",
+              "gradient": "linear-gradient(135deg, #06b6d4, #10b981)"
+            },
+            {
+              "icon": "Users",
+              "title": "Seamless Management",
+              "description": "A central command center with AI-powered insights and support to keep you organized and seamlessly manage everything",
+              "gradient": "linear-gradient(135deg, #10b981, #fbbf24)"
+            }
+          ]
+        },
+        "video": {
+          "title": "See Dockly in Action",
+          "subtitle": "Watch how Dockly transforms your digital organization",
+          "youtubeId": "4NRXx6U8ABQ",
+          "thumbnailText": "Play Demo Video",
+          "thumbnailImage": "/dashboard.jpg"
+        },
+        "hubs": {
+          "title": "Powerful Hubs",
+          "subtitle": "Connect Everything with Centralized Utilities that bring all your essentials together",
+          "items": [
+            {
+              "icon": "BarChart3",
+              "title": "Dashboard",
+              "subtitle": "Your Command Center",
+              "description": "Get a complete snapshot with customizable widgets, quick actions, and intelligent alerts. Your personal command center for daily management.",
+              "features": ["Quick Actions", "Smart Alerts", "Customizable"],
+              "gradient": "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+              "bgGradient": "linear-gradient(135deg, #eff6ff, #f3e8ff)",
+              "textColor": "#2563eb",
+              "image": "/dashboard.png",
+              "images": [
+                "/dashboard.png",
+                "/dashboard-preview-quickAction.png",
+                "/dashboard-preview-notifications.png"
+              ],
+              "large": true
+            },
+            {
+              "icon": "Calendar",
+              "title": "Planner",
+              "subtitle": "Calendar & To-dos",
+              "description": "Unified calendar and to-do system for personal, family, and work life with natural language input.",
+              "features": [
+                { "icon": "CheckCircle", "text": "Multi-calendar sync" },
+                {
+                  "icon": "CheckCircle",
+                  "text": "Smart goal and task creation"
+                }
+              ],
+              "gradient": "linear-gradient(135deg, #10b981, #06b6d4)",
+              "image": "/planner.jpg",
+              "images": [
+                "/planner-preview.png",
+                "/planner-preview-smartInputPlanner.png",
+                "/planner-preview-calendar.png"
+              ],
+              "textColor": "#059669"
+            },
+            {
+              "icon": "StickyNote",
+              "title": "Notes",
+              "subtitle": "Notes & Lists",
+              "description": "Capture thoughts, ideas, interests, and important information with rich formatting and smart organization.",
+              "badges": ["Rich Text", "Tags", "Search"],
+              "gradient": "linear-gradient(135deg, #8b5cf6, #ec4899)",
+              "image": "/notelists.jpg",
+              "images": [
+                "/notes-preview-list.png",
+                "/notes-preview-grid.png",
+                "/notes-preview-catgory.png"
+              ],
+              "textColor": "#7c3aed"
+            },
+            {
+              "icon": "FolderOpen",
+              "title": "Files",
+              "subtitle": "Documents & Storage",
+              "description": "Central repository for all important documents, synced from cloud storage or uploaded directly.",
+              "features": [
+                { "icon": "Cloud", "text": "Cloud sync" },
+                { "icon": "Search", "text": "Smart organization and search" }
+              ],
+              "gradient": "linear-gradient(135deg, #3b82f6, #6366f1)",
+              "images": [
+                "/files-preview-list.png",
+                "/files-preview-draganddrop.png",
+                "/files-preview-docklyFiles.png"
+              ],
+              "image": "/files.jpg",
+              "textColor": "#2563eb"
+            },
+            {
+              "icon": "BookOpen",
+              "title": "Accounts",
+              "subtitle": "Accounts & Assets",
+              "description": "Organize all your accounts, services, assets, bookmarks and favorites with secure storage and access for instant retrieval.",
+              "features": [
+                { "icon": "Bookmark", "text": "Chrome Bookmark Extension" },
+                { "icon": "Lock", "text": "Password storage and access" }
+              ],
+              "gradient": "linear-gradient(135deg, #ef4444, #ec4899)",
+              "image": "/accounts.jpg",
+              "images": [
+                "/accounts-preview-grid.png",
+                "/accounts-preview-list.png",
+                "/accounts-preview-bookmark.png",
+                "/accounts-preview-extension.png"
+              ],
+              "textColor": "#dc2626"
+            }
+          ]
+        },
+        "boards": {
+          "title": "Specialized Boards",
+          "subtitle": "Everything Organized in Domain-specific workspaces tailored for different aspects of your life",
+          "items": [
+            {
+              "icon": "TeamOutlined",
+              "title": "Family",
+              "description": "Shared planning, family calendar, digital legacy, and collaborative tools for the whole family.",
+              "features": [
+                "Family calendar & events",
+                "Shared tasks & chores",
+                "Digital legacy and estate planning",
+                "Organized family member details and documents"
+              ],
+              "gradient": "linear-gradient(135deg, #ec4899, #f43f5e)",
+              "bgGradient": "linear-gradient(135deg, #fdf2f8, #fef7f7)",
+              "borderColor": "#fce7f3",
+              "image": "/family.jpg",
+              "images": [
+                "/familyboard-preview-full.png",
+                "/family-preview-guardians.png",
+                "/family-preview-profile.png"
+              ],
+              "textColor": "#db2777"
+            },
+            {
+              "icon": "HomeOutlined",
+              "title": "Home",
+              "description": "Property and asset management and maintenance and everything related to your home and belongings.",
+              "features": [
+                "Property information",
+                "Home and Auto maintenance",
+                "Insurance & utilities",
+                "Assets & equipment"
+              ],
+              "gradient": "linear-gradient(135deg, #10b981, #059669)",
+              "bgGradient": "linear-gradient(135deg, #ecfdf5, #f0fdf4)",
+              "borderColor": "#d1fae5",
+              "image": "/home.jpg",
+              "images": [
+                "/home-preview-full.png",
+                "/home-utilites.png",
+                "/home-preview-hubs.png"
+              ],
+              "textColor": "#059669"
+            },
+            {
+              "icon": "DollarOutlined",
+              "title": "Finance",
+              "description": "Complete financial dashboard with account consolidation, cash-flow management, and savings goals.",
+              "features": [
+                "Account and Net-worth overview",
+                "Cash flow management",
+                "Savings goals",
+                "Transaction and Subscription tracking across all accounts"
+              ],
+              "gradient": "linear-gradient(135deg, #3b82f6, #6366f1)",
+              "bgGradient": "linear-gradient(135deg, #eff6ff, #eef2ff)",
+              "borderColor": "#dbeafe",
+              "image": "/finance.jpg",
+              "images": [
+                "/finance-preview-full.png",
+                "/finance-preview-transactions.png",
+                "/finance-preview-accounts.png"
+              ],
+              "textColor": "#2563eb"
+            },
+            {
+              "icon": "HeartOutlined",
+              "title": "Health",
+              "description": "Health tracking, medical records, appointments, and wellness goals for you and your family.",
+              "features": [
+                "Health tracking",
+                "Medical records",
+                "Appointment scheduling",
+                "Wellness goals"
+              ],
+              "gradient": "linear-gradient(135deg, #ef4444, #ec4899)",
+              "bgGradient": "linear-gradient(135deg, #fef2f2, #fdf2f8)",
+              "borderColor": "#fecaca",
+              "image": "/health.jpg",
+              "images": [
+                "/health-preview-full.png",
+                "/health-preview-habbit.png",
+                "/health.png"
+              ],
+              "textColor": "#dc2626"
+            }
+          ]
+        },
+        "security": {
+          "title": "Security is our Top Priority",
+          "subtitle": "Rest assured your data is secure with end-to-end encryption and full control of your data",
+          "features": [
+            {
+              "icon": "Lock",
+              "title": "Enterprise Grade Compliance",
+              "description": "Dockly follows strict security requirements including SOC2, HIPAA, and GDPR - keeping your data safe and sound."
+            },
+            {
+              "icon": "ShieldX",
+              "title": "Granular Permissions and Controls",
+              "description": "Flexible to connect your cloud drives and services or store directly with granular permission access.  Your sensitive data stays securely where it belongs while remaining accessible."
+            },
+            {
+              "icon": "Key",
+              "title": "End-to-End Encryption",
+              "description": "Your data is encrypted in transit and at rest for maximum security. We use industry-standard protocols with 256-bit encryption to ensure your information remains private."
+            }
+          ]
+        },
+        "pricing": {
+          "title": "Consolidate. Simplify. Save",
+          "subtitle": "No more juggling multiple apps or relying on messy spreadsheets.",
+          "subtext": "With Dockly -  you'll have one place to connect, organize, and manage your life.  More clarity, less cost, greater peace of mind.  ",
+          "plans": [
+            {
+              "name": "Monthly",
+              "description": "Perfect for trying out Dockly",
+              "price": "$12.99",
+              "period": "USD/month",
+              "features": [
+                "All Hubs & Boards",
+                "Unlimited connections",
+                "Priority support",
+                "Mobile & web access"
+              ],
+              "buttonText": "Join Waitlist",
+              "billingNote": "Billed Monthly - Cancel Anytime",
+              "gradient": "linear-gradient(135deg, #3b82f6, #8b5cf6)"
+            },
+            {
+              "name": "Yearly",
+              "description": "Best value - save 25%",
+              "price": "$8.25",
+              "period": "USD/month",
+              "features": [
+                "All Monthly features",
+                "25% discount",
+                "Early access to new features",
+                "Premium integrations"
+              ],
+              "buttonText": "Join Waitlist",
+              "popular": true,
+              "billingNote": "Billed $99 Yearly",
+              "gradient": "linear-gradient(135deg, #10b981, #06b6d4)"
+            }
+          ],
+          "features": [
+            {
+              "icon": "Link",
+              "title": "Connect, Organize, & Manage Everything",
+              "desc": "Bring together what's scattered across apps, emails, files, bookmarks, and lists into one command center - with planning and productivity tools that simplify and manage the chaos.",
+              "color": "#8b5cf6"
+            },
+            {
+              "icon": "Users",
+              "title": "Family & Legacy",
+              "desc": "Keep family information, responsibilities, and key records in one place - ensuring everything important is accessible and shareable when it's needed most.",
+              "color": "#ec4899"
+            },
+            {
+              "icon": "DollarSign",
+              "title": "Finances",
+              "desc": "Gain a clear view of your financial life by tracking accounts, cash flow, bills, and important documents in one secure place - empowering smarter decisions every day.",
+              "color": "#3b82f6"
+            },
+            {
+              "icon": "Heart",
+              "title": "Health & Wellness",
+              "desc": "Consolidate health information, appointments, insurance, and wellness plans - proactively managing your well-being",
+              "color": "#ef4444"
+            },
+            {
+              "icon": "Home",
+              "title": "Home & Property",
+              "desc": "Track maintenance, insurance, service providers, and more - protecting and growing your most valuable assets.",
+              "color": "#10b981"
+            }
+          ],
+          "taxNote": "",
+          "guaranteeText": "30-day free trial • Cancel anytime • No hidden fees",
+          "saveText": ""
+        },
+        "faqs": {
+          "title": "Frequently Asked Questions",
+          "subtitle": "Everything you need to know about Dockly",
+          "items": [
+            {
+              "question": "What is Dockly and how does it work?",
+              "answer": "Dockly is an all-in-one workspace that brings together everything across your digital life in one beautiful, intelligent interface."
+            },
+            {
+              "question": "Is my data secure and private?",
+              "answer": "Absolutely. We use enterprise-grade encryption, secure cloud infrastructure, and never share your personal data with third parties."
+            },
+            {
+              "question": "Can I try Dockly for free?",
+              "answer": "Yes! We offer waitlist subscribers 1-month free with full access to all features. No credit card required."
+            },
+            {
+              "question": "How does Dockly integrate with my existing tools?",
+              "answer": "Dockly is intended to be a Hub that connects all your essential accounts, services, files, and tools.  Dockly seamlessly connects with popular tools like Google Calendar and Drive, Microsoft Outlook, DropBox, Financial Institutions and Health tracking applications. "
+            },
+            {
+              "question": "What support options are available?",
+              "answer": "We currenlty provide 24/7 email support and will be rolling out community support channels along with live chat during business hours."
+            },
+            {
+              "question": "Can I use Dockly on mobile devices?",
+              "answer": "Yes - Dockly is available through Mobile Web currently, accessible through your favorite browser with iOS and Android apps in the works.  We are proudly a Web First application as we believe your life is best managed on the big screen.  "
+            }
+          ]
+        },
+        "cta": {
+          "title": "Ready to Get Organized?",
+          "subtitle": "Start your journey to a more organized digital life. Connect your accounts, set up your hubs, and customize your boards.",
+          "steps": [
+            {
+              "number": "1",
+              "title": "Connect Your Life",
+              "description": "Link your calendars, accounts, files, and password managers securely"
+            },
+            {
+              "number": "2",
+              "title": "Customize Your Space",
+              "description": "Set up your hubs and boards to match your lifestyle and priorities"
+            },
+            {
+              "number": "3",
+              "title": "Stay Organized",
+              "description": "Enjoy intelligent insights and seamless organization across all your devices"
+            }
+          ],
+          "buttons": { "primary": "Start Free Trial", "secondary": "Book Demo" }
+        },
+        "footer": {
+          "description": "Organize your digital life in one beautiful, intelligent workspace.",
+          "links": { "Product": ["Features", "Pricing", "Security", "FAQs"] },
+          "copyright": "© 2025 Dockly. All rights reserved.",
+          "socialLinks": { "twitter": "#", "facebook": "#", "pinterest": "#" }
+        }
+      },
+      "updated_at": "2025-08-16T12:00:00Z"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "user_name": "Karthikraja200216",
+      "email": "karthikraja200216@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-05 16:14:32.01567",
+      "updated_at": "2025-09-05 16:14:32.01567",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER1a2b3c4d"
+    },
+    {
+      "id": 2,
+      "user_name": "Asfarhuda.3",
+      "email": "asfarhuda.3@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-05 19:44:45.066119",
+      "updated_at": "2025-09-05 19:44:45.066119",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER2b3c4d5e"
+    },
+    {
+      "id": 3,
+      "user_name": "Adambraasch",
+      "email": "adambraasch@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-06 16:42:10.87768",
+      "updated_at": "2025-09-06 16:42:10.87768",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER3c4d5e6f"
+    },
+    {
+      "id": 4,
+      "user_name": "Samarsarwat",
+      "email": "samarsarwat@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-06 16:53:07.726439",
+      "updated_at": "2025-09-06 16:53:07.726439",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER4d5e6f7g"
+    },
+    {
+      "id": 5,
+      "user_name": "Egzinger",
+      "email": "egzinger@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 13:00:02.726924",
+      "updated_at": "2025-09-09 13:00:02.726924",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER5e6f7g8h"
+    },
+    {
+      "id": 6,
+      "user_name": "Nishant_chawla",
+      "email": "nishant_chawla@hotmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 13:41:48.22186",
+      "updated_at": "2025-09-09 13:41:48.22186",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER6f7g8h9i"
+    },
+    {
+      "id": 7,
+      "user_name": "Danielajorge",
+      "email": "danielajorge@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 14:39:37.847297",
+      "updated_at": "2025-09-09 14:39:37.847297",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER7g8h9i0j"
+    },
+    {
+      "id": 8,
+      "user_name": "Abhi13nav.s",
+      "email": "abhi13nav.s@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 15:36:24.502803",
+      "updated_at": "2025-09-09 15:36:24.502803",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER8h9i0j1k"
+    },
+    {
+      "id": 9,
+      "user_name": "Matt.d.sollie",
+      "email": "matt.d.sollie@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 16:23:50.171663",
+      "updated_at": "2025-09-09 16:23:50.171663",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER9i0j1k2l"
+    },
+    {
+      "id": 10,
+      "user_name": "Sangeeta.naik",
+      "email": "sangeeta.naik@hotmail.com",
+      "is_email_verified": null,
+      "is_active": 1,
+      "created_at": "2025-09-09 16:24:05.18146",
+      "updated_at": "2025-09-09 16:24:05.18146",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER10j1k2l3"
+    },
+    {
+      "id": 11,
+      "user_name": "Alterlet",
+      "email": "alterlet@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 16:49:07.701119",
+      "updated_at": "2025-09-09 16:49:07.701119",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER11k2l3m4"
+    },
+    {
+      "id": 12,
+      "user_name": "Saurabh.hoa",
+      "email": "saurabh.hoa@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 16:56:14.089931",
+      "updated_at": "2025-09-09 16:56:14.089931",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER12l3m4n5"
+    },
+    {
+      "id": 13,
+      "user_name": "Joshisunil",
+      "email": "joshisunil@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 17:45:49.66906",
+      "updated_at": "2025-09-09 17:45:49.66906",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER13m4n5o6"
+    },
+    {
+      "id": 14,
+      "user_name": "Mkokkalas29",
+      "email": "mkokkalas29@hotmail.com",
+      "is_email_verified": null,
+      "is_active": 1,
+      "created_at": "2025-09-09 18:23:01.353678",
+      "updated_at": "2025-09-09 18:23:01.353678",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER14n5o6p7"
+    },
+    {
+      "id": 15,
+      "user_name": "Mehnazonline",
+      "email": "mehnazonline@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 18:32:18.813342",
+      "updated_at": "2025-09-09 18:32:18.813342",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER15o6p7q8"
+    },
+    {
+      "id": 16,
+      "user_name": "Sainetworker",
+      "email": "sainetworker@hotmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 20:12:34.889537",
+      "updated_at": "2025-09-09 20:12:34.889537",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER16p7q8r9"
+    },
+    {
+      "id": 17,
+      "user_name": "Arshadmehdi",
+      "email": "arshadmehdi@gmail.com",
+      "is_email_verified": null,
+      "is_active": 1,
+      "created_at": "2025-09-09 20:18:42.608237",
+      "updated_at": "2025-09-09 20:18:42.608237",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER17q8r9s0"
+    },
+    {
+      "id": 18,
+      "user_name": "Pranali21",
+      "email": "pranali21@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 20:33:06.044902",
+      "updated_at": "2025-09-09 20:33:06.044902",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER18r9s0t1"
+    },
+    {
+      "id": 19,
+      "user_name": "Michael.gregson",
+      "email": "michael.gregson@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 20:34:55.927474",
+      "updated_at": "2025-09-09 20:34:55.927474",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER19s0t1u2"
+    },
+    {
+      "id": 20,
+      "user_name": "Sudhakarsvnr",
+      "email": "sudhakarsvnr@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-09 22:37:21.987442",
+      "updated_at": "2025-09-09 22:37:21.987442",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER20t1u2v3"
+    },
+    {
+      "id": 21,
+      "user_name": "Sickes",
+      "email": "sickes@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 00:54:25.21029",
+      "updated_at": "2025-09-10 00:54:25.21029",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER21u2v3w4"
+    },
+    {
+      "id": 22,
+      "user_name": "Lauracranford19",
+      "email": "lauracranford19@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 01:16:41.567173",
+      "updated_at": "2025-09-10 01:16:41.567173",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER22v3w4x5"
+    },
+    {
+      "id": 23,
+      "user_name": "Komallahiri",
+      "email": "komallahiri@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 01:45:00.737262",
+      "updated_at": "2025-09-10 01:45:00.737262",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER23w4x5y6"
+    },
+    {
+      "id": 24,
+      "user_name": "Lisavalles",
+      "email": "lisavalles@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 01:46:14.198408",
+      "updated_at": "2025-09-10 01:46:14.198408",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER24x5y6z7"
+    },
+    {
+      "id": 25,
+      "user_name": "Dckrh6",
+      "email": "dckrh6@gmail.com",
+      "is_email_verified": null,
+      "is_active": 1,
+      "created_at": "2025-09-10 02:05:03.586108",
+      "updated_at": "2025-09-10 02:05:03.586108",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER25y6z7a8"
+    },
+    {
+      "id": 26,
+      "user_name": "Fischer68135",
+      "email": "fischer68135@yahoo.com",
+      "is_email_verified": null,
+      "is_active": 1,
+      "created_at": "2025-09-10 02:12:36.020377",
+      "updated_at": "2025-09-10 02:12:36.020377",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER26z7a8b9"
+    },
+    {
+      "id": 27,
+      "user_name": "Pujahait",
+      "email": "pujahait@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 02:15:50.2576",
+      "updated_at": "2025-09-10 02:15:50.2576",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER27a8b9c0"
+    },
+    {
+      "id": 28,
+      "user_name": "Teenychu",
+      "email": "teenychu@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 03:39:35.804897",
+      "updated_at": "2025-09-10 03:39:35.804897",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER28b9c0d1"
+    },
+    {
+      "id": 29,
+      "user_name": "Visit.simran",
+      "email": "visit.simran@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 03:53:08.764291",
+      "updated_at": "2025-09-10 03:53:08.764291",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER29c0d1e2"
+    },
+    {
+      "id": 30,
+      "user_name": "Mrharishn",
+      "email": "mrharishn@icloud.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 03:59:20.42551",
+      "updated_at": "2025-09-10 03:59:20.42551",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER30d1e2f3"
+    },
+    {
+      "id": 31,
+      "user_name": "Paranoideyes",
+      "email": "paranoideyes@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 04:23:06.924077",
+      "updated_at": "2025-09-10 04:23:06.924077",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER31e2f3g4"
+    },
+    {
+      "id": 32,
+      "user_name": "Nishantgaurav82",
+      "email": "nishantgaurav82@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 04:59:01.913679",
+      "updated_at": "2025-09-10 04:59:01.913679",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER32f3g4h5"
+    },
+    {
+      "id": 33,
+      "user_name": "Joanna.inorowicz",
+      "email": "joanna.inorowicz@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 05:10:43.93477",
+      "updated_at": "2025-09-10 05:10:43.93477",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER33g4h5i6"
+    },
+    {
+      "id": 34,
+      "user_name": "Shikhar.pro",
+      "email": "shikhar.pro@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 05:19:10.566088",
+      "updated_at": "2025-09-10 05:19:10.566088",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER34h5i6j7"
+    },
+    {
+      "id": 35,
+      "user_name": "Juwonlee325",
+      "email": "juwonlee325@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 05:29:29.203212",
+      "updated_at": "2025-09-10 05:29:29.203212",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER35i6j7k8"
+    },
+    {
+      "id": 36,
+      "user_name": "Tbarath",
+      "email": "tbarath@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 06:22:30.801018",
+      "updated_at": "2025-09-10 06:22:30.801018",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER36j7k8l9"
+    },
+    {
+      "id": 37,
+      "user_name": "Susmitakarshan",
+      "email": "susmitakarshan@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 06:41:04.375117",
+      "updated_at": "2025-09-10 06:41:04.375117",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER37k8l9m0"
+    },
+    {
+      "id": 38,
+      "user_name": "Jitmanyu",
+      "email": "jitmanyu@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 09:32:25.147377",
+      "updated_at": "2025-09-10 09:32:25.147377",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER38l9m0n1"
+    },
+    {
+      "id": 39,
+      "user_name": "Svinitha.cc",
+      "email": "svinitha.cc@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 12:00:44.544056",
+      "updated_at": "2025-09-10 12:00:44.544056",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER39m0n1o2"
+    },
+    {
+      "id": 40,
+      "user_name": "Steffen.vulpius",
+      "email": "steffen.vulpius@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 14:07:29.718107",
+      "updated_at": "2025-09-10 14:07:29.718107",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER40n1o2p3"
+    },
+    {
+      "id": 41,
+      "user_name": "Amyhannesson",
+      "email": "amyhannesson@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 17:27:59.282429",
+      "updated_at": "2025-09-10 17:27:59.282429",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER41o2p3q4"
+    },
+    {
+      "id": 42,
+      "user_name": "Vinod.dhanwe",
+      "email": "vinod.dhanwe@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 22:15:46.053951",
+      "updated_at": "2025-09-10 22:15:46.053951",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid:": "USER42p3q4r5"
+    },
+    {
+      "id": 43,
+      "user_name": "Nath.aritra",
+      "email": "nath.aritra@gmail.com",
+      "is_email_verified": true,
+      "is_active": 1,
+      "created_at": "2025-09-10 23:50:05.589404",
+      "updated_at": "2025-09-10 23:50:05.589404",
+      "password_hash": null,
+      "phone": null,
+      "role": 0,
+      "last_login": null,
+      "mfa_enabled": 0,
+      "mfa_secret": null,
+      "uid": "USER43q4r5s6"
+    }
+  ]
+}
