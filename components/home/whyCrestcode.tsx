@@ -1,5 +1,6 @@
+'use client';
 import React from 'react';
-import { Row, Col, Typography, Rate } from 'antd';
+import { Row, Col, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import {
   Eye,
@@ -8,10 +9,21 @@ import {
   Target,
   UserPlus,
   ShieldAlert,
-  RefreshCw,
 } from 'lucide-react';
+import { useAdmin } from '../admin/context';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
+
+const ICON_MAP = {
+  Eye: <Eye size={28} />,
+  Users: <Users size={28} />,
+  DollarSign: <DollarSign size={28} />,
+  Target: <Target size={28} />,
+  UserPlus: <UserPlus size={28} />,
+  ShieldAlert: <ShieldAlert size={28} />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
 
 // --- INDUSTRIAL DARK THEME TOKENS ---
 const COLORS = {
@@ -25,45 +37,16 @@ const COLORS = {
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
-const features = [
-  {
-    title: 'Full transparency',
-    icon: <Eye size={28} />,
-    desc: 'The whole process is as transparent as possible. We immediately establish a roadmap, clear KPIs and conditions for their implementation, type of reporting, daily events, sync-ups, and product testing conditions.',
-  },
-  {
-    title: 'Client involvement',
-    icon: <Users size={28} />,
-    desc: "We determine the degree of Client involvement. We can work on a turnkey basis, or we may work with the direct participation of the Client's management - our processes are adapted easily.",
-  },
-  {
-    title: 'Reasonable costs',
-    icon: <DollarSign size={28} />,
-    desc: 'We offer fair prices for both parties: you get a well-tested application with easily maintainable code, and we get enough resources to grow as professionals.',
-  },
-  {
-    title: 'Scoping',
-    icon: <Target size={28} />,
-    desc: 'At Crestcode, accurate scoping ensures a thorough understanding of your business needs and project requirements. We define goals, prioritize features, and establish a clear development roadmap.',
-  },
-  {
-    title: 'Resource planning',
-    icon: <UserPlus size={28} />,
-    desc: "The project's success heavily relies on the people. Over the past years, we elaborated techniques to select the most suitable candidates for every role. We ensure that the candidate is a perfect fit.",
-  },
-  {
-    title: 'Risk management',
-    icon: <ShieldAlert size={28} />,
-    desc: 'Honesty about project risks, proactiveness, and a risk mitigation plan - this is our approach. We continuously evaluate operational, technology, business, and external risk factors.',
-  },
-  //   {
-  //     title: 'Change management',
-  //     icon: <RefreshCw size={28} />,
-  //     desc: "Requirements change is inevitable. Our well-established change management process ensures the project's success without compromising quality or timelines through structured impact assessment.",
-  //   },
-];
+function WhyCrestcode(){
+  console.log("WhyCrestcode component is rendering!");
+  const { config } = useAdmin();
+  console.log("Full config:", config);
+  console.log("Config home section:", config?.home);
+  const WHY_CRESTCODE_DATA = config?.home?.WHY_CRESTCODE_DATA;
+  console.log("WHY_CRESTCODE_DATA",WHY_CRESTCODE_DATA)
 
-const WhyCrestcode = () => {
+  if (!WHY_CRESTCODE_DATA) return null;
+
   return (
     <section
       style={{
@@ -83,14 +66,16 @@ const WhyCrestcode = () => {
               fontSize: 'clamp(2rem, 4vw, 3rem)',
               letterSpacing: '-0.02em',
             }}>
-            Why companies work with{' '}
-            <span style={{ color: COLORS.primaryBlue }}>Crestcode</span>
+            {WHY_CRESTCODE_DATA.header.mainText}{' '}
+            <span style={{ color: COLORS.primaryBlue }}>
+              {WHY_CRESTCODE_DATA.header.brandName}
+            </span>
           </Title>
         </div>
 
         {/* GRID LAYOUT */}
         <Row gutter={[64, 80]}>
-          {features.map((item, index) => (
+          {WHY_CRESTCODE_DATA.features.map((item: any, index: number) => (
             <Col xs={24} md={12} key={index}>
               <motion.div
                 initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
@@ -100,7 +85,7 @@ const WhyCrestcode = () => {
                 <div style={{ display: 'flex', gap: '24px' }}>
                   {/* ICON */}
                   <div style={{ color: COLORS.primaryBlue, flexShrink: 0 }}>
-                    {item.icon}
+                    {ICON_MAP[item.iconName as IconName]}
                   </div>
 
                   {/* CONTENT */}
@@ -129,45 +114,6 @@ const WhyCrestcode = () => {
               </motion.div>
             </Col>
           ))}
-
-          {/* CLUTCH RATING CARD */}
-          {/* <Col xs={24} md={12}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              style={{
-                background: COLORS.cardBg,
-                border: `1px solid ${COLORS.cardBorder}`,
-                padding: '40px',
-                borderRadius: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-              }}>
-              <Title
-                level={3}
-                style={{ color: COLORS.textWhite, margin: 0, fontWeight: 800 }}>
-                Clutch
-              </Title>
-              <div
-                style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Rate
-                  disabled
-                  defaultValue={5}
-                  style={{ color: '#FF4D4F', fontSize: '18px' }}
-                />
-                <Text
-                  style={{
-                    color: COLORS.textWhite,
-                    fontSize: '18px',
-                    fontWeight: 700,
-                  }}>
-                  4.9
-                </Text>
-              </div>
-            </motion.div>
-          </Col> */}
         </Row>
       </div>
 

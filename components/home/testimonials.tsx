@@ -3,22 +3,29 @@
 import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
+import { useAdmin } from '../admin/context';
 
 const { Text, Paragraph } = Typography;
 
-// --- UNIFIED INDUSTRIAL DESIGN TOKENS ---
-const COLORS = {
-  bgBase: '#F3F5F9', // Standard Industrial Slate-Blue
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
-  primary: '#4F46E5', // Industrial Indigo
-  border: '#E2E8F0', // Crisp Edge
-  white: '#FFFFFF',
-};
+function LeadershipInsight() {
+  const { config } = useAdmin();
+  const LEADERSHIP_DATA = config?.home?.LEADERSHIP_DATA;
+  console.log("LEADERSHIP_DATA",LEADERSHIP_DATA)
 
-const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+  if (!LEADERSHIP_DATA) return null;
 
-const LeadershipInsight = () => {
+  // --- UNIFIED INDUSTRIAL DESIGN TOKENS ---
+  const COLORS = {
+    bgBase: '#F3F5F9', // Standard Industrial Slate-Blue
+    textBlack: '#020617', // Ink Black
+    textMuted: '#64748B', // Architectural Slate
+    primary: '#4F46E5', // Industrial Indigo
+    border: '#E2E8F0', // Crisp Edge
+    white: '#FFFFFF',
+  };
+
+  const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
   return (
     <section
       style={{
@@ -74,8 +81,8 @@ const LeadershipInsight = () => {
                   border: `4px solid ${COLORS.white}`,
                 }}>
                 <img
-                  src="/asfar.jpg"
-                  alt="Asfarul Huda"
+                  src={LEADERSHIP_DATA.author.image}
+                  alt={LEADERSHIP_DATA.author.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
@@ -89,7 +96,7 @@ const LeadershipInsight = () => {
                     display: 'block',
                     letterSpacing: '-0.02em',
                   }}>
-                  Asfarul Huda
+                  {LEADERSHIP_DATA.author.name}
                 </Text>
               </div>
               <Text
@@ -100,7 +107,7 @@ const LeadershipInsight = () => {
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
                 }}>
-                CEO & Founder
+                {LEADERSHIP_DATA.author.role}
               </Text>
             </div>
           </Col>
@@ -136,14 +143,13 @@ const LeadershipInsight = () => {
                   letterSpacing: '-0.01em',
                   fontStyle: 'normal',
                 }}>
-                We don’t just build software - we empower businesses to{' '}
-                <span style={{ color: COLORS.primary }}>thrive</span> in a
-                digital-first world. By blending cutting-edge technology with{' '}
+                {LEADERSHIP_DATA.quote.part1}
+                <span style={{ color: COLORS.primary }}>{LEADERSHIP_DATA.quote.highlight}</span>
+                {LEADERSHIP_DATA.quote.part2}
                 <span style={{ fontWeight: 800 }}>
-                  transparent collaboration
+                  {LEADERSHIP_DATA.quote.boldSegment}
                 </span>
-                , we create high-performance solutions that drive real-world
-                results.
+                {LEADERSHIP_DATA.quote.part3}
               </Paragraph>
 
               {/* Engineering Detail Line */}
@@ -166,6 +172,6 @@ const LeadershipInsight = () => {
       `}</style>
     </section>
   );
-};
+}
 
 export default LeadershipInsight;

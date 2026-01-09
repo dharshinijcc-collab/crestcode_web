@@ -3,26 +3,52 @@
 import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
+import { useAdmin } from '../admin/context';
 
 const { Text, Paragraph } = Typography;
 
+// --- TYPE DEFINITIONS ---
+interface TestimonialAuthor {
+  name: string;
+  role: string;
+  image: string;
+}
+
+interface TestimonialQuote {
+  prefix: string;
+  accent: string;
+  middle: string;
+  bold: string;
+  suffix: string;
+}
+
+interface TestimonialData {
+  author: TestimonialAuthor;
+  quote: TestimonialQuote;
+}
+
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // Standard Industrial Slate-Blue
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
-  primary: '#4F46E5', // Industrial Indigo
-  border: '#E2E8F0', // Crisp Edge
+  bgBase: '#F3F5F9',
+  textBlack: '#020617',
+  textMuted: '#64748B',
+  primary: '#4F46E5',
+  border: '#E2E8F0',
   white: '#FFFFFF',
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const LeadershipTestimonial = () => {
+  const { config } = useAdmin();
+  const TESTIMONIAL_DATA = config?.mobile?.TESTIMONIAL_DATA as TestimonialData;
+  console.log(TESTIMONIAL_DATA)
+
+  if (!TESTIMONIAL_DATA || typeof TESTIMONIAL_DATA !== 'object' || !('author' in TESTIMONIAL_DATA)) return null;
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: '100px 24px',
         backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
@@ -30,6 +56,7 @@ const LeadershipTestimonial = () => {
         justifyContent: 'center',
         fontFamily: FONT_PRIMARY,
       }}>
+      
       {/* 1. ARCHITECTURAL BACKGROUND GRID */}
       <div
         style={{
@@ -60,36 +87,37 @@ const LeadershipTestimonial = () => {
           boxShadow: '0 20px 50px -15px rgba(0,0,0,0.04)',
         }}>
         <Row gutter={[48, 40]} align="middle">
+          
           {/* Author Section (Left) */}
           <Col xs={24} md={8} lg={7}>
             <div style={{ textAlign: 'center' }}>
               <div
                 style={{
-                  width: '140px',
-                  height: '140px',
+                  width: '160px',
+                  height: '160px',
                   margin: '0 auto 28px auto',
-                  borderRadius: '16px',
+                  borderRadius: '24px',
                   overflow: 'hidden',
                   boxShadow: `0 12px 30px -10px rgba(79, 70, 229, 0.2)`,
                   border: `4px solid ${COLORS.white}`,
                 }}>
                 <img
-                  src="/asfar.jpg"
-                  alt="Asfarul Huda"
+                  src={TESTIMONIAL_DATA.author.image}
+                  alt={TESTIMONIAL_DATA.author.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
               <div style={{ marginBottom: '4px' }}>
                 <Text
                   style={{
-                    fontSize: '22px',
+                    fontSize: '24px',
                     fontWeight: 800,
                     color: COLORS.textBlack,
                     fontFamily: FONT_PRIMARY,
                     display: 'block',
                     letterSpacing: '-0.02em',
                   }}>
-                  Asfarul Huda
+                  {TESTIMONIAL_DATA.author.name}
                 </Text>
               </div>
               <Text
@@ -100,7 +128,7 @@ const LeadershipTestimonial = () => {
                   textTransform: 'uppercase',
                   letterSpacing: '0.12em',
                 }}>
-                CEO & Founder
+                {TESTIMONIAL_DATA.author.role}
               </Text>
             </div>
           </Col>
@@ -111,14 +139,14 @@ const LeadershipTestimonial = () => {
               {/* Refined Quote Mark */}
               <div
                 style={{
-                  fontSize: '90px',
+                  fontSize: '120px',
                   color: COLORS.primary,
                   lineHeight: 1,
                   fontFamily: 'serif',
                   opacity: 0.1,
                   position: 'absolute',
-                  top: '-40px',
-                  left: '-15px',
+                  top: '-60px',
+                  left: '-25px',
                   userSelect: 'none',
                   fontWeight: 900,
                 }}>
@@ -134,18 +162,14 @@ const LeadershipTestimonial = () => {
                   fontFamily: FONT_PRIMARY,
                   margin: 0,
                   letterSpacing: '-0.015em',
-                  fontStyle: 'normal',
                 }}>
-                A well-structured development process is the foundation of
-                successful software projects. By combining{' '}
-                <span style={{ color: COLORS.primary }}>clear planning</span>,
-                an agile approach, and continuous early feedback, we ensure
-                every product aligns with business goals. Our methodology
-                minimizes risks and delivers{' '}
+                {TESTIMONIAL_DATA.quote.prefix}{' '}
+                <span style={{ color: COLORS.primary }}>{TESTIMONIAL_DATA.quote.accent}</span>
+                {TESTIMONIAL_DATA.quote.middle}{' '}
                 <span style={{ fontWeight: 800 }}>
-                  high-quality applications
+                  {TESTIMONIAL_DATA.quote.bold}
                 </span>{' '}
-                on time and within budget.
+                {TESTIMONIAL_DATA.quote.suffix}
               </Paragraph>
 
               {/* Architectural Detail Line */}

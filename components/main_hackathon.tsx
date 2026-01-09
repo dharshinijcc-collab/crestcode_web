@@ -1,0 +1,184 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { 
+  GraduationCap, 
+  LayoutGrid, 
+  Award, 
+  Code2, 
+  Rocket, 
+  Users2, 
+  Calendar,
+  Zap,
+  ArrowRight
+} from "lucide-react";
+import { useAdmin } from './admin/context';
+
+// --- ICON MAPPING ---
+const iconMap = {
+  GraduationCap: GraduationCap,
+  LayoutGrid: LayoutGrid,
+  Award: Award,
+  Code2: Code2,
+  Rocket: Rocket,
+  Users2: Users2,
+  Calendar: Calendar,
+  Zap: Zap,
+  ArrowRight: ArrowRight
+};
+
+// Icon mapping function
+const getIcon = (iconName: string, size: number = 24) => {
+  const IconComponent = iconMap[iconName as keyof typeof iconMap];
+  return IconComponent ? <IconComponent size={size} /> : null;
+};
+
+// --- INDUSTRIAL DESIGN TOKENS ---
+const COLORS = {
+  heroBg: 'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+export default function HackathonPage() {
+  const { config } = useAdmin();
+  const HACKATHON_CONTENT = config?.main_hackathon?.CONTENT;
+  
+  if (!HACKATHON_CONTENT) return null;
+  return (
+    <div style={{ backgroundColor: COLORS.bgBase, fontFamily: FONT_PRIMARY, minHeight: '100vh' }}>
+      
+      {/* 1. HERO SECTION */}
+      <section style={{ 
+        padding: '100px 24px 60px', 
+        background: COLORS.heroBg, 
+        position: 'relative', 
+        overflow: 'hidden', 
+        textAlign: 'center' 
+      }}>
+        <div style={{ 
+          position: 'absolute', 
+          inset: 0, 
+          opacity: 0.4, 
+          backgroundImage: `linear-gradient(${COLORS.textMuted}11 1px, transparent 1px), linear-gradient(90deg, ${COLORS.textMuted}11 1px, transparent 1px)`, 
+          backgroundSize: '40px 40px' 
+        }} />
+        
+        <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+             <span style={{ 
+                background: COLORS.white, padding: '6px 14px', borderRadius: '100px', fontSize: '12px', 
+                fontWeight: 700, color: COLORS.primary, border: `1px solid ${COLORS.border}`, textTransform: 'uppercase', letterSpacing: '0.05em'
+             }}>
+                {HACKATHON_CONTENT.hero.badge}
+             </span>
+          </motion.div>
+          
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={{ 
+            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 800, color: COLORS.textBlack, letterSpacing: '-0.05em', margin: '24px 0' 
+          }}>
+            {HACKATHON_CONTENT.hero.title.split(HACKATHON_CONTENT.hero.titleAccent)[0]}
+            <span style={{ color: COLORS.primary }}>{HACKATHON_CONTENT.hero.titleAccent}</span>
+          </motion.h1>
+          
+          <p style={{ fontSize: '18px', color: COLORS.textMuted, fontWeight: 500, lineHeight: 1.5, marginBottom: '32px' }}>
+            {HACKATHON_CONTENT.hero.description}
+          </p>
+          
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <button style={{ background: COLORS.textBlack, color: COLORS.white, padding: '14px 28px', borderRadius: '8px', fontWeight: 700, border: 'none', cursor: 'pointer' }}>
+                <Link href={HACKATHON_CONTENT.hero.resultsBtn.link}>{HACKATHON_CONTENT.hero.resultsBtn.text}</Link>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 80px' }}>
+        
+        {/* 2. UPCOMING EVENT BANNER */}
+        <motion.section 
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          style={{ 
+            background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(20px)', border: `1px solid ${COLORS.white}`, 
+            borderRadius: '24px', padding: '40px', marginTop: '-40px', position: 'relative', zIndex: 20, 
+            boxShadow: '0 20px 40px -15px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '60px'
+          }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: COLORS.primary, marginBottom: '16px' }}>
+            <Calendar size={18} />
+            <span style={{ fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              {HACKATHON_CONTENT.upcomingEvent.badge}
+            </span>
+          </div>
+          <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '12px' }}>{HACKATHON_CONTENT.upcomingEvent.title}</h2>
+          <p style={{ color: COLORS.textMuted, maxWidth: '600px', margin: '0 auto', fontWeight: 500 }}>
+            {HACKATHON_CONTENT.upcomingEvent.description}
+          </p>
+        </motion.section>
+
+        {/* 3. FEATURES GRID */}
+        <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '60px' }}>
+          {HACKATHON_CONTENT.features.map((item, i) => (
+            <div key={i} style={{ background: COLORS.white, padding: '24px', borderRadius: '16px', border: `1px solid ${COLORS.border}`, display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div style={{ color: COLORS.primary, background: `${COLORS.primary}10`, padding: '10px', borderRadius: '10px' }}>{getIcon(item.icon, 20)}</div>
+              <div>
+                <h3 style={{ fontSize: '16px', fontWeight: 800, margin: 0 }}>{item.title}</h3>
+                <p style={{ fontSize: '13px', color: COLORS.textMuted, margin: 0 }}>{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        {/* 4. PROGRAM ARCHITECTURE */}
+        <section style={{ marginBottom: '60px' }}>
+          <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '24px', textAlign: 'center' }}>
+            {HACKATHON_CONTENT.architecture.title}
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
+            {HACKATHON_CONTENT.architecture.cards.map((box, i) => (
+              <motion.div key={i} whileHover={{ y: -5 }} style={{ background: COLORS.white, padding: '24px', borderRadius: '16px', border: `1px solid ${COLORS.border}`, display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                <div style={{ color: COLORS.primary, flexShrink: 0 }}>{getIcon(box.icon, 20)}</div>
+                <div>
+                  <h4 style={{ margin: '0 0 8px', fontWeight: 800, fontSize: '16px' }}>{box.title}</h4>
+                  <p style={{ margin: 0, fontSize: '14px', color: COLORS.textMuted, lineHeight: 1.5 }}>{box.text}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* 5. UPDATE SECTION */}
+        <motion.section 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ 
+            background: COLORS.bgBase, borderRadius: '24px', padding: '5px', textAlign: 'center',
+            boxShadow: '0 20px 40px -15px rgba(0,0,0,0.05)'
+          }}>
+          <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <img 
+              src={HACKATHON_CONTENT.updateSection.imageSrc}
+              style={{ width: '100%', height: 'auto', borderRadius: '16px' }} 
+              alt={HACKATHON_CONTENT.updateSection.imageAlt}
+            />
+          </div>
+        </motion.section>
+
+      </main>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+      `}</style>
+    </div>
+  );
+}

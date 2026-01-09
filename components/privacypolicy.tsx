@@ -1,304 +1,253 @@
 'use client';
 
+import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { typography, spacing } from "@/lib/typography";
+import { motion } from "framer-motion";
 import { 
-  Shield, 
+  ShieldCheck, 
   Database, 
   Lock, 
   Users, 
-  Clock, 
+  CheckCircle2,
   Baby, 
   FileText, 
-  Mail,
-  ChevronRight,
+  Mail, 
+  ChevronRight, 
+  Eye, 
+  Server, 
+  UserCheck, 
+  AlertCircle,
   User,
-  Eye,
-  Server,
-  UserCheck,
-  AlertCircle
+  Clock
 } from "lucide-react";
+import { useAdmin } from './admin/context';
 
-export default function privacypolicy() {
-  const currentYear = new Date().getFullYear();
+// --- ICON MAPPING ---
+const iconMap = {
+  ShieldCheck: ShieldCheck,
+  Database: Database,
+  Lock: Lock,
+  Users: Users,
+  CheckCircle2: CheckCircle2,
+  Baby: Baby,
+  FileText: FileText,
+  Mail: Mail,
+  ChevronRight: ChevronRight,
+  Eye: Eye,
+  Server: Server,
+  UserCheck: UserCheck,
+  AlertCircle: AlertCircle,
+  User: User,
+  Clock: Clock
+};
+
+// Icon mapping function
+const getIcon = (iconName: string, size: number = 24) => {
+  const IconComponent = iconMap[iconName as keyof typeof iconMap];
+  return IconComponent ? <IconComponent size={size} /> : null;
+};
+
+// --- DYNAMIC DATA SOURCE ---
+const COLORS = {
+  heroBg: 'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+export default function PrivacyPolicy() {
+  const { config } = useAdmin();
+  const PRIVACY_DATA = config?.privacypolicy?.PRIVACY_DATA;
+  
+  if (!PRIVACY_DATA) return null;
+  
+  const { hero, philosophy, sections, securityVault, transparency, governance, gridCards, contact, cta } = PRIVACY_DATA;
 
   return (
-    <div className="min-h-screen bg-white font-['Inter']">
-      {/* Hero Section */}
-      <section className="bg-[#9BB4C2] py-12 md:py-16">
-        <div className={spacing.containerSmall + " text-center"}>
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-[#111827] rounded-full flex items-center justify-center">
-              <Shield className="w-8 h-8 text-white" />
-            </div>
-          </div>
-          <h1 className={typography.h1 + " mb-4"}>CrestCode Privacy Policy</h1>
-          <p className={typography.pLarge + " mb-6"}>
-            Last updated: Sep 18, 2025
+    <div style={{ backgroundColor: COLORS.bgBase, fontFamily: FONT_PRIMARY, minHeight: '100vh' }}>
+      
+      {/* 1. HERO SECTION */}
+      <section style={{ padding: '120px 24px 80px', background: COLORS.heroBg, position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+          <div style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: `linear-gradient(${COLORS.textMuted}11 1px, transparent 1px), linear-gradient(90deg, ${COLORS.textMuted}11 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(circle at center, black, transparent 90%)',
+          }} />
+        </div>
+        
+        <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+             <span style={{ background: COLORS.white, padding: '6px 14px', borderRadius: '100px', fontSize: '12px', fontWeight: 700, color: COLORS.primary, border: `1px solid ${COLORS.border}`, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                {PRIVACY_DATA.hero.badge}
+             </span>
+          </motion.div>
+          
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, color: COLORS.textBlack, letterSpacing: '-0.05em', margin: '24px 0', lineHeight: 1.1 }}>
+            {PRIVACY_DATA.hero.title}<span style={{ color: COLORS.primary }}>{PRIVACY_DATA.hero.titleAccent}</span>
+          </motion.h1>
+          
+          <p style={{ fontSize: '18px', color: COLORS.textMuted, fontWeight: 500, lineHeight: 1.6 }}>
+            Last updated: {PRIVACY_DATA.hero.lastUpdated}. <br/>
+            {PRIVACY_DATA.hero.description}
           </p>
-          <p className={typography.p + " max-w-3xl mx-auto"}>
-            CrestCode values your trust and is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use CrestCode's services.
-          </p>
         </div>
       </section>
 
-      {/* Content Sections */}
-      <section className="py-12 md:py-16">
-        <div className={spacing.container}>
-          <div className="max-w-4xl mx-auto space-y-12">
-            
-            {/* 1. Information We Collect */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Database className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>1. Information We Collect</h2>
-              </div>
-              <p className={typography.p + " mb-6"}>
-                CrestCode is designed to help you organize your digital life while keeping your data private and secure. We may collect:
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <User className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Account Information:</h3>
-                    <p className={typography.p}>Name, email address, and login credentials when you sign up.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Eye className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Usage Information:</h3>
-                    <p className={typography.p}>How you interact with CrestCode (features used, time spent).</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FileText className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Optional Data You Add:</h3>
-                    <p className={typography.p}>Notes, reminders, bookmarks, files, or other content you choose to store in CrestCode.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-800 font-medium">
-                  <strong>We do not sell your personal information or data.</strong>
-                </p>
-              </div>
-            </div>
-
-            {/* 2. How We Use Your Information */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>2. How We Use Your Information</h2>
-              </div>
-              <p className={typography.p + " mb-6"}>
-                We use your information to:
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Deliver and maintain our services to you</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Process transactions and send related information</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Send technical notices, updates, security alerts, and support messages</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Respond to your comments, questions, and requests</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* 3. Data Storage & Security */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Lock className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>3. Data Storage & Security</h2>
-              </div>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <Server className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>All data is encrypted in transit (TLS) and at rest.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Lock className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Sensitive information (e.g., passwords in the Vault) is stored using industry-standard encryption and never shared with CrestCode staff.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>We regularly review our security practices to protect against unauthorized access.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* 4. Sharing of Information */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <UserCheck className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>4. Sharing of Information</h2>
-              </div>
-              <p className={typography.p + " mb-6"}>
-                We do not sell or rent your personal information. We may share your information only in these limited circumstances:
-              </p>
-              <div className="space-y-4">
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <h3 className="font-semibold text-blue-900 mb-2">With your consent</h3>
-                  <p className={typography.p + " text-blue-800"}>(e.g., integrations with third-party apps).</p>
-                </div>
-                <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                  <h3 className="font-semibold text-orange-900 mb-2">For legal reasons</h3>
-                  <p className={typography.p + " text-orange-800"}>(if required by law, regulation, or valid legal process).</p>
-                </div>
-                <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                  <h3 className="font-semibold text-purple-900 mb-2">Service providers</h3>
-                  <p className={typography.p + " text-purple-800"}>that help us operate CrestCode (e.g., cloud hosting providers), under strict confidentiality and security obligations.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 5. Your Rights */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <UserCheck className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>5. Your Rights</h2>
-              </div>
-              <p className={typography.p + " mb-6"}>
-                Depending on where you live, you may have the right to:
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Know and control the personal data we collect</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Access and receive a copy of your personal data</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Request correction or deletion of your personal data</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <ChevronRight className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className={typography.p}>Object to or restrict processing of your personal data</span>
-                </li>
-              </ul>
-              <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                <p className={typography.p}>
-                  To exercise these rights, contact us at <a href="mailto:contact@cctps.com" className="text-blue-600 hover:text-blue-700 font-medium">contact@cctps.com</a>.
-                </p>
-              </div>
-            </div>
-
-            {/* 6. Data Retention */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>6. Data Retention</h2>
-              </div>
-              <p className={typography.p}>
-                We retain your information only as long as necessary to provide the Service, comply with legal obligations, and resolve disputes. You can request deletion of your account and data at any time.
-              </p>
-            </div>
-
-            {/* 7. Children's Privacy */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Baby className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>7. Children's Privacy</h2>
-              </div>
-              <p className={typography.p}>
-                CrestCode is not intended for children under 13 (or the minimum age in your country). We do not knowingly collect data from children without parental consent.
-              </p>
-            </div>
-
-            {/* 8. Changes to This Policy */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>8. Changes to This Policy</h2>
-              </div>
-              <p className={typography.p}>
-                We may update this Privacy Policy from time to time. If changes are material, we will notify you by email or within the app before they take effect.
-              </p>
-            </div>
-
-            {/* 9. Contact Us */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
-                <h2 className={typography.h2}>9. Contact Us</h2>
-              </div>
-              <p className={typography.p + " mb-6"}>
-                If you have questions or concerns about this Privacy Policy, please contact us at:
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                    <Users className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">CrestCode Support Team</h3>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">Email:</h3>
-                    <a href="mailto:contact@cctps.com" className="text-blue-600 hover:text-blue-700">contact@cctps.com</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+      <main style={{ maxWidth: '1000px', margin: '-40px auto 100px', padding: '0 24px', position: 'relative', zIndex: 20 }}>
+        
+        {/* 2. CORE PHILOSOPHY CARD */}
+        <div style={{ background: COLORS.white, padding: '40px', borderRadius: '24px', border: `1px solid ${COLORS.border}`, boxShadow: '0 20px 40px -15px rgba(0,0,0,0.05)', marginBottom: '48px', display: 'flex', gap: '24px', alignItems: 'center' }}>
+          <div style={{ background: `${COLORS.primary}10`, padding: '16px', borderRadius: '16px', color: COLORS.primary }}>
+            {PRIVACY_DATA.philosophy.icon}
+          </div>
+          <div>
+            <h2 style={{ fontSize: '20px', fontWeight: 800, color: COLORS.textBlack, marginBottom: '8px' }}>{PRIVACY_DATA.philosophy.title}</h2>
+            <p style={{ color: COLORS.textMuted, fontWeight: 500, margin: 0, lineHeight: 1.6 }}>{PRIVACY_DATA.philosophy.description}</p>
           </div>
         </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="bg-[#9BB4C2] py-8 md:py-10">
-        <div className={spacing.container}>
-          <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center">
-            <h2 className={typography.h2 + " mb-4"}>
-              Have Questions About Your Privacy?
-            </h2>
-            <p className={typography.p + " mb-6 max-w-2xl mx-auto"}>
-              We're here to help. If you have any concerns about your data or privacy practices, don't hesitate to reach out.
-            </p>
-            <Button size="lg">
-              <Link href="/Getintouch">Contact Us</Link>
-            </Button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          
+          {/* Section 1: Information Acquisition */}
+          <section style={{ background: COLORS.white, padding: '40px', borderRadius: '24px', border: `1px solid ${COLORS.border}` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ background: `${COLORS.primary}10`, padding: '8px', borderRadius: '8px', color: COLORS.primary }}>
+                {PRIVACY_DATA.sections[0].icon}
+              </div>
+              <h3 style={{ fontSize: '22px', fontWeight: 800, color: COLORS.textBlack, margin: 0 }}>{PRIVACY_DATA.sections[0].title}</h3>
+            </div>
+            <p style={{ color: COLORS.textMuted, fontWeight: 500, marginBottom: '24px' }}>{PRIVACY_DATA.sections[0].intro}</p>
+            <div style={{ display: 'grid', gap: '20px' }}>
+              {PRIVACY_DATA.sections[0].items?.map((item, idx) => (
+                <div key={idx} style={{ display: 'flex', gap: '16px', padding: '20px', background: COLORS.bgBase, borderRadius: '16px' }}>
+                  <div style={{ color: COLORS.primary }}>{item.icon}</div>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '15px' }}>{item.label}</div>
+                    <p style={{ fontSize: '14px', color: COLORS.textMuted, margin: 0 }}>{item.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Section 2: Operational Utilization */}
+          <section style={{ background: COLORS.white, padding: '40px', borderRadius: '24px', border: `1px solid ${COLORS.border}` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ background: `${COLORS.primary}10`, padding: '8px', borderRadius: '8px', color: COLORS.primary }}>
+                {PRIVACY_DATA.sections[1].icon}
+              </div>
+              <h3 style={{ fontSize: '22px', fontWeight: 800, color: COLORS.textBlack, margin: 0 }}>{PRIVACY_DATA.sections[1].title}</h3>
+            </div>
+            <ul style={{ padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
+              {PRIVACY_DATA.sections[1].bullets?.map((text, i) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', fontWeight: 600, color: COLORS.textMuted }}>
+                  <ChevronRight size={16} color={COLORS.primary} /> {text}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Section 3: Security Infrastructure */}
+          <section style={{ background: COLORS.textBlack, padding: '48px', borderRadius: '32px', color: COLORS.white, boxShadow: '0 30px 60px -20px rgba(79,70,229,0.3)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
+              <div style={{ color: COLORS.primary }}>{PRIVACY_DATA.securityVault.icon}</div>
+              <h3 style={{ fontSize: '24px', fontWeight: 800, margin: 0 }}>{PRIVACY_DATA.securityVault.title}</h3>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '32px' }}>
+              {PRIVACY_DATA.securityVault.features.map((feat, i) => (
+                <div key={i}>
+                  <div style={{ color: COLORS.primary, marginBottom: '12px' }}>{feat.icon}</div>
+                  <div style={{ fontWeight: 800, marginBottom: '8px' }}>{feat.title}</div>
+                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>{feat.text}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Section 4: Information Transparency */}
+          <section style={{ background: COLORS.white, padding: '40px', borderRadius: '24px', border: `1px solid ${COLORS.border}` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ background: `${COLORS.primary}10`, padding: '8px', borderRadius: '8px', color: COLORS.primary }}>
+                {PRIVACY_DATA.transparency.icon}
+              </div>
+              <h3 style={{ fontSize: '22px', fontWeight: 800, color: COLORS.textBlack, margin: 0 }}>{PRIVACY_DATA.transparency.title}</h3>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+              {PRIVACY_DATA.transparency.blocks.map((block, i) => (
+                <div key={i} style={{ padding: '20px', borderLeft: `4px solid ${COLORS.primary}`, background: COLORS.bgBase }}>
+                  <div style={{ fontWeight: 800, fontSize: '14px' }}>{block.label}</div>
+                  <p style={{ fontSize: '12px', color: COLORS.textMuted, margin: 0 }}>{block.text}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Section 5: Governance Rights */}
+          <section style={{ background: COLORS.white, padding: '40px', borderRadius: '24px', border: `1px solid ${COLORS.border}` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ background: `${COLORS.primary}10`, padding: '8px', borderRadius: '8px', color: COLORS.primary }}>
+                {PRIVACY_DATA.governance.icon}
+              </div>
+              <h3 style={{ fontSize: '22px', fontWeight: 800, color: COLORS.textBlack, margin: 0 }}>{PRIVACY_DATA.governance.title}</h3>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {PRIVACY_DATA.governance.rights.map((right, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', background: COLORS.bgBase, borderRadius: '10px', fontSize: '14px', fontWeight: 600, color: COLORS.textMuted }}>
+                  <CheckCircle2 size={16} color={COLORS.primary} /> {right}
+                </div>
+              ))}
+            </div>
+            <p style={{ marginTop: '24px', fontSize: '14px', color: COLORS.textMuted }}>{PRIVACY_DATA.governance.contactPrompt}</p>
+          </section>
+
+          {/* Compact Grid Sections (6, 7, 8) */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+            {PRIVACY_DATA.gridCards.map((card) => (
+              <div key={card.id} style={{ background: COLORS.white, padding: '32px', borderRadius: '20px', border: `1px solid ${COLORS.border}` }}>
+                <div style={{ color: COLORS.primary, marginBottom: '16px' }}>{card.icon}</div>
+                <div style={{ fontWeight: 800, marginBottom: '8px' }}>{card.title}</div>
+                <p style={{ fontSize: '13px', color: COLORS.textMuted, margin: 0 }}>{card.text}</p>
+              </div>
+            ))}
           </div>
-        </div>
-      </section>
 
+          {/* Section 9: Contact */}
+          <section style={{ background: COLORS.white, padding: '40px', borderRadius: '24px', border: `1px solid ${COLORS.border}`, textAlign: 'center' }}>
+            <h3 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '32px' }}>{PRIVACY_DATA.contact.title}</h3>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Users size={20} color={COLORS.primary} />
+                <span style={{ fontWeight: 700, fontSize: '15px' }}>{PRIVACY_DATA.contact.supportLabel}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Mail size={20} color={COLORS.primary} />
+                <a href={`mailto:${PRIVACY_DATA.contact.email}`} style={{ fontWeight: 700, fontSize: '15px', color: COLORS.textBlack }}>{PRIVACY_DATA.contact.email}</a>
+              </div>
+            </div>
+          </section>
+
+          {/* FINAL CTA */}
+          <section style={{ marginTop: '40px', padding: '60px 40px', background: COLORS.heroBg, borderRadius: '32px', textAlign: 'center', border: `1px solid ${COLORS.white}` }}>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '16px' }}>{PRIVACY_DATA.cta.title}</h2>
+            <p style={{ color: COLORS.textMuted, maxWidth: '600px', margin: '0 auto 32px', fontWeight: 500 }}>{PRIVACY_DATA.cta.description}</p>
+            <button style={{ background: COLORS.primary, color: COLORS.white, border: 'none', padding: '16px 40px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer', boxShadow: `0 10px 20px ${COLORS.primary}33` }}>
+              <Link href={PRIVACY_DATA.cta.link || "/Getintouch"} style={{ color: 'inherit', textDecoration: 'none' }}>{PRIVACY_DATA.cta.buttonText}</Link>
+            </button>
+          </section>
+
+        </div>
+      </main>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+      `}</style>
     </div>
   );
 }

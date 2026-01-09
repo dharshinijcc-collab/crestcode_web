@@ -2,35 +2,14 @@
 
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-
-const faqData = [
-  {
-    question: "What is Crestcode and what services do you offer?",
-    answer: "Crestcode is a comprehensive software development company offering web development, mobile app development, AI/ML solutions, and software development services. We specialize in creating custom digital solutions tailored to your business needs."
-  },
-  {
-    question: "How long has Crestcode been in business?",
-    answer: "Crestcode has been providing software development services for several years, building a strong reputation for delivering high-quality, innovative solutions to clients across various industries."
-  },
-  {
-    question: "What industries does Crestcode serve?",
-    answer: "We serve clients across multiple industries including healthcare, finance, e-commerce, education, entertainment, and technology startups. Our diverse experience allows us to understand unique industry challenges."
-  },
-  {
-    question: "How do I get started with Crestcode?",
-    answer: "Getting started is easy! Simply reach out through our contact form, schedule a consultation call, or email us directly. Our team will discuss your requirements and provide a tailored solution proposal."
-  },
-  {
-    question: "What is your typical project timeline?",
-    answer: "Project timelines vary based on complexity and scope. A simple website might take 2-4 weeks, while complex applications can take 3-6 months or more. We provide detailed timelines during the planning phase."
-  },
-  {
-    question: "Do you provide ongoing support and maintenance?",
-    answer: "Yes, we offer comprehensive support and maintenance packages to ensure your applications run smoothly. This includes bug fixes, updates, security patches, and feature enhancements."
-  }
-];
+import { useAdmin } from '../admin/context';
 
 export default function GeneralFAQ() {
+  const { config } = useAdmin();
+  const faqData = config?.generalfaq?.faqData;
+  
+  if (!faqData) return null;
+  
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleQuestion = (index: number) => {

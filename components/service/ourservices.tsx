@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import {
   BarChartOutlined,
   CodeOutlined,
@@ -8,59 +11,69 @@ import {
   ArrowRightOutlined,
 } from '@ant-design/icons';
 
+// --- DATA CONFIGURATION (JSON TYPE) ---
+const SERVICES_CONTENT = {
+  sectionHeader: {
+    titlePrefix: "Our ",
+    titleHighlight: "services",
+    description: "Strategic engineering services built for performance, security, and global scalability."
+  },
+  ctaLabel: "Learn More",
+  services: [
+    {
+      id: 'custom-software',
+      icon: <BarChartOutlined style={{ fontSize: '36px' }} />,
+      title: 'Custom software development',
+      path: '/sd_services',
+      description:
+        'We develop and deliver custom solutions of varying complexity for both startup and enterprise Clients. Our approach delves deeply into business goals, bringing visions to life with cutting-edge technologies and robust architectural planning.',
+    },
+    {
+      id: 'ai-ml',
+      icon: <CodeOutlined style={{ fontSize: '36px' }} />,
+      title: 'AI & Machine Learning',
+      path: '/aiml_services',
+      description:
+        'Transform your business with predictive analytics and intelligent automation. We leverage the latest AI models to build systems that drive massive business value and enhance strategic decision-making through data-driven intelligence.',
+    },
+    {
+      id: 'web-dev',
+      icon: <GlobalOutlined style={{ fontSize: '36px' }} />,
+      title: 'Web Development',
+      path: '/web_services',
+      description:
+        'Modern, responsive web applications built with performance-first architectures. Optimized for speed, SEO, and accessibility to ensure exceptional user experiences across all digital touchpoints and enterprise platforms.',
+    },
+    {
+      id: 'mobile-dev',
+      icon: <MobileOutlined style={{ fontSize: '36px' }} />,
+      title: 'Mobile App Development',
+      path: '/mobile_services',
+      description:
+        'Native and cross-platform mobile solutions that engage users. We develop feature-rich iOS and Android applications, ensuring flawless performance and intuitive industrial-grade UX for a global audience.',
+    },
+  ]
+};
+
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
-  primary: '#4F46E5', // Precision Indigo
-  accentRed: '#FF5757', // Action Red
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  accentRed: '#FF5757',
+  textBlack: '#020617',
+  textMuted: '#64748B',
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
-const servicesData = [
-  {
-    icon: <BarChartOutlined style={{ fontSize: '36px' }} />,
-    title: 'Custom software development',
-    description:
-      'We develop and deliver custom solutions of varying complexity for both startup and enterprise Clients. Our approach delves deeply into business goals, bringing visions to life with cutting-edge technologies and robust architectural planning.',
-  },
-  {
-    icon: <CodeOutlined style={{ fontSize: '36px' }} />,
-    title: 'AI & Machine Learning',
-    description:
-      'Transform your business with predictive analytics and intelligent automation. We leverage the latest AI models to build systems that drive massive business value and enhance strategic decision-making through data-driven intelligence.',
-  },
-  {
-    icon: <GlobalOutlined style={{ fontSize: '36px' }} />,
-    title: 'Web Development',
-    description:
-      'Modern, responsive web applications built with performance-first architectures. Optimized for speed, SEO, and accessibility to ensure exceptional user experiences across all digital touchpoints and enterprise platforms.',
-  },
-  {
-    icon: <MobileOutlined style={{ fontSize: '36px' }} />,
-    title: 'Mobile App Development',
-    description:
-      'Native and cross-platform mobile solutions that engage users. We develop feature-rich iOS and Android applications, ensuring flawless performance and intuitive industrial-grade UX for a global audience.',
-  },
-];
-
 export default function OurServices() {
+  const router = useRouter();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
-  };
-
-  const cardVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-    },
   };
 
   return (
@@ -72,7 +85,8 @@ export default function OurServices() {
         overflow: 'hidden',
         fontFamily: FONT_PRIMARY,
         paddingBottom: '40px',
-      }}>
+      }}
+    >
       {/* 1. ARCHITECTURAL DOT GRID */}
       <div
         style={{
@@ -91,13 +105,15 @@ export default function OurServices() {
           margin: '0 auto',
           position: 'relative',
           zIndex: 10,
-        }}>
+        }}
+      >
         {/* SECTION HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '40px' }}>
+          style={{ textAlign: 'center', marginBottom: '40px' }}
+        >
           <h2
             style={{
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
@@ -105,8 +121,12 @@ export default function OurServices() {
               color: COLORS.textBlack,
               letterSpacing: '-0.05em',
               marginBottom: '24px',
-            }}>
-            Our <span style={{ color: COLORS.primary }}>services</span>
+            }}
+          >
+            {SERVICES_CONTENT.sectionHeader.titlePrefix}
+            <span style={{ color: COLORS.primary }}>
+              {SERVICES_CONTENT.sectionHeader.titleHighlight}
+            </span>
           </h2>
           <p
             style={{
@@ -116,8 +136,7 @@ export default function OurServices() {
               maxWidth: '750px',
               margin: '0 auto',
             }}>
-            Strategic engineering services built for performance, security, and
-            global scalability.
+            {SERVICES_CONTENT.sectionHeader.description}
           </p>
         </motion.div>
 
@@ -129,13 +148,12 @@ export default function OurServices() {
           viewport={{ once: true }}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', // Forces 2 columns on desktop
+            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
             gap: '32px',
           }}>
-          {servicesData.map((service, index) => (
+          {SERVICES_CONTENT.services.map((service, index) => (
             <motion.div
-              key={index}
-              // whileHover={{ y: -10, transition: { duration: 0.4 } }}
+              key={service.id}
               style={{
                 backgroundColor: COLORS.white,
                 padding: '36px',
@@ -182,6 +200,7 @@ export default function OurServices() {
               </div>
 
               <button
+                onClick={() => router.push(service.path)}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -198,7 +217,7 @@ export default function OurServices() {
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.gap = '16px')}
                 onMouseLeave={(e) => (e.currentTarget.style.gap = '10px')}>
-                Learn More <ArrowRightOutlined />
+                {SERVICES_CONTENT.ctaLabel} <ArrowRightOutlined />
               </button>
             </motion.div>
           ))}

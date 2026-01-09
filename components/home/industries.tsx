@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Row, Col, Typography } from 'antd';
 import { motion } from 'framer-motion';
@@ -12,8 +14,23 @@ import {
   HardHat,
   Target,
 } from 'lucide-react';
+import { useAdmin } from '../admin/context';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
+
+const ICON_MAP = {
+  Stethoscope: <Stethoscope size={32} />,
+  GraduationCap: <GraduationCap size={32} />,
+  Store: <Store size={32} />,
+  Factory: <Factory size={32} />,
+  Briefcase: <Briefcase size={32} />,
+  Network: <Network size={32} />,
+  Truck: <Truck size={32} />,
+  HardHat: <HardHat size={32} />,
+  Target: <Target size={32} />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -25,55 +42,13 @@ const COLORS = {
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
-const industries = [
-  {
-    title: 'Healthcare',
-    icon: <Stethoscope size={32} />,
-    desc: 'We develop services, tools, and systems to provide patients and staff with up-to-date software.',
-  },
-  {
-    title: 'Education',
-    icon: <GraduationCap size={32} />,
-    desc: 'E-learning solutions that make education flexible, engaging, and highly efficient.',
-  },
-  {
-    title: 'Retail',
-    icon: <Store size={32} />,
-    desc: 'We build stronger connections with customers through web and mobile applications with superior shopping experience and 24/7 availability.',
-  },
-  {
-    title: 'Manufacturing',
-    icon: <Factory size={32} />,
-    desc: 'Comprehensive software solutions for supply chain management, inventory management, warehouses, production monitoring, process automation, and more.',
-  },
-  {
-    title: 'Professional Services',
-    icon: <Briefcase size={32} />,
-    desc: 'We develop CRM, management tools, billing products, document management systems, and more. Our solutions are built for professionals by professionals.',
-  },
-  {
-    title: 'Telecoms',
-    icon: <Network size={32} />,
-    desc: 'We enhance global communication by building solutions for network management, customer experience, IoT, security, automation, and analytics.',
-  },
-  {
-    title: 'Logistics & Transportation',
-    icon: <Truck size={32} />,
-    desc: 'Software for freight reservation, transportation management, and streamlined supply chain operations to keep goods and business moving.',
-  },
-  {
-    title: 'Engineering & Construction',
-    icon: <HardHat size={32} />,
-    desc: 'From advanced BIM solutions and cost estimation tools to IoT integration, we lay the foundation for the construction industry.',
-  },
-  {
-    title: 'Marketing & Advertising',
-    icon: <Target size={32} />,
-    desc: 'We build effective Client relationships with marketing automation tools that help optimize strategies, gather insights, and achieve brave goals.',
-  },
-];
+function IndustriesSection() {
+  const { config } = useAdmin();
+  const INDUSTRIES_CONTENT = config?.home?.IndustriesSection;
+  console.log("INDUSTRIES_CONTENT",INDUSTRIES_CONTENT)
 
-const IndustriesSection = () => {
+
+  if (!INDUSTRIES_CONTENT) return null;
   return (
     <section
       style={{ padding: '40px 24px', backgroundColor: COLORS.sectionBg }}>
@@ -89,14 +64,16 @@ const IndustriesSection = () => {
               color: COLORS.textMain,
               marginBottom: '16px',
             }}>
-            <span style={{ color: COLORS.primaryBlue }}>Industries</span> we
-            help
+            <span style={{ color: COLORS.primaryBlue }}>
+              {INDUSTRIES_CONTENT.header.highlight}
+            </span>
+            {INDUSTRIES_CONTENT.header.normalText}
           </Title>
         </div>
 
         {/* GRID LAYOUT */}
         <Row gutter={[48, 64]}>
-          {industries.map((item, index) => (
+          {INDUSTRIES_CONTENT.items.map((item, index) => (
             <Col xs={24} sm={12} lg={8} key={index}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -111,7 +88,7 @@ const IndustriesSection = () => {
                     marginBottom: '24px',
                     display: 'inline-block',
                   }}>
-                  {item.icon}
+                  {ICON_MAP[item.iconName as IconName]}
                 </div>
 
                 {/* CONTENT */}
@@ -142,8 +119,11 @@ const IndustriesSection = () => {
           ))}
         </Row>
       </div>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+      `}</style>
     </section>
   );
-};
+}
 
 export default IndustriesSection;

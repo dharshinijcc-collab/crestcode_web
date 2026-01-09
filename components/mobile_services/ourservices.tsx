@@ -1,73 +1,79 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Apple, Smartphone } from 'lucide-react';
+import { Apple, Smartphone, type LucideIcon } from 'lucide-react';
+import { useAdmin } from '../admin/context';
+
+// --- ICON MAPPING ---
+const getIconComponent = (iconName: string): React.ReactNode => {
+  // Handle image icons
+  if (iconName === 'cross-platform') {
+    return <img src="/cross-platform.png" alt="Cross-platform" style={{ width: '48px', height: '48px' }} />;
+  }
+  
+  if (iconName === 'pwa') {
+    return <img src="/pwa.png" alt="PWA" style={{ width: '48px', height: '48px' }} />;
+  }
+  
+  // Handle Lucide icons
+  const iconMap: Record<string, LucideIcon> = {
+    Apple,
+    Smartphone,
+  };
+  
+  const icon = iconMap[iconName];
+  if (!icon) {
+    console.warn(`Icon "${iconName}" not found, using default Apple`);
+    return React.createElement(Apple, { size: 48, strokeWidth: 1.5 });
+  }
+  
+  return React.createElement(icon, { size: 48, strokeWidth: 1.5 });
+};
+
+// --- TYPE DEFINITIONS ---
+interface ServiceItem {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface ServicesData {
+  header: {
+    title: string;
+    accent: string;
+    suffix: string;
+    description: string;
+  };
+  items: ServiceItem[];
+}
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#FFFFFF', // Kept as white
-  primary: '#2563EB', // Precision Blue
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
-  cardBg: '#F8FAFC', // Slate 50 for cards
+  bgBase: '#FFFFFF',
+  primary: '#2563EB',
+  textBlack: '#020617',
+  textMuted: '#64748B',
+  cardBg: '#F8FAFC',
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function MobileServices() {
-  const services = [
-    {
-      id: 'ios',
-      icon: <Apple size={48} strokeWidth={1.5} />,
-      title: 'iOS app development',
-      description:
-        'Expert native development for Apple products. We leverage all gadget capabilities, including Touch ID, Face ID, Apple Pay, and Apple Wallet. This means a fully native experience for users with maximum performance across iOS, iPad, macOS, and watchOS ecosystems.',
-    },
-    {
-      id: 'android',
-      icon: <Smartphone size={48} strokeWidth={1.5} />,
-      title: 'Android app development',
-      description:
-        'Android apps built with Kotlin ensuring broad device compatibility across the fragmented smartphone landscape. We ensure seamless launches for different OS versions and integration of modern technologies like AI, voice control, and IoT.',
-    },
-    {
-      id: 'cross-platform',
-      icon: (
-        <img
-          src="/cross-platform.png"
-          alt="Cross-platform"
-          style={{ width: '48px', height: '48px' }}
-        />
-      ),
-      title: 'Cross-platform apps',
-      description:
-        'Target both iOS and Android platforms at once. Cross-platform development allows you to build a single codebase that works across multiple operating systems, reducing development time and costs while maintaining native-like user experiences.',
-    },
-    {
-      id: 'pwa',
-      icon: (
-        <img
-          src="/pwa.png"
-          alt="PWA"
-          style={{ width: '48px', height: '48px' }}
-        />
-      ),
-      title: 'Progressive Web Apps (PWAs)',
-      description:
-        'PWAs deliver app-like experiences in browsers, installable on any device without app stores. They offer offline functionality, push notifications, and fast loading times while being easily discoverable via simple URLs.',
-    },
-  ];
-
+  const { config } = useAdmin();
+  const SERVICES_DATA = config?.mobile?.SERVICES_DATA as ServicesData;
+  
+  if (!SERVICES_DATA || typeof SERVICES_DATA !== 'object' || !('header' in SERVICES_DATA)) return null;
   return (
     <section
       style={{
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
-        padding: '40px 24px',
+        padding: '100px 24px',
       }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        {/* CENTERED HEADER - Standardized with other sections */}
+        
+        {/* HEADER SECTION */}
         <div style={{ textAlign: 'center', marginBottom: '80px' }}>
           <h1
             style={{
@@ -78,11 +84,11 @@ export default function MobileServices() {
               marginBottom: '24px',
               lineHeight: 1.1,
             }}>
-            Our custom{' '}
+            {SERVICES_DATA.header.title}{' '}
             <span style={{ color: COLORS.primary }}>
-              Mobile app development
+              {SERVICES_DATA.header.accent}
             </span>{' '}
-            services
+            {SERVICES_DATA.header.suffix}
           </h1>
           <p
             style={{
@@ -93,19 +99,18 @@ export default function MobileServices() {
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            We offer comprehensive end-to-end mobile engineering, covering every
-            major platform and technology ecosystem.
+            {SERVICES_DATA.header.description}
           </p>
         </div>
 
-        {/* STANDARDIZED GRID LAYOUT */}
+        {/* SERVICES GRID */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
             gap: '32px',
           }}>
-          {services.map((service, index) => (
+          {SERVICES_DATA.items.map((service: ServiceItem) => (
             <div
               key={service.id}
               className="service-card-industrial"
@@ -114,11 +119,11 @@ export default function MobileServices() {
                 flexDirection: 'column',
                 height: '100%',
                 backgroundColor: COLORS.cardBg,
-                borderRadius: '16px',
-                padding: '38px',
+                borderRadius: '24px',
+                padding: '48px',
                 transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                 cursor: 'pointer',
-                border: '1px solid transparent',
+                border: '1px solid rgba(0,0,0,0.03)',
               }}>
               <div
                 style={{
@@ -127,7 +132,7 @@ export default function MobileServices() {
                   transition: 'transform 0.3s ease',
                 }}
                 className="icon-wrapper">
-                {service.icon}
+                {getIconComponent(service.icon)}
               </div>
 
               <h2
@@ -147,7 +152,7 @@ export default function MobileServices() {
                   color: COLORS.textMuted,
                   lineHeight: '1.7',
                   margin: 0,
-                  fontWeight: 450,
+                  fontWeight: 500,
                 }}>
                 {service.description}
               </p>
@@ -158,6 +163,17 @@ export default function MobileServices() {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        .service-card-industrial:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 20px 40px -15px rgba(0,0,0,0.08);
+          background-color: #FFFFFF !important;
+          border-color: ${COLORS.primary}20 !important;
+        }
+
+        .service-card-industrial:hover .icon-wrapper {
+          transform: scale(1.1);
+        }
 
         @media (max-width: 768px) {
           div[style*="grid-template-columns"] {

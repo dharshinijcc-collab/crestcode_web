@@ -4,22 +4,14 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 
-// --- THEME TOKENS ---
-const COLORS = {
-  bgBase: '#F3F5F9', // Industrial Slate-Blue
-  primary: '#4F46E5', // Industrial Indigo
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
-  border: '#E2E8F0', // Crisp Edge
-  white: '#FFFFFF',
-};
-
-const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
-
-const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const faqs = [
+// --- DATA CONFIGURATION ---
+const FAQ_DATA = {
+  header: {
+    main: "Technical ",
+    highlight: "FAQ",
+    sub: "Insights into our engineering methodology and how we accelerate your technical vision."
+  },
+  questions: [
     {
       question: 'How can I get started with Crestcode?',
       answer:
@@ -40,7 +32,23 @@ const FAQ = () => {
       answer:
         'We provide technical leadership across Healthcare, Fintech, Logistics, and Manufacturing, ensuring all products meet strict industry-specific regulatory and security standards.',
     },
-  ];
+  ]
+};
+
+// --- THEME TOKENS ---
+const COLORS = {
+  bgBase: '#F3F5F9', // Industrial Slate-Blue
+  primary: '#4F46E5', // Industrial Indigo
+  textBlack: '#020617', // Ink Black
+  textMuted: '#64748B', // Architectural Slate
+  border: '#E2E8F0', // Crisp Edge
+  white: '#FFFFFF',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -69,7 +77,8 @@ const FAQ = () => {
               letterSpacing: '-0.04em',
               marginBottom: '20px',
             }}>
-            Technical <span style={{ color: COLORS.primary }}>FAQ</span>
+            {FAQ_DATA.header.main}
+            <span style={{ color: COLORS.primary }}>{FAQ_DATA.header.highlight}</span>
           </h2>
           <p
             style={{
@@ -79,14 +88,13 @@ const FAQ = () => {
               maxWidth: '600px',
               margin: '0 auto',
             }}>
-            Insights into our engineering methodology and how we accelerate your
-            technical vision.
+            {FAQ_DATA.header.sub}
           </p>
         </motion.div>
 
         {/* FAQ LIST */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {faqs.map((faq, index) => (
+          {FAQ_DATA.questions.map((faq, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 15 }}

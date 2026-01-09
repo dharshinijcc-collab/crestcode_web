@@ -10,14 +10,53 @@ import {
   Image,
   BarChart3,
   Check,
+  type LucideIcon
 } from 'lucide-react';
+import { useAdmin } from '../admin/context';
+
+// --- ICON MAPPING ---
+const getIconComponent = (iconName: string): LucideIcon => {
+  const iconMap: Record<string, LucideIcon> = {
+    Key,
+    Navigation,
+    Settings,
+    Type,
+    Image,
+    BarChart3,
+    Check,
+  };
+  
+  const icon = iconMap[iconName];
+  if (!icon) {
+    console.warn(`Icon "${iconName}" not found, using default Key`);
+    return Key;
+  }
+  
+  return icon;
+};
+
+// --- TYPE DEFINITIONS ---
+interface FeatureItem {
+  icon: string;
+  title: string;
+  description: string;
+  points: string[];
+}
+
+interface FeaturesData {
+  header: {
+    title: string;
+    accent: string;
+  };
+  items: FeatureItem[];
+}
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
-  primary: '#4F46E5', // Precision Indigo
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
@@ -25,80 +64,11 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function MobileFeatures() {
-  const features = [
-    {
-      icon: <Key size={32} />,
-      title: 'User Access & Identity',
-      description:
-        'Core authentication flows to keep users secure and engaged from the first interaction.',
-      points: [
-        'Secure registration and login',
-        'Social sign-in (Google, Apple, Facebook)',
-        'Password verification protocols',
-        'Role-based access control',
-      ],
-    },
-    {
-      icon: <Navigation size={32} />,
-      title: 'Navigation Systems',
-      description:
-        'Smooth navigation patterns designed for zero-friction user journeys.',
-      points: [
-        'Bottom tab & side menu systems',
-        'Intuitive onboarding flows',
-        'In-app search & smart sorting',
-        'Dynamic grid & list layouts',
-      ],
-    },
-    {
-      icon: <Settings size={32} />,
-      title: 'Profile Architecture',
-      description:
-        'Granular user management and preference handling for tailored experiences.',
-      points: [
-        'Identity creation & editing',
-        'Optimized avatar processing',
-        'Notification & locale logic',
-        'Native dark/light mode support',
-      ],
-    },
-    {
-      icon: <Type size={32} />,
-      title: 'Input & Interaction',
-      description:
-        'Robust components designed to collect and process complex user data.',
-      points: [
-        'Forms with real-time validation',
-        'Rating & review modules',
-        'Secure file & media uploads',
-        'Interactive feedback systems',
-      ],
-    },
-    {
-      icon: <Image size={32} />,
-      title: 'Content Display',
-      description:
-        "High-performance presentation of your app's core digital assets.",
-      points: [
-        'Advanced list & card views',
-        'Galleries & media carousels',
-        'Dynamic service detail pages',
-        'Expandable architectural sections',
-      ],
-    },
-    {
-      icon: <BarChart3 size={32} />,
-      title: 'Analytics & Integrity',
-      description:
-        'Ensuring your application captures the right data and performs flawlessly.',
-      points: [
-        'Firebase/Google screen tracking',
-        'Crash & performance monitoring',
-        'Offline caching & loading states',
-        'Device permission handling',
-      ],
-    },
-  ];
+  const { config } = useAdmin();
+  const FEATURES_DATA = config?.mobile?.FEATURES_DATA;
+  console.log(FEATURES_DATA)
+  
+  if (!FEATURES_DATA) return null;
 
   return (
     <section
@@ -106,10 +76,11 @@ export default function MobileFeatures() {
         backgroundColor: COLORS.bgBase,
         color: COLORS.textBlack,
         fontFamily: FONT_PRIMARY,
-        padding: '40px 24px',
+        padding: '100px 24px',
         position: 'relative',
         overflow: 'hidden',
       }}>
+      
       {/* ARCHITECTURAL BACKGROUND GRID */}
       <div
         style={{
@@ -129,13 +100,14 @@ export default function MobileFeatures() {
           position: 'relative',
           zIndex: 10,
         }}>
-        {/* CENTERED HEADER */}
+        
+        {/* HEADER */}
         <div
           style={{
             textAlign: 'center',
-            marginBottom: '100px',
+            marginBottom: '80px',
             maxWidth: '900px',
-            margin: '0 auto 100px auto',
+            margin: '0 auto 80px auto',
           }}>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -149,20 +121,19 @@ export default function MobileFeatures() {
               marginBottom: '24px',
               lineHeight: 1.1,
             }}>
-            Mobile app development{' '}
-            <span style={{ color: COLORS.primary }}>features</span>
+            {FEATURES_DATA.header.title}{' '}
+            <span style={{ color: COLORS.primary }}>{FEATURES_DATA.header.accent}</span>
           </motion.h1>
         </div>
 
         {/* FEATURES GRID */}
-
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '40px',
+            gap: '32px',
           }}>
-          {features.map((feature, index) => (
+          {FEATURES_DATA.items.map((feature: FeatureItem, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -172,13 +143,14 @@ export default function MobileFeatures() {
               whileHover={{ y: -8 }}
               style={{
                 backgroundColor: COLORS.white,
-                padding: '30px',
+                padding: '40px',
                 borderRadius: '24px',
                 border: `1px solid ${COLORS.border}`,
                 boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)',
                 transition: 'all 0.3s ease',
               }}>
-              {/* Icon Section */}
+              
+              {/* Icon Container */}
               <div
                 style={{
                   color: COLORS.primary,
@@ -192,7 +164,7 @@ export default function MobileFeatures() {
                   justifyContent: 'center',
                   border: `1px solid ${COLORS.primary}15`,
                 }}>
-                {feature.icon}
+                {React.createElement(getIconComponent(feature.icon), { size: 32 })}
               </div>
 
               <h2
@@ -217,7 +189,7 @@ export default function MobileFeatures() {
                 {feature.description}
               </p>
 
-              {/* Technical Points */}
+              {/* Feature Points List */}
               <ul
                 style={{
                   padding: 0,
@@ -225,22 +197,22 @@ export default function MobileFeatures() {
                   listStyle: 'none',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '10px',
+                  gap: '12px',
                 }}>
-                {feature.points.map((point, pIndex) => (
+                {feature.points.map((point: string, pIndex) => (
                   <li
                     key={pIndex}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '8px',
+                      gap: '10px',
                     }}>
-                    <Check size={14} color={COLORS.primary} strokeWidth={3} />
+                    <Check size={16} color={COLORS.primary} strokeWidth={3} />
                     <span
                       style={{
                         fontSize: '14px',
                         color: COLORS.textBlack,
-                        fontWeight: 500,
+                        fontWeight: 600,
                       }}>
                       {point}
                     </span>

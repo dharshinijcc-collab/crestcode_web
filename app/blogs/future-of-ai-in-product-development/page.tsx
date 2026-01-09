@@ -4,14 +4,23 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, FileText, Clock, Calendar, User, ArrowRight } from 'lucide-react';
 
+// --- DATA SOURCE (JSON) ---
 const articleContent = {
   title: "Future of AI in Product Development: Transforming Ideas into Reality",
   category: "Design",
   date: "March 12, 2025",
   readTime: "4 min read",
   author: "Ahmed Faraz",
+  authorRole: "Product Development Expert",
+  authorBio: "Ahmed Faraz is a seasoned expert in AI-driven product development with over a decade of experience in helping businesses leverage cutting-edge technologies to create innovative products that delight customers and drive growth.",
   image: "https://api.builder.io/api/v1/image/assets/TEMP/619d6de9e020646158e731d3e6eddcb9e4853c43?width=866",
   tags: ["#AI", "#Product Development"],
+  uiLabels: {
+    backBtn: "Back to Blogs",
+    tocTitle: "Table of Contents",
+    relatedTitle: "Related Articles",
+    readMore: "Read More"
+  },
   sections: [
     {
       id: "introduction",
@@ -52,6 +61,18 @@ const articleContent = {
       id: "conclusion",
       title: "Conclusion",
       content: "AI is not just an emerging tool, it is a catalyst for a new era of product development. Its ability to merge creativity with precision is changing how products are conceived and delivered. Businesses that leverage AI effectively will gain significant competitive advantages. As AI continues to evolve, its role in innovation will only grow stronger. Organizations must invest in skills, systems, and strategies to fully harness AI. The future of product development is faster, smarter, and more customer-centric. AI is the bridge between bold ideas and successful market realities."
+    }
+  ],
+  relatedArticles: [
+    {
+      title: "Building Successful MVP: A Complete Guide for Entrepreneurs",
+      excerpt: "Every successful product begins with a strong foundation...",
+      link: "/blogs/building-mvp"
+    },
+    {
+      title: "Digital Transformation Strategies for Modern Businesses",
+      excerpt: "Digital transformation is no longer an optional choice...",
+      link: "/blogs/digital-transformation"
     }
   ]
 };
@@ -96,7 +117,7 @@ export default function BlogArticlePage() {
             className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition-colors"
           >
             <ChevronLeft size={20} />
-            <span>Back to Blogs</span>
+            <span>{articleContent.uiLabels.backBtn}</span>
           </button>
 
           <div className="flex flex-wrap gap-2 mb-6">
@@ -145,7 +166,7 @@ export default function BlogArticlePage() {
             <div className="sticky top-8 bg-white rounded-xl shadow-sm p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <FileText size={20} />
-                Table of Contents
+                {articleContent.uiLabels.tocTitle}
               </h3>
               <nav className="space-y-2">
                 {articleContent.sections.map((section, index) => (
@@ -192,34 +213,32 @@ export default function BlogArticlePage() {
                   </div>
                   <div>
                     <h4 className="text-lg font-bold text-gray-900">{articleContent.author}</h4>
-                    <p className="text-gray-600">Product Development Expert</p>
+                    <p className="text-gray-600">{articleContent.authorRole}</p>
                   </div>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
-                  {articleContent.author} is a seasoned expert in AI-driven product development with over a decade of experience in helping businesses leverage cutting-edge technologies to create innovative products that delight customers and drive growth.
+                  {articleContent.authorBio}
                 </p>
               </div>
 
               {/* Related Articles */}
               <div className="border-t border-gray-200 pt-8 mt-12">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-6">{articleContent.uiLabels.relatedTitle}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer">
-                    <h4 className="font-bold text-gray-900 mb-2">Building Successful MVP: A Complete Guide for Entrepreneurs</h4>
-                    <p className="text-sm text-gray-600 mb-3">Every successful product begins with a strong foundation...</p>
-                    <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
-                      <span className="text-sm font-medium">Read More</span>
-                      <ArrowRight size={16} />
+                  {articleContent.relatedArticles.map((article, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => router.push(article.link)}
+                      className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer"
+                    >
+                      <h4 className="font-bold text-gray-900 mb-2">{article.title}</h4>
+                      <p className="text-sm text-gray-600 mb-3">{article.excerpt}</p>
+                      <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
+                        <span className="text-sm font-medium">{articleContent.uiLabels.readMore}</span>
+                        <ArrowRight size={16} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer">
-                    <h4 className="font-bold text-gray-900 mb-2">Digital Transformation Strategies for Modern Businesses</h4>
-                    <p className="text-sm text-gray-600 mb-3">Digital transformation is no longer an optional choice...</p>
-                    <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
-                      <span className="text-sm font-medium">Read More</span>
-                      <ArrowRight size={16} />
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </article>

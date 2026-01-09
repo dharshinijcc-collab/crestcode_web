@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
+import { useAdmin } from '../admin/context';
 
 // --- THEME TOKENS ---
 const COLORS = {
@@ -17,37 +18,12 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const ServicesFAQ = () => {
+  const { config } = useAdmin();
+  const FAQ_DATA = config?.service?.FAQ_DATA;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  console.log(FAQ_DATA)
 
-  const faqs = [
-    {
-      question: "Can I trust my information's confidentiality with your team?",
-      answer:
-        'Absolutely! We take data confidentiality and security very seriously. All team members sign comprehensive NDAs and confidentiality agreements. We implement industry-standard security protocols including encrypted communication, secure code repositories, and access controls. Our development processes follow GDPR and other relevant data protection regulations. We can also sign custom NDAs tailored to your specific requirements. Your intellectual property, business data, and project information remain completely confidential throughout and after the project lifecycle.',
-    },
-    {
-      question:
-        'How much would my development project cost? Can I get a tailored estimate?',
-      answer:
-        "Development project costs vary based on complexity, features, timeline, and technology stack. A simple website might cost $5,000-$15,000, while complex enterprise applications can range from $50,000 to $500,000+. To get a tailored estimate, we need to understand your specific requirements, desired features, user base, and timeline. We provide free consultations and detailed project breakdowns. Our estimates include development, testing, deployment, and initial support. Contact us with your project details, and we'll provide a comprehensive quote within 2-3 business days.",
-    },
-    {
-      question: 'How to reduce software development services costs?',
-      answer:
-        'To reduce software development costs, start with clear requirements and detailed project planning to avoid rework. Choose the right technology stack to optimize development speed and maintenance. Consider agile development methodologies for iterative progress and early feedback. Leverage open-source technologies and reusable components where appropriate. Opt for MVP development to validate ideas before full investment. Implement automated testing to reduce manual QA costs. Consider offshore or nearshore development teams for cost efficiency. Finally, maintain clear communication to prevent misunderstandings and delays.',
-    },
-    {
-      question:
-        'What are the biggest benefits of outsourcing a software development services firm?',
-      answer:
-        'Outsourcing software development provides access to specialized expertise and talent without the overhead of hiring in-house. It reduces operational costs significantly while maintaining high quality. You get faster time-to-market with experienced teams following proven methodologies. Outsourcing allows you to focus on core business activities while technical experts handle development. It provides scalability to ramp up or down based on project needs. You also gain exposure to global best practices and innovative approaches. Additionally, it offers risk sharing and flexibility in resource allocation.',
-    },
-    {
-      question: 'How to choose a software development services company?',
-      answer:
-        'When choosing a software development company, consider their portfolio and case studies to verify relevant experience. Check client testimonials and reviews for reliability. Evaluate their technical expertise and technology stack alignment. Ensure they have clear communication processes and project management methodologies. Compare pricing models and ensure transparency. Look for companies that offer post-development support and maintenance. Finally, assess their understanding of your industry and business requirements.',
-    },
-  ];
+  if (!FAQ_DATA) return null;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -76,7 +52,8 @@ const ServicesFAQ = () => {
               letterSpacing: '-0.04em',
               marginBottom: '20px',
             }}>
-            Services <span style={{ color: COLORS.primary }}>FAQ</span>
+            {FAQ_DATA.header.main} 
+            <span style={{ color: COLORS.primary }}>{FAQ_DATA.header.highlight}</span>
           </h2>
           <p
             style={{
@@ -86,14 +63,13 @@ const ServicesFAQ = () => {
               maxWidth: '650px',
               margin: '0 auto',
             }}>
-            Find answers to common questions about our software development
-            services and how we can help your business succeed.
+            {FAQ_DATA.header.sub}
           </p>
         </motion.div>
 
         {/* FAQ LIST */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {faqs.map((faq, index) => (
+          {FAQ_DATA.questions.map((faq, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 15 }}

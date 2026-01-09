@@ -1,6 +1,36 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Paperclip, Calendar, Mail } from 'lucide-react';
+import { Paperclip, Calendar, Mail, Phone, Building } from 'lucide-react';
 import { motion } from 'framer-motion';
+
+// --- DATA CONFIGURATION ---
+const CONTACT_DATA = {
+  header: "Let's start",
+  emailPrimary: "contact@crestcode.in",
+  steps: [
+    { num: '1', text: 'Vision' },
+    { num: '2', text: 'Discovery' },
+    { num: '3', text: 'Roadmap' },
+    { num: '4', text: 'Launch' },
+  ],
+  officeInfo: {
+    address: "2nd Floor, Plot No:248, Kannan St, Sree Balaji Nagar, Pallikaranai, Chennai - 600 100.",
+    phone: "9629664974",
+    landline: "044 4604 7460",
+    hours: [
+      "Tuesday - Friday: 11:00 AM - 8:00 PM IST",
+      "Saturday: 09:00 AM - 5:00 PM IST"
+    ]
+  },
+  formLabels: {
+    name: "NAME*",
+    email: "EMAIL*",
+    message: "MESSAGE*",
+    submit: "Send",
+    attach: "Attach"
+  }
+};
 
 // --- THEME TOKENS ---
 const COLORS = {
@@ -40,7 +70,7 @@ function ContactForm() {
   return (
     <div
       style={{
-        minHeight: 'auto', // Removed 100vh for compactness
+        minHeight: 'auto',
         backgroundColor: COLORS.bgLeft,
         color: COLORS.textWhite,
         display: 'flex',
@@ -48,9 +78,9 @@ function ContactForm() {
         flexWrap: 'wrap',
         fontFamily: FONT_FAMILY,
         overflow: 'hidden',
-        padding: '40px 0', // Reduced section padding
+        padding: '40px 0',
       }}>
-      {/* LEFT SIDE: STEPS & INFO (Condensed) */}
+      {/* LEFT SIDE: STEPS & INFO */}
       <motion.div
         variants={containerFade}
         initial="hidden"
@@ -67,13 +97,13 @@ function ContactForm() {
         <motion.h1
           variants={itemSlide}
           style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)', // Smaller font size
+            fontSize: 'clamp(2rem, 4vw, 3rem)',
             fontWeight: 800,
             color: COLORS.primary,
-            marginBottom: '30px', // Reduced margin
+            marginBottom: '30px',
             letterSpacing: '-0.04em',
           }}>
-          Let's start
+          {CONTACT_DATA.header}
         </motion.h1>
 
         <div style={{ position: 'relative', paddingLeft: '35px' }}>
@@ -88,12 +118,7 @@ function ContactForm() {
             }}
           />
 
-          {[
-            { num: '1', text: 'Vision' },
-            { num: '2', text: 'Discovery' },
-            { num: '3', text: 'Roadmap' },
-            { num: '4', text: 'Launch' },
-          ].map((step, i) => (
+          {CONTACT_DATA.steps.map((step, i) => (
             <motion.div
               key={i}
               variants={itemSlide}
@@ -127,7 +152,7 @@ function ContactForm() {
 
         <motion.div variants={itemSlide} style={{ marginTop: '30px' }}>
           <a
-            href="mailto:contact@crestcode.in"
+            href={`mailto:${CONTACT_DATA.emailPrimary}`}
             style={{
               color: COLORS.accentRed,
               fontSize: '16px',
@@ -137,12 +162,12 @@ function ContactForm() {
               alignItems: 'center',
               gap: '8px',
             }}>
-            <Mail size={16} /> contact@crestcode.in
+            <Mail size={16} /> {CONTACT_DATA.emailPrimary}
           </a>
         </motion.div>
       </motion.div>
 
-      {/* RIGHT SIDE: THE FORM (Compact Grid) */}
+      {/* RIGHT SIDE: THE FORM */}
       <motion.div
         initial={{ opacity: 0, x: 30 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -155,7 +180,6 @@ function ContactForm() {
           marginRight: '20px',
         }}>
         <form onSubmit={handleSubmit}>
-          {/* Row for Name and Email */}
           <div
             style={{
               display: 'grid',
@@ -164,87 +188,32 @@ function ContactForm() {
               marginBottom: '30px',
             }}>
             <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '12px',
-                  color: COLORS.textMuted,
-                  marginBottom: '8px',
-                  fontWeight: 600,
-                }}>
-                NAME*
-              </label>
+              <label style={labelStyle}>{CONTACT_DATA.formLabels.name}</label>
               <input
                 required
                 type="text"
                 placeholder="John Smith"
-                style={{
-                  width: '100%',
-                  background: 'transparent',
-                  border: 'none',
-                  borderBottom: `1px solid ${COLORS.border}`,
-                  paddingBottom: '8px',
-                  color: COLORS.textWhite,
-                  outline: 'none',
-                  fontSize: '15px',
-                }}
+                style={inputStyle}
               />
             </div>
             <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '12px',
-                  color: COLORS.textMuted,
-                  marginBottom: '8px',
-                  fontWeight: 600,
-                }}>
-                EMAIL*
-              </label>
+              <label style={labelStyle}>{CONTACT_DATA.formLabels.email}</label>
               <input
                 required
                 type="email"
                 placeholder="name@company.com"
-                style={{
-                  width: '100%',
-                  background: 'transparent',
-                  border: 'none',
-                  borderBottom: `1px solid ${COLORS.border}`,
-                  paddingBottom: '8px',
-                  color: COLORS.textWhite,
-                  outline: 'none',
-                  fontSize: '15px',
-                }}
+                style={inputStyle}
               />
             </div>
           </div>
 
           <div style={{ marginBottom: '25px' }}>
-            <label
-              style={{
-                display: 'block',
-                fontSize: '12px',
-                color: COLORS.textMuted,
-                marginBottom: '8px',
-                fontWeight: 600,
-              }}>
-              MESSAGE*
-            </label>
+            <label style={labelStyle}>{CONTACT_DATA.formLabels.message}</label>
             <textarea
               required
               placeholder="Briefly describe your idea"
               rows={2}
-              style={{
-                width: '100%',
-                background: 'transparent',
-                border: 'none',
-                borderBottom: `1px solid ${COLORS.border}`,
-                paddingBottom: '8px',
-                color: COLORS.textWhite,
-                outline: 'none',
-                fontSize: '15px',
-                resize: 'none',
-              }}
+              style={{ ...inputStyle, resize: 'none' }}
             />
           </div>
 
@@ -255,90 +224,46 @@ function ContactForm() {
               alignItems: 'center',
               marginBottom: '30px',
             }}>
-            <button
-              type="button"
-              style={{
-                background: 'none',
-                border: 'none',
-                color: COLORS.textWhite,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}>
-              <Paperclip size={14} /> Attach
+            <button type="button" style={actionBtnStyle}>
+              <Paperclip size={14} /> {CONTACT_DATA.formLabels.attach}
             </button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              style={{
-                backgroundColor: COLORS.accentRed,
-                color: 'white',
-                padding: '10px 40px',
-                fontSize: '16px',
-                fontWeight: 700,
-                border: 'none',
-                cursor: 'pointer',
-                borderRadius: '4px',
-              }}>
-              Send
+              style={submitBtnStyle}>
+              {CONTACT_DATA.formLabels.submit}
             </motion.button>
           </div>
-
-          {/* <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingTop: '20px',
-              borderTop: `1px solid ${COLORS.border}`,
-            }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <img
-                src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150"
-                alt="Manager"
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                }}
-              />
-              <div>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: '14px' }}>
-                  Elizabeth K.
-                </p>
-                <p
-                  style={{
-                    margin: 0,
-                    color: COLORS.textMuted,
-                    fontSize: '11px',
-                  }}>
-                  Account Manager
-                </p>
-              </div>
-            </div>
-            <button
-              type="button"
-              style={{
-                border: `1px solid ${COLORS.accentRed}`,
-                color: COLORS.accentRed,
-                background: 'none',
-                padding: '6px 15px',
-                fontWeight: 700,
-                fontSize: '12px',
-                cursor: 'pointer',
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px',
-              }}>
-              <Calendar size={12} /> Book Call
-            </button>
-          </div> */}
         </form>
+      </motion.div>
+
+      {/* FOOTER INFO */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        style={footerContainerStyle}>
+        <h3 style={footerHeaderStyle}>Contact Information</h3>
+        
+        <div style={footerGridStyle}>
+          <InfoBlock icon={<Building size={18} color={COLORS.primary} />} title="Our Office">
+            {CONTACT_DATA.officeInfo.address}
+          </InfoBlock>
+
+          <InfoBlock icon={<Phone size={18} color={COLORS.primary} />} title="Phone">
+            Mobile: {CONTACT_DATA.officeInfo.phone}<br />
+            Landline: {CONTACT_DATA.officeInfo.landline}
+          </InfoBlock>
+
+          <InfoBlock icon={<Mail size={18} color={COLORS.primary} />} title="Email">
+            {CONTACT_DATA.emailPrimary}
+          </InfoBlock>
+
+          <InfoBlock icon={<Calendar size={18} color={COLORS.primary} />} title="Business Hours">
+            {CONTACT_DATA.officeInfo.hours.map((h, i) => <React.Fragment key={i}>{h}<br/></React.Fragment>)}
+          </InfoBlock>
+        </div>
       </motion.div>
 
       <style>{`
@@ -348,5 +273,45 @@ function ContactForm() {
     </div>
   );
 }
+
+// --- SHARED STYLES & SUB-COMPONENTS ---
+const labelStyle: React.CSSProperties = {
+  display: 'block', fontSize: '12px', color: COLORS.textMuted, marginBottom: '8px', fontWeight: 600
+};
+
+const inputStyle: React.CSSProperties = {
+  width: '100%', background: 'transparent', border: 'none', borderBottom: `1px solid ${COLORS.border}`,
+  paddingBottom: '8px', color: COLORS.textWhite, outline: 'none', fontSize: '15px'
+};
+
+const actionBtnStyle: React.CSSProperties = {
+  background: 'none', border: 'none', color: COLORS.textWhite, display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '14px'
+};
+
+const submitBtnStyle: React.CSSProperties = {
+  backgroundColor: COLORS.accentRed, color: 'white', padding: '10px 40px', fontSize: '16px', fontWeight: 700, border: 'none', cursor: 'pointer', borderRadius: '4px'
+};
+
+const footerContainerStyle: React.CSSProperties = {
+  width: '100%', padding: '40px 6%', backgroundColor: 'rgba(255, 255, 255, 0.02)', borderTop: `1px solid ${COLORS.border}`
+};
+
+const footerHeaderStyle: React.CSSProperties = {
+  fontSize: '1.2rem', fontWeight: 700, color: COLORS.primary, marginBottom: '25px', textAlign: 'center'
+};
+
+const footerGridStyle: React.CSSProperties = {
+  display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px', maxWidth: '1200px', margin: '0 auto'
+};
+
+const InfoBlock = ({ icon, title, children }: any) => (
+  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+    <div style={{ marginTop: '2px' }}>{icon}</div>
+    <div>
+      <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: COLORS.textWhite }}>{title}</p>
+      <p style={{ margin: 0, fontSize: '12px', color: COLORS.textMuted, lineHeight: 1.4 }}>{children}</p>
+    </div>
+  </div>
+);
 
 export default ContactForm;

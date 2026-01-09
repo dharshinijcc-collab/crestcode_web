@@ -2,9 +2,28 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRightOutlined } from '@ant-design/icons';
+import {
+  CodeOutlined,
+  GlobalOutlined,
+  MobileOutlined,
+  BarChartOutlined,
+} from '@ant-design/icons';
+import { useAdmin } from '../admin/context';
+import Link from 'next/link';
 
-// --- INDUSTRIAL THEME TOKENS (Synced with Services) ---
+const ICON_MAP = {
+  CodeOutlined: <CodeOutlined />,
+  GlobalOutlined: <GlobalOutlined />,
+  MobileOutlined: <MobileOutlined />,
+  BarChartOutlined: <BarChartOutlined />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
+
+// --- DATA CONFIGURATION ---
+// Data will be imported from config
+
+// --- INDUSTRIAL THEME TOKENS ---
 const COLORS = {
   bgDark: '#020617', // Deep Space Slate
   primary: '#4F46E5', // Industrial Indigo
@@ -15,48 +34,15 @@ const COLORS = {
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
-const tabs = [
-  {
-    id: 'enterprise',
-    label: 'Enterprise Software',
-    content: {
-      title: 'Enterprise Software Development',
-      description:
-        'We build high-performance enterprise software that solves real business problems and handles complex workflows and large-scale data across manufacturing, procurement, finance, sales, and HR.',
-    },
-  },
-  {
-    id: 'mvp',
-    label: 'MVP Development',
-    content: {
-      title: 'MVP Engineering for Scale',
-      description:
-        'We help startups and enterprises validate their ideas quickly and cost-effectively. Our MVP approach focuses on building core features that solve the primary problem, allowing you to test your concept with real users and gather valuable feedback.',
-    },
-  },
-  {
-    id: 'saas',
-    label: 'SaaS Platforms',
-    content: {
-      title: 'SaaS Architecture & Development',
-      description:
-        'Our SaaS services encompass the entire lifecycle of cloud-based solutions. We create scalable, secure platforms with robust multi-tenancy architecture, seamless integrations, and flexible subscription systems.',
-    },
-  },
-  {
-    id: 'product',
-    label: 'Product Design',
-    content: {
-      title: 'Comprehensive Product Development',
-      description:
-        'From concept to market launch, we provide comprehensive product development. Our team combines technical expertise with market insights to build products that resonate with users and drive growth.',
-    },
-  },
-];
-
 export default function TailoredServices() {
-  const [activeTab, setActiveTab] = useState('enterprise');
-  const activeContent = tabs.find((tab) => tab.id === activeTab)?.content;
+  const { config } = useAdmin();
+  const MVP_DATA = config?.service?.mvp;
+  console.log(MVP_DATA);
+  
+  if (!MVP_DATA) return null;
+  
+  const [activeTab, setActiveTab] = useState(MVP_DATA.tabs[0].id);
+  const activeContent = MVP_DATA.tabs.find((tab) => tab.id === activeTab)?.content;
 
   return (
     <section
@@ -103,8 +89,8 @@ export default function TailoredServices() {
               letterSpacing: '-0.04em',
               marginBottom: '24px',
             }}>
-            From MVPs to{' '}
-            <span style={{ color: COLORS.primary }}>enterprise solutions</span>
+            {MVP_DATA.header.main}{' '}
+            <span style={{ color: COLORS.primary }}>{MVP_DATA.header.highlight}</span>
           </h2>
           <p
             style={{
@@ -114,9 +100,7 @@ export default function TailoredServices() {
               maxWidth: '850px',
               margin: '0 auto',
             }}>
-            We excel in developing software solutions for various business
-            stages, combining industrial-grade expertise with a commitment to
-            scalability and reliability.
+            {MVP_DATA.header.description}
           </p>
         </motion.div>
 
@@ -128,9 +112,9 @@ export default function TailoredServices() {
             gap: '60px',
             alignItems: 'center',
           }}>
-          {/* LEFT: VERTICAL TABS (Side Border Style) */}
+          {/* LEFT: VERTICAL TABS */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {tabs.map((tab) => (
+            {MVP_DATA.tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -234,7 +218,7 @@ export default function TailoredServices() {
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em',
                     }}>
-                    Industrial Standard Execution
+                    {MVP_DATA.footerBadge}
                   </span>
                 </div>
               </motion.div>

@@ -3,51 +3,38 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Coffee, Server, Component, Gem } from 'lucide-react';
+import { useAdmin } from '../admin/context';
+import Link from 'next/link';
+
+const ICON_MAP = {
+  Coffee: <Coffee size={32} />,
+  Server: <Server size={32} />,
+  Component: <Component size={32} />,
+  Gem: <Gem size={32} />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
+
+// --- DATA CONFIGURATION ---
+// Data will be imported from config
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
-  primary: '#4F46E5', // Precision Indigo
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
-const technologies = [
-  {
-    id: 1,
-    name: 'Java',
-    icon: <Coffee size={32} />,
-    description:
-      'A powerful programming language for secure, enterprise-level applications. Its platform independence and robust libraries enable the development of custom software for complex business processes.',
-  },
-  {
-    id: 2,
-    name: 'Node.js',
-    icon: <Server size={32} />,
-    description:
-      'Fast and scalable server-side JavaScript runtime. Perfect for real-time applications, REST APIs, and microservices with high performance and computational efficiency.',
-  },
-  {
-    id: 3,
-    name: 'React.js',
-    icon: <Component size={32} />,
-    description:
-      'Leading library for dynamic user interfaces. With component-based architecture, React enables fast, modern web applications with exceptional user experiences.',
-  },
-  {
-    id: 4,
-    name: 'Ruby (RoR)',
-    icon: <Gem size={32} />,
-    description:
-      'A robust web framework known for efficiency. A proven choice for rapid development of maintainable web applications with high scalability requirements.',
-  },
-];
-
 export default function TechnologiesSection() {
+  const { config } = useAdmin();
+  const TECH_CONTENT = config?.service?.Technology;
+  
+  if (!TECH_CONTENT) return null;
   return (
     <section
       style={{
@@ -57,6 +44,7 @@ export default function TechnologiesSection() {
         position: 'relative',
         overflow: 'hidden',
       }}>
+      
       {/* 1. ENGINEERING GRID OVERLAY */}
       <div
         style={{
@@ -76,6 +64,7 @@ export default function TechnologiesSection() {
           position: 'relative',
           zIndex: 10,
         }}>
+        
         {/* HEADER SECTION */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -90,8 +79,8 @@ export default function TechnologiesSection() {
               letterSpacing: '-0.04em',
               marginBottom: '24px',
             }}>
-            Technologies{' '}
-            <span style={{ color: COLORS.primary }}>we master</span>
+            {TECH_CONTENT.header.titlePrefix}
+            <span style={{ color: COLORS.primary }}>{TECH_CONTENT.header.titleHighlight}</span>
           </h1>
           <p
             style={{
@@ -101,10 +90,7 @@ export default function TechnologiesSection() {
               maxWidth: '850px',
               margin: '0 auto',
             }}>
-            We leverage a versatile tech stack mastered by highly skilled
-            specialists. Our expertise is continually enriched through rigorous
-            knowledge-sharing, ensuring the latest practices are applied to
-            every project.
+            {TECH_CONTENT.header.description}
           </p>
         </motion.div>
 
@@ -115,7 +101,7 @@ export default function TechnologiesSection() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
             gap: '32px',
           }}>
-          {technologies.map((tech, index) => (
+          {TECH_CONTENT.technologies.map((tech, index) => (
             <motion.div
               key={tech.id}
               initial={{ opacity: 0, y: 30 }}
@@ -150,7 +136,7 @@ export default function TechnologiesSection() {
                   color: COLORS.primary,
                   border: `1px solid ${COLORS.primary}15`,
                 }}>
-                {tech.icon}
+                {ICON_MAP[tech.icon as IconName] || <div style={{width: 32, height: 32}} />}
               </div>
               <div>
                 <h3

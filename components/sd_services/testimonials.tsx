@@ -3,26 +3,34 @@
 import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
+import { useAdmin } from '../admin/context';
 
 const { Text, Paragraph } = Typography;
 
+// --- DATA CONFIGURATION (JSON TYPE) ---
+
 // --- UNIFIED INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // Matches standard Industrial Slate-Blue
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
-  primary: '#4F46E5', // Industrial Indigo
-  border: '#E2E8F0', // Crisp Edge
+  bgBase: '#F3F5F9', 
+  textBlack: '#020617', 
+  textMuted: '#64748B', 
+  primary: '#4F46E5', 
+  border: '#E2E8F0', 
   white: '#FFFFFF',
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const Testimonials = () => {
+  const { config } = useAdmin();
+  const TESTIMONIAL_DATA = config?.sd_services?.TESTIMONIAL_DATA;
+  console.log()
+  
+  if (!TESTIMONIAL_DATA) return null;
   return (
     <section
       style={{
-        padding: '40px 24px', // Standardized Section Padding
+        padding: '40px 24px',
         backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
@@ -30,6 +38,7 @@ const Testimonials = () => {
         justifyContent: 'center',
         fontFamily: FONT_PRIMARY,
       }}>
+      
       {/* 1. ENGINEERING GRID OVERLAY */}
       <div
         style={{
@@ -54,12 +63,13 @@ const Testimonials = () => {
           zIndex: 1,
           background: 'rgba(255, 255, 255, 0.7)',
           backdropFilter: 'blur(24px)',
-          borderRadius: '24px', // Matches Bento card standard
-          padding: '80px 60px', // Premium Breathing Room
+          borderRadius: '24px',
+          padding: '80px 60px',
           border: `1px solid ${COLORS.white}`,
           boxShadow: '0 30px 60px -15px rgba(0,0,0,0.05)',
         }}>
         <Row gutter={[64, 48]} align="middle">
+          
           {/* Founder Branding (Left) */}
           <Col xs={24} md={8} lg={7}>
             <div style={{ textAlign: 'center' }}>
@@ -74,8 +84,8 @@ const Testimonials = () => {
                   border: `4px solid ${COLORS.white}`,
                 }}>
                 <img
-                  src="/asfar.jpg"
-                  alt="Asfarul Huda"
+                  src={TESTIMONIAL_DATA.founder.image}
+                  alt={TESTIMONIAL_DATA.founder.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
@@ -89,7 +99,7 @@ const Testimonials = () => {
                     display: 'block',
                     letterSpacing: '-0.02em',
                   }}>
-                  Asfarul Huda
+                  {TESTIMONIAL_DATA.founder.name}
                 </Text>
               </div>
               <Text
@@ -100,7 +110,7 @@ const Testimonials = () => {
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
                 }}>
-                CEO & Founder
+                {TESTIMONIAL_DATA.founder.role}
               </Text>
             </div>
           </Col>
@@ -136,12 +146,10 @@ const Testimonials = () => {
                   letterSpacing: '-0.01em',
                   fontStyle: 'normal',
                 }}>
-                Every great product starts with a{' '}
-                <span style={{ color: COLORS.primary }}>clear purpose</span> and
-                the right team behind it. At Crestcode, we are proud to become
-                that team for businesses worldwide – growing together, solving
-                complex challenges, and developing digital solutions that drive{' '}
-                <span style={{ fontWeight: 800 }}>real-world results.</span>
+                {TESTIMONIAL_DATA.quote.main}{' '}
+                <span style={{ color: COLORS.primary }}>{TESTIMONIAL_DATA.quote.highlight1}</span>{' '}
+                {TESTIMONIAL_DATA.quote.middle}{' '}
+                <span style={{ fontWeight: 800 }}>{TESTIMONIAL_DATA.quote.highlight2}</span>
               </Paragraph>
 
               {/* Architectural Accent Line */}

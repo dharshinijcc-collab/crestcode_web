@@ -1,22 +1,40 @@
+'use client';
+
 import React from 'react';
-import { ChevronRight, Star, BrainCircuit, Cpu, Zap } from 'lucide-react';
+import { ChevronRight, Star, BrainCircuit, Cpu, Zap, type LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAdmin } from '../admin/context';
+
+// --- ICON MAPPING ---
+const ICON_MAP = {
+  BrainCircuit: <BrainCircuit size={24} />,
+  Cpu: <Cpu size={24} />,
+  Zap: <Zap size={24} />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
 
 // --- INDUSTRIAL STAND-OUT THEME TOKENS ---
 const COLORS = {
-  bgGradient:
-    'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
-  primary: '#4F46E5', // Precision Indigo
-  accentRed: '#FF5757', // Action Red
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
+  bgGradient: 'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
+  primary: '#4F46E5', 
+  accentRed: '#FF5757', 
+  textBlack: '#020617', 
+  textMuted: '#64748B', 
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
+// --- DATA CONFIGURATION (JSON TYPE) ---
 export default function AIMLHero() {
+  const { config } = useAdmin();
+  const HERO_CONTENT = config?.aiml?.HERO_CONTENT;
+  console.log(HERO_CONTENT)
+  
+  if (!HERO_CONTENT) return null;
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -25,13 +43,11 @@ export default function AIMLHero() {
     },
   };
 
-  const fadeUp = {
-    hidden: { y: 25, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-    },
+  const handleScrollToContact = () => {
+    const contactForm = document.getElementById(HERO_CONTENT.cta.targetId);
+    if (contactForm) {
+      contactForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   };
 
   return (
@@ -46,6 +62,7 @@ export default function AIMLHero() {
         fontFamily: FONT_PRIMARY,
         padding: '100px 24px',
       }}>
+      
       {/* 1. ARCHITECTURAL PATTERN OVERLAY */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         <div
@@ -54,8 +71,7 @@ export default function AIMLHero() {
             inset: 0,
             backgroundImage: `linear-gradient(${COLORS.textMuted}11 1px, transparent 1px), linear-gradient(90deg, ${COLORS.textMuted}11 1px, transparent 1px)`,
             backgroundSize: '60px 60px',
-            maskImage:
-              'radial-gradient(circle at center, black, transparent 90%)',
+            maskImage: 'radial-gradient(circle at center, black, transparent 90%)',
           }}
         />
       </div>
@@ -75,51 +91,22 @@ export default function AIMLHero() {
             gap: '60px',
             alignItems: 'center',
           }}>
-          {/* LEFT CONTENT: AI CORE MESSAGE */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible">
+          
+          {/* LEFT CONTENT */}
+          <motion.div variants={containerVariants} initial="hidden" animate="visible">
             {/* BREADCRUMB */}
-            <motion.div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '40px',
-              }}>
-              {/* <span
-                style={{
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  color: COLORS.primary,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  background: '#FFF',
-                  padding: '6px 12px',
-                  borderRadius: '4px',
-                  border: `1px solid ${COLORS.border}`,
-                }}>
-                Next-Gen Intelligence
-              </span> */}
-              <span
-                style={{
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  color: COLORS.textMuted,
-                }}>
-                Home
-              </span>
-              <ChevronRight size={14} color={COLORS.textMuted} />
-              <span
-                style={{
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  color: COLORS.textMuted,
-                }}>
-                AI & ML
-              </span>
-            </motion.div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '40px' }}>
+              {HERO_CONTENT.breadcrumbs.map((item, idx) => (
+                <React.Fragment key={item.label}>
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: COLORS.textMuted }}>
+                    {item.label}
+                  </span>
+                  {idx < HERO_CONTENT.breadcrumbs.length - 1 && (
+                    <ChevronRight size={14} color={COLORS.textMuted} />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
 
             {/* HEADLINE */}
             <motion.h1
@@ -131,17 +118,16 @@ export default function AIMLHero() {
                 letterSpacing: '-0.06em',
                 marginBottom: '32px',
               }}>
-              <span style={{ color: COLORS.primary }}>Custom Artificial</span>
+              <span style={{ color: COLORS.primary }}>{HERO_CONTENT.headline.highlight}</span>
               <br />
-              Intelligence{' '}
+              {HERO_CONTENT.headline.main}{' '}
               <span style={{ fontWeight: 300, color: COLORS.textMuted }}>
-                Solutions.
+                {HERO_CONTENT.headline.muted}
               </span>
             </motion.h1>
 
             {/* SUBTITLE */}
-            <motion.p
-              style={{
+            <p style={{
                 fontSize: 'clamp(1.1rem, 1.8vw, 1.35rem)',
                 color: COLORS.textMuted,
                 lineHeight: 1.6,
@@ -149,19 +135,11 @@ export default function AIMLHero() {
                 maxWidth: '650px',
                 fontWeight: 450,
               }}>
-              We bring businesses advanced AI-powered systems, from predictive
-              analytics to intelligent automation. Let’s lead the AI revolution
-              with technical superiority.
-            </motion.p>
+              {HERO_CONTENT.description}
+            </p>
 
-            {/* CTAs */}
-            <motion.div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '16px',
-                marginBottom: '48px',
-              }}>
+            {/* CTA */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
               <button
                 style={{
                   backgroundColor: COLORS.textBlack,
@@ -175,71 +153,36 @@ export default function AIMLHero() {
                   boxShadow: '0 20px 40px -12px rgba(2, 6, 23, 0.3)',
                   transition: '0.3s all',
                 }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.backgroundColor = COLORS.primary)
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.backgroundColor = COLORS.textBlack)
-                }>
-                Get in Touch
+                onClick={handleScrollToContact}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = COLORS.primary)}
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = COLORS.textBlack)}>
+                {HERO_CONTENT.cta.text}
               </button>
-              <button
-                style={{
-                  backgroundColor: COLORS.white,
-                  color: COLORS.textBlack,
-                  border: `1px solid ${COLORS.border}`,
-                  padding: '20px 44px',
-                  borderRadius: '8px',
-                  fontSize: '16px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  transition: '0.3s all',
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.borderColor = COLORS.textBlack;
-                  e.currentTarget.style.boxShadow =
-                    '0 10px 20px rgba(0,0,0,0.05)';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.borderColor = COLORS.border;
-                  e.currentTarget.style.boxShadow = 'none';
-                }}>
-                Free Consultation
-              </button>
-            </motion.div>
+            </div>
 
             {/* RATING */}
-            <motion.div
-              style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <div style={{ display: 'flex', gap: '2px' }}>
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={18} fill="#FFB800" stroke="none" />
                 ))}
               </div>
               <span style={{ fontWeight: 700, color: COLORS.textBlack }}>
-                5.0 Rating
+                {HERO_CONTENT.rating.score}
               </span>
-              <span
-                style={{
-                  width: '1px',
-                  height: '20px',
-                  background: COLORS.border,
-                }}
-              />
+              <div style={{ width: '1px', height: '20px', background: COLORS.border }} />
               <span style={{ color: COLORS.textMuted, fontSize: '14px' }}>
-                Deep Learning Expertise
+                {HERO_CONTENT.rating.expertise}
               </span>
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* RIGHT CONTENT: FROSTED GLASS TECH CARD */}
+          {/* RIGHT CONTENT: TECH CARD */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
-            style={
-              { position: 'relative', display: 'none', lg: 'block' } as any
-            }>
+            className="hidden lg:block">
             <div
               style={{
                 background: 'rgba(255, 255, 255, 0.7)',
@@ -251,99 +194,28 @@ export default function AIMLHero() {
                 zIndex: 2,
                 position: 'relative',
               }}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '40px',
-                }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: '20px',
-                    alignItems: 'center',
-                  }}>
-                  <div
-                    style={{
-                      background: COLORS.primary,
-                      padding: '14px',
-                      borderRadius: '14px',
-                      color: 'white',
-                    }}>
-                    <BrainCircuit />
-                  </div>
-                  <div>
-                    <p style={{ margin: 0, fontWeight: 800, fontSize: '19px' }}>
-                      Neural Engine
-                    </p>
-                    <p
-                      style={{
-                        margin: 0,
-                        color: COLORS.textMuted,
-                        fontSize: '13px',
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+                {HERO_CONTENT.techCards.map((card) => {
+                  const iconName = card.iconName as IconName;
+                  const IconComponent = ICON_MAP[iconName];
+                  const iconBg = card.id === 3 ? COLORS.accentRed : card.color;
+                  return (
+                    <div key={card.id} style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                      <div style={{
+                        background: iconBg,
+                        padding: '14px',
+                        borderRadius: '14px',
+                        color: 'white',
                       }}>
-                      Custom Model Training
-                    </p>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: '20px',
-                    alignItems: 'center',
-                  }}>
-                  <div
-                    style={{
-                      background: '#10B981',
-                      padding: '14px',
-                      borderRadius: '14px',
-                      color: 'white',
-                    }}>
-                    <Cpu />
-                  </div>
-                  <div>
-                    <p style={{ margin: 0, fontWeight: 800, fontSize: '19px' }}>
-                      Auto-Scaling
-                    </p>
-                    <p
-                      style={{
-                        margin: 0,
-                        color: COLORS.textMuted,
-                        fontSize: '13px',
-                      }}>
-                      Distributed Inference
-                    </p>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: '20px',
-                    alignItems: 'center',
-                  }}>
-                  <div
-                    style={{
-                      background: COLORS.accentRed,
-                      padding: '14px',
-                      borderRadius: '14px',
-                      color: 'white',
-                    }}>
-                    <Zap />
-                  </div>
-                  <div>
-                    <p style={{ margin: 0, fontWeight: 800, fontSize: '19px' }}>
-                      Predictive ROI
-                    </p>
-                    <p
-                      style={{
-                        margin: 0,
-                        color: COLORS.textMuted,
-                        fontSize: '13px',
-                      }}>
-                      Data-Driven Insights
-                    </p>
-                  </div>
-                </div>
+                        {React.cloneElement(IconComponent, { size: 24 })}
+                      </div>
+                      <div>
+                        <p style={{ margin: 0, fontWeight: 800, fontSize: '19px' }}>{card.title}</p>
+                        <p style={{ margin: 0, color: COLORS.textMuted, fontSize: '13px' }}>{card.subtitle}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
@@ -352,6 +224,7 @@ export default function AIMLHero() {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        @media (max-width: 1023px) { .hidden { display: none !important; } }
       `}</style>
     </section>
   );

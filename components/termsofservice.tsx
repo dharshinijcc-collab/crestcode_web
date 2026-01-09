@@ -1,468 +1,212 @@
-import Link  from "next/link";
-import { Button } from "@/components/ui/button";
-import { typography, spacing } from "@/lib/typography";
+'use client';
 
-export default function termsofservice() {
+import React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { 
+  ShieldAlert, 
+  Scale, 
+  Code2, 
+  Lock, 
+  CreditCard, 
+  Gavel, 
+  Info,
+  ChevronRight,
+  Mail,
+  MapPin,
+  Zap
+} from "lucide-react";
+import { useAdmin } from './admin/context';
+
+// --- ICON MAPPING ---
+const iconMap = {
+  ShieldAlert: ShieldAlert,
+  Scale: Scale,
+  Code2: Code2,
+  Lock: Lock,
+  CreditCard: CreditCard,
+  Gavel: Gavel,
+  Info: Info,
+  ChevronRight: ChevronRight,
+  Mail: Mail,
+  MapPin: MapPin,
+  Zap: Zap
+};
+
+// Icon mapping function
+const getIcon = (iconName: string, size: number = 24) => {
+  const IconComponent = iconMap[iconName as keyof typeof iconMap];
+  return IconComponent ? <IconComponent size={size} /> : null;
+};
+
+// --- DYNAMIC DATA SOURCE ---
+const COLORS = {
+  heroBg: 'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+
+export default function TermsOfService() {
+  const { config } = useAdmin();
+  const TERMS_DATA = config?.termsofservice?.TERMS_DATA;
+  
+  if (!TERMS_DATA) return null;
+  
+  const { hero, summary, sections, footer, sections: { intro, services, ipProtocol: ipProtocolSection, hackathon: hackathonSection, finance: financeSection, dispute: disputeSection } } = TERMS_DATA;
+
   return (
-    <div className="min-h-screen bg-white font-['Inter']">
-      {/* Hero Section */}
-      <div className="w-full py-6 px-4">
-        <div className={spacing.containerSmall + " text-center space-y-2"}>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-            Terms & Conditions
-          </h1>
-          <p className="text-base text-gray-700">
-            CrestCode Technologies Pvt Ltd
-          </p>
-          <p className="text-sm text-gray-600">
-            Effective Date: January 1, 2025
-          </p>
+    <div style={{ backgroundColor: COLORS.bgBase, fontFamily: FONT_PRIMARY, minHeight: '100vh' }}>
+      
+      {/* 1. HERO SECTION */}
+      <section style={{ padding: '120px 24px 80px', background: COLORS.heroBg, position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+          <div style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: `linear-gradient(${COLORS.textMuted}11 1px, transparent 1px), linear-gradient(90deg, ${COLORS.textMuted}11 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(circle at center, black, transparent 90%)',
+          }} />
         </div>
-      </div>
-
-      {/* Main Content Card */}
-      <div className={spacing.container + " pb-6 md:pb-10"}>
-        <div className="bg-white shadow-sm p-4 md:p-6">
+        
+        <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+             <span style={{ background: COLORS.white, padding: '6px 14px', borderRadius: '100px', fontSize: '12px', fontWeight: 700, color: COLORS.primary, border: `1px solid ${COLORS.border}`, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                {hero.badge}
+             </span>
+          </motion.div>
           
-          {/* Section 1: Introduction */}
-          <section className="mb-6">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              1. INTRODUCTION
-            </h2>
-            <div className="space-y-3">
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Welcome to CrestCode Technologies Pvt Ltd ("Company," "we," "us," or "our"). These Terms and Conditions ("Terms") govern your use of our services, including software development, consulting, and participation in hackathons and events organized by CrestCode Technologies Pvt Ltd.
-              </p>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                By engaging with our services or participating in our events, you ("Client," "Participant," "you," or "your") agree to be bound by these Terms. If you do not agree to these Terms, please do not use our services or participate in our events.
-              </p>
-            </div>
-          </section>
-
-          {/* Section 2: Company Services */}
-          <section className="mb-6">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              2. COMPANY SERVICES
-            </h2>
-
-            {/* 2.1 Software Development Services */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                2.1 Software Development Services
-              </h3>
-              <p className="text-gray-700 mb-3 text-sm leading-relaxed">
-                By engaging with our services or participating in our events, you ("Client," "Participant," "you," or "your") agree to be bound by these Terms. If you do not agree to these Terms, please do not use our services or participate in our events.
-              </p>
-              <p className="text-gray-700 mb-3 text-sm leading-relaxed">
-                CrestCode provides custom software development services including but not limited to:
-              </p>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Web application development</li>
-                <li>• Mobile application development</li>
-                <li>• Software architecture and design</li>
-                <li>• System integration services</li>
-                <li>• Technical consulting</li>
-                <li>• Project management</li>
-              </ul>
-            </div>
-
-            {/* 2.2 Client Collaboration */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                2.2 Client Collaboration
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                We work primarily with entrepreneurs, ideators, startups, and businesses looking to develop software solutions. Our services are tailored to transform ideas into functional software products.
-              </p>
-            </div>
-
-            {/* 2.3 Service Delivery */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                2.3 Service Delivery
-              </h3>
-              <p className="text-gray-700 mb-3 text-sm leading-relaxed">
-                We work primarily with entrepreneurs, ideators, startups, and businesses looking to develop software solutions. Our services are tailored to transform ideas into functional software products.
-              </p>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• All services will be provided according to agreed specifications and timelines outlined in separate service agreements or statements of work</li>
-                <li>• We reserve the right to modify our service offerings at any time</li>
-                <li>• Service availability may vary and is not guaranteed to be uninterrupted</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Section 3: Intellectual Property Rights */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              3. INTELLECTUAL PROPERTY RIGHTS
-            </h2>
-
-            {/* 3.1 Client Intellectual Property */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                3.1 Client Intellectual Property
-              </h3>
-
-              {/* Important Notice Box */}
-              <div className="relative mb-6">
-                <div className="absolute left-0 top-0 w-1.5 md:w-2 h-full bg-blue-600 rounded-l-lg"></div>
-                <div className="ml-1.5 md:ml-2 bg-blue-50 rounded-r-lg p-4 md:p-6 lg:p-8">
-                  <p className="text-sm font-semibold text-gray-900 mb-1">
-                    IMPORTANT:
-                  </p>
-                  <p className="text-gray-700 text-xs leading-relaxed">
-                    CrestCode Technologies Pvt Ltd does NOT claim ownership rights over ideas, concepts, business models, or intellectual property shared by clients during the course of our engagement. All client ideas and intellectual property remain the exclusive property of the client.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 3.2 Developed Software */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                3.2 Developed Software
-              </h3>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Custom software developed specifically for a client belongs to the client upon full payment</li>
-                <li>• Any pre-existing code, frameworks, libraries, or tools used by CrestCode remain our property</li>
-                <li>• Third-party components and open-source software are governed by their respective licenses</li>
-              </ul>
-            </div>
-
-            {/* 3.3 CrestCode Technologies Intellectual Property */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                3.3 CrestCode Technologies Pvt Ltd Intellectual Property
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                All proprietary methodologies, processes, tools, and general knowledge developed by CrestCode Technologies Pvt Ltd remain our intellectual property.
-              </p>
-            </div>
-          </section>
-
-          {/* Section 4: Hackathon Terms */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              4. HACKATHON TERMS
-            </h2>
-
-            {/* 4.1 Hackathon Participation */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                4.1 Hackathon Participation
-              </h3>
-
-              {/* Important Notice Red Box */}
-              <div className="relative mb-6">
-                <div className="absolute left-0 top-0 w-1.5 md:w-2 h-full bg-red-500 rounded-l-lg"></div>
-                <div className="ml-1.5 md:ml-2 bg-red-100/20 rounded-r-lg p-4 md:p-6 lg:p-8">
-                  <p className="text-sm font-semibold text-gray-900 mb-1">
-                    IMPORTANT NOTICE:
-                  </p>
-                  <p className="text-gray-700 text-xs leading-relaxed">
-                    Participants must understand that any submissions selected as winners or awarded prizes will have their intellectual property rights transferred to CrestCode Technologies Pvt Ltd. Only participate if you agree to this condition.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 4.2 Eligibility */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                4.2 Eligibility
-              </h3>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Participants must be at least 18 years old or have parental consent</li>
-                <li>• Registration is required for participation</li>
-                <li>• CrestCode Technologies Pvt Ltd reserves the right to refuse participation to anyone</li>
-                <li>• Only graduates of the years 2025, 2026, and 2027 are eligible to participate in the hackathon. Participants must provide proof of graduation or expected graduation from these specific years, when requested</li>
-              </ul>
-            </div>
-
-            {/* 4.3 Hackathon Intellectual Property */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                4.3 Hackathon Intellectual Property
-              </h3>
-              <div className="space-y-4 text-gray-700">
-                <p className="text-gray-700 mb-3 text-sm leading-relaxed">
-                  <span className="font-semibold">Selected/Awarded Projects: </span>
-                  Any ideas, concepts, projects, or solutions that are selected as winners, receive awards, or are chosen by CrestCode Technologies Pvt Ltd during the hackathon automatically become the intellectual property of CrestCode Technologies Pvt Ltd.
-                </p>
-                <p className="text-gray-700 mb-3 text-sm leading-relaxed">
-                  <span className="font-semibold">Non-Selected Submissions: </span>
-                  Ideas, concepts, and projects that are not selected or awarded remain the intellectual property of the participants/teams who created them.
-                </p>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  <span className="font-semibold">Pre-existing IP: </span>
-                  Any pre-existing intellectual property brought to the hackathon remains with its original owners, except when incorporated into selected/awarded submissions.
-                </p>
-              </div>
-            </div>
-
-            {/* 4.4 Awards and Certificates */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                4.4 Awards and Certificates
-              </h3>
-
-              {/* Yellow Warning Box */}
-              <div className="relative mb-6">
-                <div className="absolute left-0 top-0 w-1.5 md:w-2 h-full bg-yellow-500 rounded-l-lg"></div>
-                <div className="ml-1.5 md:ml-2 bg-yellow-100/20 rounded-r-lg p-4 md:p-6 lg:p-8">
-                  <p className="text-sm font-semibold text-gray-900 mb-1">
-                    Complete Submission Requirement:
-                  </p>
-                  <p className="text-gray-700 text-xs leading-relaxed">
-                    Awards, prizes, and participation certificates will ONLY be provided to participants who submit complete, functional projects that meet the hackathon requirements. Incomplete submissions will not receive any awards, prizes, or certificates.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 4.5 Code of Conduct */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                4.5 Code of Conduct
-              </h3>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Participants must maintain professional and respectful behavior</li>
-                <li>• Any form of harassment, discrimination, or inappropriate conduct will result in immediate disqualification</li>
-                <li>• CrestCode reserves the right to remove participants who violate the code of conduct</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Section 5: Payment Terms */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              5. PAYMENT TERMS
-            </h2>
-
-            {/* 5.1 Service Fees */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                5.1 Service Fees
-              </h3>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Payment terms will be specified in individual service agreements</li>
-                <li>• All fees are exclusive of applicable taxes unless otherwise stated</li>
-                <li>• Late payments may incur additional charges as specified in service agreements</li>
-              </ul>
-            </div>
-
-            {/* 5.2 Refund Policy */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                5.2 Refund Policy
-              </h3>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Refund policies will be outlined in individual service agreements</li>
-                <li>• Generally, work completed cannot be refunded</li>
-                <li>• Unused portions of prepaid services may be refunded at our discretion</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Section 6: Confidentiality */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              6. CONFIDENTIALITY
-            </h2>
-
-            {/* 6.1 Mutual Confidentiality */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                6.1 Mutual Confidentiality
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Both parties agree to maintain the confidentiality of proprietary information shared during the course of engagement.
-              </p>
-            </div>
-
-            {/* 6.2 Non-Disclosure */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                6.2 Non-Disclosure
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                CrestCode will not disclose client information, business strategies, or technical details to third parties without explicit written consent, except as required by law.
-              </p>
-            </div>
-          </section>
-
-          {/* Section 7: Limitation of Liability */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              7. LIMITATION OF LIABILITY
-            </h2>
-
-            {/* 7.1 Service Limitations */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                7.1 Service Limitations
-              </h3>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Services are provided "as is" without warranties of any kind</li>
-                <li>• CrestCode Technologies Pvt Ltd's liability is limited to the amount paid for services</li>
-                <li>• We are not liable for indirect, incidental, or consequential damages</li>
-              </ul>
-            </div>
-
-            {/* 7.2 Force Majeure */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                7.2 Force Majeure
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                CrestCode Technologies Pvt Ltd is not liable for delays or failures due to circumstances beyond our reasonable control, including natural disasters, government actions, or technical failures.
-              </p>
-            </div>
-          </section>
-
-          {/* Section 8: Termination */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              8. TERMINATION
-            </h2>
-
-            {/* 8.1 Termination Rights */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                8.1 Termination Rights
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Either party may terminate services with written notice as specified in individual service agreements.
-              </p>
-            </div>
-
-            {/* 8.2 Effect of Termination */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                8.2 Effect of Termination
-              </h3>
-              <ul className="space-y-1.5 ml-4 text-gray-700 text-sm leading-relaxed">
-                <li>• Outstanding payments become immediately due</li>
-                <li>• Confidentiality obligations survive termination</li>
-                <li>• Client retains rights to completed work upon full payment</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Section 9: Dispute Resolution */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              9. DISPUTE RESOLUTION
-            </h2>
-
-            {/* 9.1 Governing Law */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                9.1 Governing Law
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                These Terms are governed by the laws of India and the state of Tamil Nadu.
-              </p>
-            </div>
-
-            {/* 9.2 Jurisdiction */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                9.2 Jurisdiction
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                All disputes arising from or relating to these Terms, our services, or hackathon participation must be resolved exclusively in the courts of Chennai, Tamil Nadu, India. Both parties submit to the exclusive jurisdiction of Chennai courts.
-              </p>
-            </div>
-
-            {/* 9.3 Mediation */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                9.3 Mediation
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Before pursuing legal action, parties agree to attempt resolution through good faith negotiation and, if necessary, mediation.
-              </p>
-            </div>
-          </section>
-
-          {/* Section 10: General Provisions */}
-          <section className="mb-8 md:mb-10">
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              10. GENERAL PROVISIONS
-            </h2>
-
-            {/* 10.1 Modifications */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                10.1 Modifications
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                CrestCode Technologies Pvt Ltd reserves the right to modify these Terms at any time. Updated Terms will be posted on our website and take effect immediately.
-              </p>
-            </div>
-
-            {/* 10.2 Severability */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                10.2 Severability
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                If any provision of these Terms is found to be unenforceable, the remaining provisions will continue in full force and effect.
-              </p>
-            </div>
-
-            {/* 10.3 Entire Agreement */}
-            <div className="mb-6">
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                10.3 Entire Agreement
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                These Terms, together with any applicable service agreements, constitute the entire agreement between the parties.
-              </p>
-            </div>
-
-            {/* 10.4 Contact Information */}
-            <div>
-              <h3 className="text-base font-semibold text-gray-800 mb-2">
-                10.4 Contact Information
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                For questions about these Terms, please contact:
-              </p>
-              <div className="ml-6 md:ml-12 space-y-2">
-                <p className="text-base font-semibold text-gray-800">
-                  CrestCode Technologies Pvt Ltd
-                </p>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  Email: contact@crestcode.in
-                </p>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  Address: Chennai, Tamil Nadu, India
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Section 11: Acceptance */}
-          <section>
-            <h2 className="text-xl font-bold text-blue-600 mb-3">
-              11. ACCEPTANCE
-            </h2>
-            <p className="text-sm text-gray-700 leading-relaxed ml-4 md:ml-6">
-              By using our services or participating in our events, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.
-            </p>
-          </section>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-6 md:mt-8">
-          <p className="text-sm font-medium text-gray-600">
-            Last Updated: January 1, 2025
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, color: COLORS.textBlack, letterSpacing: '-0.05em', margin: '24px 0', lineHeight: 1.1 }}>
+            {hero.title}<span style={{ color: COLORS.primary }}>{hero.titleAccent}</span>
+          </motion.h1>
+          
+          <p style={{ fontSize: '18px', color: COLORS.textMuted, fontWeight: 500, lineHeight: 1.6 }}>
+            Effective Date: {hero.effectiveDate}. <br/>
+            {hero.description}
           </p>
         </div>
-      </div>
+      </section>
+
+      <main style={{ maxWidth: '1000px', margin: '-40px auto 100px', padding: '0 24px', position: 'relative', zIndex: 20 }}>
+        
+        {/* 2. SUMMARY DASHBOARD */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+            {summary.map((item, i) => (
+                <div key={i} style={{ background: COLORS.white, padding: '24px', borderRadius: '20px', border: `1px solid ${COLORS.border}`, textAlign: 'center' }}>
+                    <div style={{ color: COLORS.primary, marginBottom: '12px', display: 'flex', justifyContent: 'center' }}>{item.icon}</div>
+                    <div style={{ fontSize: '12px', fontWeight: 800, color: COLORS.textMuted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: COLORS.textBlack, marginTop: '4px' }}>{item.val}</div>
+                </div>
+            ))}
+        </div>
+
+        {/* 3. DOCUMENT SECTIONS */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          
+          <TermsSection number={sections.intro.number} title={sections.intro.title} icon={sections.intro.icon}>
+            <p>{sections.intro.content}</p>
+          </TermsSection>
+
+          <TermsSection number={sections.services.number} title={sections.services.title} icon={sections.services.icon}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <p>{sections.services.description}</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    {sections.services.list.map((s, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 600 }}>
+                            <ChevronRight size={14} color={COLORS.primary} /> {s}
+                        </div>
+                    ))}
+                </div>
+            </div>
+          </TermsSection>
+
+          {/* Section 3 - Dark Theme IP Ownership */}
+          <div style={{ background: COLORS.textBlack, borderRadius: '32px', padding: '48px', color: COLORS.white, position: 'relative', overflow: 'hidden' }}>
+             <div style={{ position: 'absolute', top: 0, right: 0, padding: '24px', opacity: 0.1 }}>
+                <Scale size={120} />
+             </div>
+             <div style={{ position: 'relative', zIndex: 2 }}>
+                <div style={{ color: COLORS.primary, fontWeight: 800, fontSize: '14px', marginBottom: '16px', textTransform: 'uppercase' }}>{ipProtocolSection.badge}</div>
+                <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '20px' }}>{ipProtocolSection.title}</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
+                    {ipProtocolSection.cards.map((card, i) => (
+                      <div key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '24px', borderRadius: '16px', borderLeft: `4px solid ${COLORS.primary}` }}>
+                          <h4 style={{ fontWeight: 800, marginBottom: '8px' }}>{card.title}</h4>
+                          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>{card.text}</p>
+                      </div>
+                    ))}
+                </div>
+             </div>
+          </div>
+
+          <TermsSection number={hackathonSection.number} title={hackathonSection.title} icon={hackathonSection.icon}>
+            <div style={{ background: '#FEF2F2', border: '1px solid #FEE2E2', padding: '24px', borderRadius: '16px', marginBottom: '20px' }}>
+                <h4 style={{ color: '#991B1B', fontWeight: 800, fontSize: '14px', marginBottom: '8px', textTransform: 'uppercase' }}>{hackathonSection.alert.title}</h4>
+                <p style={{ fontSize: '14px', color: '#991B1B', margin: 0, lineHeight: 1.5 }}>{hackathonSection.alert.text}</p>
+            </div>
+            <ul style={{ padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {hackathonSection.details.map((item, i) => (
+                  <li key={i} style={{ fontSize: '14px', color: COLORS.textMuted, fontWeight: 500 }}>
+                    <span style={{ color: COLORS.textBlack, fontWeight: 700 }}>{item.label}:</span> {item.text}
+                  </li>
+                ))}
+            </ul>
+          </TermsSection>
+
+          <TermsSection number={financeSection.number} title={financeSection.title} icon={financeSection.icon}>
+            <p style={{ fontSize: '15px', color: COLORS.textMuted }}>{financeSection.content}</p>
+          </TermsSection>
+
+          <TermsSection number={disputeSection.number} title={disputeSection.title} icon={disputeSection.icon}>
+            <p style={{ fontSize: '15px', color: COLORS.textMuted }}>
+              {disputeSection.text} 
+              <span style={{ fontWeight: 800, color: COLORS.textBlack }}>{disputeSection.location}</span>.
+            </p>
+          </TermsSection>
+
+          {/* Footer Contact */}
+          <div style={{ background: COLORS.white, padding: '40px', borderRadius: '32px', border: `1px solid ${COLORS.border}`, textAlign: 'center' }}>
+             <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 700 }}><Mail size={18} color={COLORS.primary}/> {footer.email}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 700 }}><MapPin size={18} color={COLORS.primary}/> {footer.location}</div>
+             </div>
+             <p style={{ color: COLORS.textMuted, fontSize: '14px', marginBottom: '24px' }}>{footer.acknowledgment}</p>
+          </div>
+
+        </div>
+      </main>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+      `}</style>
     </div>
+  );
+}
+
+// --- SUB-COMPONENT ---
+function TermsSection({ number, title, children, icon }: any) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      style={{ background: COLORS.white, padding: '40px', borderRadius: '32px', border: `1px solid ${COLORS.border}` }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+        <div style={{ fontSize: '32px', fontWeight: 900, color: `${COLORS.primary}15` }}>{number}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ background: `${COLORS.primary}10`, padding: '8px', borderRadius: '8px', color: COLORS.primary }}>{icon}</div>
+            <h3 style={{ fontSize: '20px', fontWeight: 800, color: COLORS.textBlack, margin: 0 }}>{title}</h3>
+        </div>
+      </div>
+      <div style={{ fontSize: '15px', color: COLORS.textMuted, lineHeight: 1.7, fontWeight: 500 }}>
+        {children}
+      </div>
+    </motion.div>
   );
 }

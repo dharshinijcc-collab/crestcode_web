@@ -1,13 +1,31 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Clock } from 'lucide-react';
+import { Check, Clock, Target, Zap, Shield, Users } from 'lucide-react';
+import { useAdmin } from '../admin/context';
+import Link from 'next/link';
+
+const ICON_MAP = {
+  Target: <Target size={24} />,
+  Zap: <Zap size={24} />,
+  Shield: <Shield size={24} />,
+  Users: <Users size={24} />,
+  Check: <Check size={16} />,
+  Clock: <Clock size={16} />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
+
+// --- DATA CONFIGURATION ---
+// Data will be imported from config
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
-  primary: '#4F46E5', // Precision Indigo
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
@@ -15,18 +33,20 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 function DevelopmentProcess() {
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(
-    new Set()
-  );
+  const { config } = useAdmin();
+  const PROCESS_DATA = config?.service?.PROCESS;
+  console.log(PROCESS_DATA);
+  
+  if (!PROCESS_DATA) return null;
+
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = parseInt(
-              entry.target.getAttribute('data-section') || '0'
-            );
+            const id = parseInt(entry.target.getAttribute('data-section') || '0');
             setVisibleSections((prev) => new Set(Array.from(prev).concat(id)));
           }
         });
@@ -41,69 +61,6 @@ function DevelopmentProcess() {
     return () => observer.disconnect();
   }, []);
 
-  const phases = [
-    {
-      number: 1,
-      title: 'Project Kickoff & Discovery',
-      duration: 'Duration: 1 Day Kickoff | 5-8 Weeks Elicitation',
-      items: [
-        'Conduct kickoff meeting to align on business goals',
-        'Establish communication tools and reporting frequency',
-        'Prepare project workspace in Jira and Confluence',
-        'Evaluate risks and prepare mitigation plans',
-        'Create a project roadmap and define major milestones',
-      ],
-    },
-    {
-      number: 2,
-      title: 'UI/UX Engineering',
-      duration: 'Duration: 3-6 Weeks (Parallel Execution)',
-      items: [
-        'Prepare prototypes and high-fidelity design concepts',
-        'Conduct competitor analysis and user research',
-        'Develop interactive wireframes and UI designs',
-        'Create a branded UI kit with reusable components',
-        'Document design specifications for development',
-      ],
-    },
-    {
-      number: 3,
-      title: 'Agile Development',
-      duration: 'Cycle: Bi-weekly Sprints',
-      items: [
-        'Write and review code based on sprint planning',
-        'Conduct daily stand-ups to align priorities',
-        'Tech lead oversight for absolute code quality',
-        'Robust version control and CI/CD implementation',
-        'Client participation in progress reviews',
-      ],
-    },
-    {
-      number: 4,
-      title: 'QA & Rigorous Testing',
-      duration: 'Cycle: Continuous Integration',
-      items: [
-        'Manual and automated testing (Selenium/TestNG)',
-        'Conduct usability, performance, and security audits',
-        'CI/CD pipelines for seamless feature integration',
-        'Collaborative bug resolution with developers',
-        'End-of-sprint demo and stakeholder sign-off',
-      ],
-    },
-    {
-      number: 5,
-      title: 'Support & Maintenance',
-      duration: 'Phase: Optional & Ongoing',
-      items: [
-        'Perform knowledge transfer and team training',
-        'Monitor system performance and proactive resolution',
-        'Implement technology updates and security patches',
-        'Roll out new features based on user evolution',
-        'Ongoing performance reports and maintenance activities',
-      ],
-    },
-  ];
-
   return (
     <section
       style={{
@@ -113,6 +70,7 @@ function DevelopmentProcess() {
         position: 'relative',
         overflow: 'hidden',
       }}>
+      
       {/* 1. ENGINEERING GRID OVERLAY */}
       <div
         style={{
@@ -132,6 +90,7 @@ function DevelopmentProcess() {
           position: 'relative',
           zIndex: 10,
         }}>
+        
         {/* HEADER SECTION */}
         <div style={{ textAlign: 'center', marginBottom: '70px' }}>
           <h1
@@ -142,8 +101,8 @@ function DevelopmentProcess() {
               letterSpacing: '-0.04em',
               marginBottom: '24px',
             }}>
-            Crestcode's{' '}
-            <span style={{ color: COLORS.primary }}>Development Process</span>
+            {PROCESS_DATA.header.titlePrefix}
+            <span style={{ color: COLORS.primary }}>{PROCESS_DATA.header.titleHighlight}</span>
           </h1>
           <p
             style={{
@@ -153,30 +112,28 @@ function DevelopmentProcess() {
               maxWidth: '800px',
               margin: '0 auto',
             }}>
-            A carefully elaborated set of activities designed to deliver
-            high-quality architectures within predictable timeframes.
+            {PROCESS_DATA.header.description}
           </p>
         </div>
 
         {/* TIMELINE STEPS */}
         <div style={{ position: 'relative' }}>
-          {phases.map((phase, index) => (
+          {PROCESS_DATA.phases.map((phase, index) => (
             <div
               key={phase.number}
               data-section={phase.number}
               className="process-step"
               style={{
                 position: 'relative',
-                paddingBottom: index === phases.length - 1 ? 0 : '100px',
+                paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '100px',
                 opacity: visibleSections.has(phase.number) ? 1 : 0,
-                transform: visibleSections.has(phase.number)
-                  ? 'translateY(0)'
-                  : 'translateY(40px)',
+                transform: visibleSections.has(phase.number) ? 'translateY(0)' : 'translateY(40px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                 transitionDelay: `${index * 100}ms`,
               }}>
+              
               {/* Vertical Connector Line */}
-              {index < phases.length - 1 && (
+              {index < PROCESS_DATA.phases.length - 1 && (
                 <div
                   style={{
                     position: 'absolute',
@@ -191,29 +148,20 @@ function DevelopmentProcess() {
                 />
               )}
 
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '40px',
-                  alignItems: 'flex-start',
-                }}>
+              <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
                 {/* CIRCULAR NUMBER BADGE */}
                 <div
                   style={{
                     width: '80px',
                     height: '80px',
                     borderRadius: '50%',
-                    background: visibleSections.has(phase.number)
-                      ? COLORS.primary
-                      : COLORS.white,
+                    background: visibleSections.has(phase.number) ? COLORS.primary : COLORS.white,
                     border: `2px solid ${COLORS.primary}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    boxShadow: visibleSections.has(phase.number)
-                      ? `0 10px 20px -5px ${COLORS.primary}66`
-                      : 'none',
+                    boxShadow: visibleSections.has(phase.number) ? `0 10px 20px -5px ${COLORS.primary}66` : 'none',
                     transition: 'all 0.6s ease',
                     zIndex: 2,
                   }}>
@@ -221,9 +169,7 @@ function DevelopmentProcess() {
                     style={{
                       fontSize: '28px',
                       fontWeight: 800,
-                      color: visibleSections.has(phase.number)
-                        ? COLORS.white
-                        : COLORS.primary,
+                      color: visibleSections.has(phase.number) ? COLORS.white : COLORS.primary,
                     }}>
                     {phase.number}
                   </span>
@@ -260,8 +206,7 @@ function DevelopmentProcess() {
                   <ul
                     style={{
                       display: 'grid',
-                      gridTemplateColumns:
-                        'repeat(auto-fit, minmax(280px, 1fr))',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                       gap: '16px',
                       padding: 0,
                       listStyle: 'none',
@@ -278,11 +223,7 @@ function DevelopmentProcess() {
                           borderRadius: '8px',
                           border: `1px solid ${COLORS.border}`,
                         }}>
-                        <Check
-                          size={16}
-                          color={COLORS.primary}
-                          strokeWidth={3}
-                        />
+                        <Check size={16} color={COLORS.primary} strokeWidth={3} />
                         <span
                           style={{
                             fontSize: '15px',

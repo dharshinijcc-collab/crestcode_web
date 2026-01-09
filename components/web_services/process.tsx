@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -9,131 +11,102 @@ import {
   Terminal,
   ShieldCheck,
   Rocket,
+  type LucideIcon
 } from 'lucide-react';
+import { useAdmin } from '../admin/context';
 
-// --- INDUSTRIAL DESIGN TOKENS ---
+// --- ICON MAPPING ---
+const getIconComponent = (iconName: string): LucideIcon => {
+  const iconMap: Record<string, LucideIcon> = {
+    Check,
+    Clock,
+    Search,
+    Lightbulb,
+    PenTool,
+    Terminal,
+    ShieldCheck,
+    Rocket,
+  };
+  
+  const icon = iconMap[iconName];
+  if (!icon) {
+    console.warn(`Icon "${iconName}" not found, using default Search`);
+    return Search;
+  }
+  
+  return icon;
+};
+
+// --- TYPE DEFINITIONS ---
+interface ProcessPhase {
+  number: number;
+  icon: string;
+  title: string;
+  duration: string;
+  items: string[];
+}
+
+interface TransformedProcessPhase extends Omit<ProcessPhase, 'icon'> {
+  icon: LucideIcon;
+}
+
+interface ProcessData {
+  header: {
+    title: string;
+    accent: string;
+    description: string;
+  };
+  phases: ProcessPhase[];
+}
+
+// --- DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
-  primary: '#4F46E5', // Precision Indigo
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
-function WebProcess() {
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(
-    new Set()
-  );
+export default function WebProcess() {
+  const { config } = useAdmin();
+  const PROCESS_DATA = config?.web?.PROCESS_DATA;
+  console.log(PROCESS_DATA)
+  
+  if (!PROCESS_DATA) return null;
+  
+  const [visibleSteps, setVisibleSteps] = useState<number[]>([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = parseInt(
-              entry.target.getAttribute('data-section') || '0'
-            );
-            setVisibleSections((prev) => new Set(Array.from(prev).concat(id)));
+            const stepId = Number(entry.target.getAttribute('data-step'));
+            setVisibleSteps((prev) => prev.includes(stepId) ? prev : [...prev, stepId]);
           }
         });
       },
       { threshold: 0.2 }
     );
 
-    document.querySelectorAll('.web-process-step').forEach((section) => {
-      observer.observe(section);
-    });
-
+    document.querySelectorAll('.process-step-trigger').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  const phases = [
-    {
-      number: 1,
-      icon: <Search size={24} />,
-      title: 'Research',
-      duration: 'Strategic Alignment',
-      items: [
-        'Stakeholder interviews',
-        'Key apps competitor analysis',
-        'Marketing and user behavior analysis',
-      ],
-    },
-    {
-      number: 2,
-      icon: <Lightbulb size={24} />,
-      title: 'Discover',
-      duration: 'Solution Architecture',
-      items: [
-        'Shared product vision creation',
-        'Requirement specs & release priorities',
-        'Roadmap & release timeline',
-        'Full application architecture building',
-      ],
-    },
-    {
-      number: 3,
-      icon: <PenTool size={24} />,
-      title: 'Design',
-      duration: 'Experience Engineering',
-      items: [
-        'Information architecture development',
-        'High-fidelity wireframing',
-        'Interactive prototyping',
-        'Interface animation & motion design',
-      ],
-    },
-    {
-      number: 4,
-      icon: <Terminal size={24} />,
-      title: 'Programming',
-      duration: 'System Development',
-      items: [
-        'Scalable backend development',
-        'Responsive frontend engineering',
-        'Core performance optimization',
-        'Seamless API integration',
-      ],
-    },
-    {
-      number: 5,
-      icon: <ShieldCheck size={24} />,
-      title: 'Quality Assurance',
-      duration: 'Reliability Testing',
-      items: [
-        'Deep functional testing',
-        'Non-functional & load testing',
-        'Regression & change testing',
-      ],
-    },
-    {
-      number: 6,
-      icon: <Rocket size={24} />,
-      title: 'Deployment',
-      duration: 'Production Launch',
-      items: [
-        'App Store & Google Play submission',
-        'Enterprise software implementation',
-        'Live environment monitoring',
-      ],
-    },
-  ];
-
   return (
-    <section
-      style={{
-        padding: '40px 24px',
-        backgroundColor: COLORS.bgBase,
-        fontFamily: FONT_PRIMARY,
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-      {/* 1. ENGINEERING GRID OVERLAY */}
-      <div
-        style={{
+    <section style={{
+      padding: '100px 24px',
+      backgroundColor: COLORS.bgBase,
+      fontFamily: FONT_PRIMARY,
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* BACKGROUND BLUEPRINT GRID */}
+      <div style={{
           position: 'absolute',
           inset: 0,
           backgroundImage: `radial-gradient(${COLORS.textMuted}22 1px, transparent 1px)`,
@@ -143,175 +116,43 @@ function WebProcess() {
         }}
       />
 
-      <div
-        style={{
-          maxWidth: '1000px',
-          margin: '0 auto',
-          position: 'relative',
-          zIndex: 10,
-        }}>
-        {/* HEADER SECTION */}
+      <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+        
+        {/* HEADER */}
         <div style={{ textAlign: 'center', marginBottom: '100px' }}>
-          <h1
-            style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-              fontWeight: 800,
-              color: COLORS.textBlack,
-              letterSpacing: '-0.04em',
-              marginBottom: '24px',
-            }}>
-            Our Web Development{' '}
-            <span style={{ color: COLORS.primary }}>Process</span>
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+            fontWeight: 800,
+            color: COLORS.textBlack,
+            letterSpacing: '-0.04em',
+            marginBottom: '24px',
+          }}>
+            {PROCESS_DATA.header.title} <span style={{ color: COLORS.primary }}>{PROCESS_DATA.header.accent}</span>
           </h1>
-          <p
-            style={{
-              fontSize: '18px',
-              color: COLORS.textMuted,
-              lineHeight: '1.6',
-              maxWidth: '800px',
-              margin: '0 auto',
-              fontWeight: 500,
-            }}>
-            A holistic web engineering approach focused on meeting business
-            requirements while maximizing effectiveness and efficiency.
+          <p style={{
+            fontSize: '18px',
+            color: COLORS.textMuted,
+            lineHeight: '1.6',
+            maxWidth: '700px',
+            margin: '0 auto',
+            fontWeight: 500,
+          }}>
+            {PROCESS_DATA.header.description}
           </p>
         </div>
 
-        {/* TIMELINE STEPS */}
+        {/* TIMELINE */}
         <div style={{ position: 'relative' }}>
-          {phases.map((phase, index) => (
-            <div
-              key={phase.number}
-              data-section={phase.number}
-              className="web-process-step"
-              style={{
-                position: 'relative',
-                paddingBottom: index === phases.length - 1 ? 0 : '100px',
-                opacity: visibleSections.has(phase.number) ? 1 : 0,
-                transform: visibleSections.has(phase.number)
-                  ? 'translateY(0)'
-                  : 'translateY(40px)',
-                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: `${index * 100}ms`,
-              }}>
-              {/* Vertical Connector Line */}
-              {index < phases.length - 1 && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: '40px',
-                    top: '80px',
-                    bottom: 0,
-                    width: '2px',
-                    background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
-                    opacity: visibleSections.has(phase.number + 1) ? 1 : 0.2,
-                    transition: 'opacity 1s ease',
-                  }}
-                />
-              )}
-
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '40px',
-                  alignItems: 'flex-start',
-                }}>
-                {/* CIRCULAR NUMBER BADGE */}
-                <div
-                  style={{
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '50%',
-                    background: visibleSections.has(phase.number)
-                      ? COLORS.primary
-                      : COLORS.white,
-                    border: `2px solid ${COLORS.primary}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    boxShadow: visibleSections.has(phase.number)
-                      ? `0 10px 20px -5px ${COLORS.primary}44`
-                      : 'none',
-                    transition: 'all 0.6s ease',
-                    zIndex: 2,
-                    color: visibleSections.has(phase.number)
-                      ? COLORS.white
-                      : COLORS.primary,
-                  }}>
-                  <span style={{ fontSize: '28px', fontWeight: 800 }}>
-                    {phase.number}
-                  </span>
-                </div>
-
-                {/* CONTENT AREA */}
-                <div style={{ flex: 1 }}>
-                  <div style={{ marginBottom: '24px' }}>
-                    <h2
-                      style={{
-                        fontSize: '28px',
-                        fontWeight: 800,
-                        color: COLORS.textBlack,
-                        marginBottom: '8px',
-                        letterSpacing: '-0.02em',
-                      }}>
-                      {phase.title}
-                    </h2>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        color: COLORS.primary,
-                        fontSize: '14px',
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                      }}>
-                      <Clock size={16} /> {phase.duration}
-                    </div>
-                  </div>
-
-                  <ul
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns:
-                        'repeat(auto-fit, minmax(280px, 1fr))',
-                      gap: '12px',
-                      padding: 0,
-                      listStyle: 'none',
-                    }}>
-                    {phase.items.map((item, i) => (
-                      <li
-                        key={i}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          background: 'rgba(255,255,255,0.7)',
-                          padding: '12px 16px',
-                          borderRadius: '10px',
-                          border: `1px solid ${COLORS.border}`,
-                        }}>
-                        <Check
-                          size={16}
-                          color={COLORS.primary}
-                          strokeWidth={3}
-                        />
-                        <span
-                          style={{
-                            fontSize: '15px',
-                            color: COLORS.textBlack,
-                            fontWeight: 500,
-                          }}>
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+          {PROCESS_DATA.phases.map((phase, index) => (
+            <ProcessStep 
+              key={phase.number} 
+              phase={{
+                ...phase,
+                icon: getIconComponent(phase.icon)
+              }} 
+              isLast={index === PROCESS_DATA.phases.length - 1}
+              isVisible={visibleSteps.includes(phase.number)}
+            />
           ))}
         </div>
       </div>
@@ -323,4 +164,97 @@ function WebProcess() {
   );
 }
 
-export default WebProcess;
+// --- SUB-COMPONENT: STEP ITEM ---
+
+function ProcessStep({ phase, isLast, isVisible }: { phase: TransformedProcessPhase; isLast: boolean; isVisible: boolean }) {
+  return (
+    <div
+      data-step={phase.number}
+      className="process-step-trigger"
+      style={{
+        position: 'relative',
+        paddingBottom: isLast ? 0 : '80px',
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+        transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+        display: 'flex',
+        gap: '40px',
+      }}>
+      
+      {/* CONNECTOR LINE */}
+      {!isLast && (
+        <div style={{
+            position: 'absolute',
+            left: '40px',
+            top: '80px',
+            bottom: 0,
+            width: '2px',
+            background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
+            opacity: 0.3,
+          }}
+        />
+      )}
+
+      {/* ICON BADGE */}
+      <div style={{
+          width: '80px',
+          height: '80px',
+          borderRadius: '50%',
+          backgroundColor: isVisible ? COLORS.primary : COLORS.white,
+          border: `2px solid ${COLORS.primary}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+          color: isVisible ? COLORS.white : COLORS.primary,
+          boxShadow: isVisible ? `0 10px 30px ${COLORS.primary}33` : 'none',
+          transition: 'all 0.6s ease',
+          zIndex: 2,
+        }}>
+        <phase.icon size={24} />
+      </div>
+
+      {/* CONTENT CARD */}
+      <div style={{ flex: 1 }}>
+        <div style={{ marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '26px', fontWeight: 800, color: COLORS.textBlack, marginBottom: '4px' }}>
+            {phase.title}
+          </h2>
+          <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              color: COLORS.primary,
+              fontSize: '13px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+            }}>
+            <Clock size={14} /> {phase.duration}
+          </div>
+        </div>
+
+        <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '10px',
+          }}>
+          {phase.items.map((item: string, i: number) => (
+            <div key={i} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                background: COLORS.white,
+                padding: '10px 14px',
+                borderRadius: '8px',
+                border: `1px solid ${COLORS.border}`,
+              }}>
+              <Check size={14} color={COLORS.primary} strokeWidth={3} />
+              <span style={{ fontSize: '14px', fontWeight: 600, color: COLORS.textBlack }}>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

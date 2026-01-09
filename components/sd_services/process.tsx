@@ -2,14 +2,30 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Clock } from 'lucide-react';
+import { Check, Clock, Target, Zap, Shield, Users } from 'lucide-react';
+import { useAdmin } from '../admin/context';
+import Link from 'next/link';
+
+const ICON_MAP = {
+  Target: <Target size={24} />,
+  Zap: <Zap size={24} />,
+  Shield: <Shield size={24} />,
+  Users: <Users size={24} />,
+  Check: <Check size={16} />,
+  Clock: <Clock size={16} />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
+
+// --- DATA CONFIGURATION ---
+// Data will be imported from config
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
-  bgBase: '#F3F5F9', // High-end Industrial Slate-Blue
-  primary: '#4F46E5', // Precision Indigo
-  textBlack: '#020617', // Ink Black
-  textMuted: '#64748B', // Architectural Slate
+  bgBase: '#F3F5F9',
+  primary: '#4F46E5',
+  textBlack: '#020617',
+  textMuted: '#64748B',
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
@@ -17,18 +33,20 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 function SoftwareProductProcess() {
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(
-    new Set()
-  );
+  const { config } = useAdmin();
+  const PROCESS_DATA = config?.sd_services?.PROCESS_DATA;
+  console.log(PROCESS_DATA)
+  
+  if (!PROCESS_DATA) return null;
+
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = parseInt(
-              entry.target.getAttribute('data-section') || '0'
-            );
+            const id = parseInt(entry.target.getAttribute('data-section') || '0');
             setVisibleSections((prev) => new Set(Array.from(prev).concat(id)));
           }
         });
@@ -43,88 +61,6 @@ function SoftwareProductProcess() {
     return () => observer.disconnect();
   }, []);
 
-  const phases = [
-    {
-      number: 1,
-      title: 'Business Analysis',
-      duration: 'Timeline: 2-4 Weeks',
-      items: [
-        'Stakeholder goal alignment & expectation setting',
-        'Workspace setup in Jira & Confluence',
-        'Requirements refinement via collaborative workshops',
-        'Risk evaluation & mitigation planning',
-        'Finalized project roadmap with clear milestones',
-      ],
-    },
-    {
-      number: 2,
-      title: 'Architecture Definition',
-      duration: 'Timeline: 1-2 Weeks',
-      items: [
-        'Technical product foundation definition',
-        'Scalability & security tech stack selection',
-        'Data flow & integration point mapping',
-        'Budget-optimized structure planning',
-      ],
-    },
-    {
-      number: 3,
-      title: 'UI/UX Design',
-      duration: 'Timeline: 3-6 Weeks (Parallel)',
-      items: [
-        'Mood boards, prototypes & initial concepts',
-        'Competitor analysis & user behavior study',
-        'Interactive wireframes & high-fidelity UI',
-        'Branded UI kit with reusable components',
-        'Development-ready design specifications',
-      ],
-    },
-    {
-      number: 4,
-      title: 'Product Development',
-      duration: 'Cycle: Bi-weekly Agile Sprints',
-      items: [
-        'Code execution for pre-approved sprint features',
-        'Daily stand-ups for priority alignment',
-        'Tech Lead oversight for code integrity',
-        'Client-side progress reviews & feedback loops',
-      ],
-    },
-    {
-      number: 5,
-      title: 'Quality Assurance',
-      duration: 'Cycle: Continuous Throughout Sprints',
-      items: [
-        'Manual testing for immediate bug discovery',
-        'Automated test cases (Selenium/TestNG)',
-        'Usability, performance & security audits',
-        'End-of-sprint demo & stakeholder review',
-      ],
-    },
-    {
-      number: 6,
-      title: 'DevOps & Deployment',
-      duration: 'Phase: Ongoing Infrastructure',
-      items: [
-        'System performance monitoring & scaling',
-        'Deployment environment management',
-        'Disaster recovery & backup protocols',
-        'CI/CD pipeline optimization',
-      ],
-    },
-    {
-      number: 7,
-      title: 'Maintenance & Support',
-      duration: 'Phase: Optional Post-Launch',
-      items: [
-        'Final reporting & project closure',
-        'Knowledge transfer & training sessions',
-        'Proactive technical issue resolution',
-        'Continuous security & performance updates',
-      ],
-    },
-  ];
-
   return (
     <section
       style={{
@@ -134,6 +70,7 @@ function SoftwareProductProcess() {
         position: 'relative',
         overflow: 'hidden',
       }}>
+      
       {/* 1. ENGINEERING GRID OVERLAY */}
       <div
         style={{
@@ -146,13 +83,8 @@ function SoftwareProductProcess() {
         }}
       />
 
-      <div
-        style={{
-          maxWidth: '1000px',
-          margin: '0 auto',
-          position: 'relative',
-          zIndex: 10,
-        }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+        
         {/* CENTERED HEADER */}
         <div style={{ textAlign: 'center', marginBottom: '100px' }}>
           <h1
@@ -164,8 +96,7 @@ function SoftwareProductProcess() {
               marginBottom: '24px',
               lineHeight: 1.1,
             }}>
-            Our Software Product{' '}
-            <span style={{ color: COLORS.primary }}>Engineering Process</span>
+            {PROCESS_DATA.header.title} <span style={{ color: COLORS.primary }}>{PROCESS_DATA.header.highlight}</span>
           </h1>
           <p
             style={{
@@ -176,30 +107,28 @@ function SoftwareProductProcess() {
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            A refined, end-to-end methodology designed to grow products from
-            initial concepts to fully functional, market-ready applications.
+            {PROCESS_DATA.header.description}
           </p>
         </div>
 
         {/* TIMELINE ARCHITECTURE */}
         <div style={{ position: 'relative' }}>
-          {phases.map((phase, index) => (
+          {PROCESS_DATA.phases.map((phase, index) => (
             <div
               key={phase.number}
               data-section={phase.number}
               className="software-step"
               style={{
                 position: 'relative',
-                paddingBottom: index === phases.length - 1 ? 0 : '100px',
+                paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '100px',
                 opacity: visibleSections.has(phase.number) ? 1 : 0,
-                transform: visibleSections.has(phase.number)
-                  ? 'translateY(0)'
-                  : 'translateY(40px)',
+                transform: visibleSections.has(phase.number) ? 'translateY(0)' : 'translateY(40px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                 transitionDelay: `${index * 100}ms`,
               }}>
-              {/* Vertical Connector Line (Indigo Glow) */}
-              {index < phases.length - 1 && (
+              
+              {/* Vertical Connector Line */}
+              {index < PROCESS_DATA.phases.length - 1 && (
                 <div
                   style={{
                     position: 'absolute',
@@ -214,78 +143,40 @@ function SoftwareProductProcess() {
                 />
               )}
 
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '40px',
-                  alignItems: 'flex-start',
-                }}>
+              <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
                 {/* CIRCULAR NUMBER BADGE */}
                 <div
                   style={{
                     width: '80px',
                     height: '80px',
                     borderRadius: '50%',
-                    background: visibleSections.has(phase.number)
-                      ? COLORS.primary
-                      : COLORS.white,
+                    background: visibleSections.has(phase.number) ? COLORS.primary : COLORS.white,
                     border: `2px solid ${COLORS.primary}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    boxShadow: visibleSections.has(phase.number)
-                      ? `0 10px 20px -5px ${COLORS.primary}66`
-                      : 'none',
+                    boxShadow: visibleSections.has(phase.number) ? `0 10px 20px -5px ${COLORS.primary}66` : 'none',
                     transition: 'all 0.6s ease',
                     zIndex: 2,
-                    color: visibleSections.has(phase.number)
-                      ? COLORS.white
-                      : COLORS.primary,
+                    color: visibleSections.has(phase.number) ? COLORS.white : COLORS.primary,
                   }}>
-                  <span style={{ fontSize: '28px', fontWeight: 800 }}>
-                    {phase.number}
-                  </span>
+                  <span style={{ fontSize: '28px', fontWeight: 800 }}>{phase.number}</span>
                 </div>
 
                 {/* CONTENT AREA */}
                 <div style={{ flex: 1 }}>
                   <div style={{ marginBottom: '28px' }}>
-                    <h2
-                      style={{
-                        fontSize: '28px',
-                        fontWeight: 800,
-                        color: COLORS.textBlack,
-                        marginBottom: '8px',
-                        letterSpacing: '-0.02em',
-                      }}>
+                    <h2 style={{ fontSize: '28px', fontWeight: 800, color: COLORS.textBlack, marginBottom: '8px', letterSpacing: '-0.02em' }}>
                       {phase.title}
                     </h2>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        color: COLORS.primary,
-                        fontSize: '14px',
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                      }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: COLORS.primary, fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                       <Clock size={16} /> {phase.duration}
                     </div>
                   </div>
 
                   {/* BENTO-GRID LIST ITEMS */}
-                  <ul
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns:
-                        'repeat(auto-fit, minmax(280px, 1fr))',
-                      gap: '12px',
-                      padding: 0,
-                      listStyle: 'none',
-                    }}>
+                  <ul style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px', padding: 0, listStyle: 'none' }}>
                     {phase.items.map((item, i) => (
                       <li
                         key={i}
@@ -298,19 +189,8 @@ function SoftwareProductProcess() {
                           borderRadius: '8px',
                           border: `1px solid ${COLORS.border}`,
                         }}>
-                        <Check
-                          size={16}
-                          color={COLORS.primary}
-                          strokeWidth={3}
-                        />
-                        <span
-                          style={{
-                            fontSize: '15px',
-                            color: COLORS.textMuted,
-                            fontWeight: 500,
-                          }}>
-                          {item}
-                        </span>
+                        <Check size={16} color={COLORS.primary} strokeWidth={3} />
+                        <span style={{ fontSize: '15px', color: COLORS.textMuted, fontWeight: 500 }}>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -323,7 +203,6 @@ function SoftwareProductProcess() {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-        
         @media (max-width: 768px) {
           .software-step { padding-bottom: 60px !important; }
           div[style*="gap: 40px"] { gap: 20px !important; }

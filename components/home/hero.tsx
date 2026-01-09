@@ -1,289 +1,10 @@
-// import React from 'react';
-// import { Button } from 'antd';
-// import { motion } from 'framer-motion';
-// import { ArrowRightOutlined, RocketOutlined } from '@ant-design/icons';
 
-// // --- CONFIGURATION & THEME ---
-// const COLORS = {
-//   background: '#020617', // Deep Midnight
-//   primary: '#6366F1', // Electric Indigo
-//   accent: '#2DD4BF', // Teal
-//   textMain: '#F8FAFC',
-//   textMuted: '#94A3B8',
-// };
-
-// const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
-
-// function Hero() {
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: { staggerChildren: 0.2, delayChildren: 0.3 },
-//     },
-//   };
-
-//   const itemVariants = {
-//     hidden: { y: 20, opacity: 0 },
-//     visible: {
-//       y: 0,
-//       opacity: 1,
-//       transition: { duration: 0.8, ease: 'easeOut' },
-//     },
-//   };
-
-//   return (
-//     <div
-//       style={{
-//         minHeight: '100vh',
-//         backgroundColor: COLORS.background,
-//         position: 'relative',
-//         overflow: 'hidden',
-//         display: 'flex',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         fontFamily: FONT_FAMILY,
-//       }}>
-//       {/* 1. INDUSTRIAL GRID BACKGROUND */}
-//       <div
-//         style={{
-//           position: 'absolute',
-//           inset: 0,
-//           backgroundImage: `linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-//                           linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px)`,
-//           backgroundSize: '4rem 4rem',
-//           maskImage:
-//             'radial-gradient(circle at center, black, transparent 80%)',
-//         }}
-//       />
-
-//       {/* 2. GLOW RADIANCE ORBS */}
-//       <div
-//         style={{
-//           position: 'absolute',
-//           top: '20%',
-//           left: '10%',
-//           width: '400px',
-//           height: '400px',
-//           background:
-//             'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%)',
-//           filter: 'blur(60px)',
-//           zIndex: 0,
-//         }}
-//       />
-
-//       <style>{`
-//         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
-//         .hero-btn-primary {
-//           background: ${COLORS.primary} !important;
-//           border: none !important;
-//           height: 56px !important;
-//           padding: 0 32px !important;
-//           border-radius: 12px !important;
-//           font-weight: 700 !important;
-//           box-shadow: 0 10px 30px -10px ${COLORS.primary}88 !important;
-//           display: flex !important;
-//           align-items: center !important;
-//           gap: 8px !important;
-//         }
-
-//         .hero-btn-secondary {
-//           background: rgba(255,255,255,0.03) !important;
-//           border: 1px solid rgba(255,255,255,0.1) !important;
-//           color: white !important;
-//           height: 56px !important;
-//           padding: 0 32px !important;
-//           border-radius: 12px !important;
-//           font-weight: 600 !important;
-//           backdrop-filter: blur(10px);
-//         }
-
-//         .hero-btn-secondary:hover {
-//           border-color: ${COLORS.primary} !important;
-//           background: rgba(255,255,255,0.08) !important;
-//         }
-
-//         @keyframes subtle-float {
-//           0% { transform: translateY(0px); }
-//           50% { transform: translateY(-10px); }
-//           100% { transform: translateY(0px); }
-//         }
-//       `}</style>
-
-//       {/* 3. MAIN CONTENT CONTAINER */}
-//       <motion.div
-//         variants={containerVariants}
-//         initial="hidden"
-//         animate="visible"
-//         style={{
-//           zIndex: 10,
-//           textAlign: 'center',
-//           maxWidth: '1000px',
-//           padding: '0 24px',
-//         }}>
-//         {/* TOP BADGE */}
-//         <motion.div variants={itemVariants} style={{ marginBottom: '24px' }}>
-//           <span
-//             style={{
-//               background: 'rgba(99, 102, 241, 0.1)',
-//               border: `1px solid ${COLORS.primary}44`,
-//               color: COLORS.primary,
-//               padding: '8px 16px',
-//               borderRadius: '100px',
-//               fontSize: '14px',
-//               fontWeight: 700,
-//               letterSpacing: '0.05em',
-//               textTransform: 'uppercase',
-//             }}>
-//             <RocketOutlined style={{ marginRight: '8px' }} /> Technical
-//             Consulting Reimagined
-//           </span>
-//         </motion.div>
-
-//         {/* HEADLINE */}
-//         <motion.h1
-//           variants={itemVariants}
-//           style={{
-//             fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-//             fontWeight: 800,
-//             color: COLORS.textMain,
-//             lineHeight: 1.1,
-//             letterSpacing: '-0.02em',
-//             marginBottom: '32px',
-//           }}>
-//           We Own the{' '}
-//           <span
-//             style={{
-//               background: `linear-gradient(to right, #818cf8, ${COLORS.accent})`,
-//               WebkitBackgroundClip: 'text',
-//               WebkitTextFillColor: 'transparent',
-//             }}>
-//             Engineering.
-//           </span>
-//           <br />
-//           You Own the Vision.
-//         </motion.h1>
-
-//         {/* DESCRIPTION */}
-//         <motion.p
-//           variants={itemVariants}
-//           style={{
-//             fontSize: 'clamp(1.1rem, 2vw, 1.25rem)',
-//             color: COLORS.textMuted,
-//             lineHeight: 1.6,
-//             maxWidth: '780px',
-//             margin: '0 auto 48px auto',
-//             fontWeight: 400,
-//           }}>
-//           Crestcode is a high-performance technical consultancy. We provide
-//           full-spectrum engineering and strategic advisory for founders building
-//           the next generation of high-growth digital products.
-//         </motion.p>
-
-//         {/* BUTTONS */}
-//         <motion.div
-//           variants={itemVariants}
-//           style={{
-//             display: 'flex',
-//             gap: '16px',
-//             justifyContent: 'center',
-//             flexWrap: 'wrap',
-//           }}>
-//           <Button
-//             type="primary"
-//             size="large"
-//             className="hero-btn-primary"
-//             icon={<ArrowRightOutlined />}>
-//             Get Started
-//           </Button>
-//           <Button size="large" className="hero-btn-secondary">
-//             Explore Our Services
-//           </Button>
-//         </motion.div>
-
-//         {/* TRUST INDICATORS (SOCIAL PROOF) */}
-//         <motion.div
-//           variants={itemVariants}
-//           style={{
-//             marginTop: '80px',
-//             paddingTop: '32px',
-//             borderTop: '1px solid rgba(255,255,255,0.05)',
-//           }}>
-//           <p
-//             style={{
-//               color: 'rgba(255,255,255,0.3)',
-//               fontSize: '13px',
-//               fontWeight: 600,
-//               textTransform: 'uppercase',
-//               letterSpacing: '2px',
-//               marginBottom: '24px',
-//             }}>
-//             Trusted by innovators at
-//           </p>
-//           <div
-//             style={{
-//               display: 'flex',
-//               justifyContent: 'center',
-//               gap: '48px',
-//               opacity: 0.5,
-//               filter: 'grayscale(100%)',
-//               flexWrap: 'wrap',
-//             }}>
-//             {/* Replace these with actual Partner SVG Logos */}
-//             <span style={{ color: '#fff', fontWeight: 800, fontSize: '20px' }}>
-//               STRIPE
-//             </span>
-//             <span style={{ color: '#fff', fontWeight: 800, fontSize: '20px' }}>
-//               VERCEL
-//             </span>
-//             <span style={{ color: '#fff', fontWeight: 800, fontSize: '20px' }}>
-//               AIRBNB
-//             </span>
-//             <span style={{ color: '#fff', fontWeight: 800, fontSize: '20px' }}>
-//               LINEAR
-//             </span>
-//           </div>
-//         </motion.div>
-//       </motion.div>
-
-//       {/* 4. DECORATIVE SIDE ELEMENTS */}
-//       <div
-//         style={{
-//           position: 'absolute',
-//           bottom: '5%',
-//           right: '5%',
-//           padding: '20px',
-//           border: '1px solid rgba(255,255,255,0.05)',
-//           borderRadius: '16px',
-//           background: 'rgba(255,255,255,0.01)',
-//           backdropFilter: 'blur(5px)',
-//           display: 'none', // Hide on mobile
-//           animation: 'subtle-float 4s ease-in-out infinite',
-//         }}
-//         className="desktop-only">
-//         <div
-//           style={{
-//             width: '40px',
-//             height: '4px',
-//             background: COLORS.primary,
-//             marginBottom: '8px',
-//           }}
-//         />
-//         <p style={{ color: '#fff', fontSize: '12px', margin: 0, opacity: 0.6 }}>
-//           SYSTEM STATUS: OPTIMIZED
-//         </p>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Hero;
 'use client';
 
-import React from 'react';
-import { Button, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button } from 'antd';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import {
   ArrowRightOutlined,
   ThunderboltFilled,
@@ -291,6 +12,17 @@ import {
   GlobalOutlined,
   SafetyCertificateOutlined,
 } from '@ant-design/icons';
+import { useAdmin } from '../admin/context';
+
+const ICON_MAP = {
+  ArrowRightOutlined: <ArrowRightOutlined />,
+  SafetyCertificateOutlined: <SafetyCertificateOutlined />,
+  GlobalOutlined: <GlobalOutlined />,
+  CodeOutlined: <CodeOutlined />,
+  ThunderboltFilled: <ThunderboltFilled />,
+} as const;
+
+type IconName = keyof typeof ICON_MAP;
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -304,7 +36,16 @@ const COLORS = {
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
+
 function MainCompanyHero() {
+  const { config } = useAdmin();
+  console.log("🚀 ~ MainCompanyHero ~ config:", config)
+  const HERO_CONTENT = config?.home?.hero;
+  console.log("🚀 ~ MainCompanyHero ~ HERO_CONTENT:", HERO_CONTENT)
+
+  if (!HERO_CONTENT) return null;
+
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -348,7 +89,8 @@ function MainCompanyHero() {
           width: '100%',
           position: 'relative',
           zIndex: 10,
-        }}>
+        }}
+      >
         <div
           style={{
             display: 'grid',
@@ -361,26 +103,6 @@ function MainCompanyHero() {
             variants={containerVariants}
             initial="hidden"
             animate="visible">
-            {/* <motion.div style={{ marginBottom: '12px' }}>
-              <span
-                style={{
-                  background: '#FFF',
-                  border: `1px solid ${COLORS.border}`,
-                  padding: '8px 16px',
-                  borderRadius: '100px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  color: COLORS.primary,
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}>
-                <ThunderboltFilled /> High-Performance Technical Consultancy
-              </span>
-            </motion.div> */}
 
             <motion.h1
               style={{
@@ -391,17 +113,17 @@ function MainCompanyHero() {
                 letterSpacing: '-0.05em',
                 marginBottom: '32px',
               }}>
-              We Own the <br />
+              {HERO_CONTENT.title.line1} <br />
               <span
                 style={{
                   background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                 }}>
-                Engineering.
+                {HERO_CONTENT.title.highlight}
               </span>
               <br />
-              You Own the Vision.
+              {HERO_CONTENT.title.line2}
             </motion.h1>
 
             <motion.p
@@ -413,40 +135,34 @@ function MainCompanyHero() {
                 marginBottom: '48px',
                 fontWeight: 500,
               }}>
-              Strategizing, architecting, and building the next generation of
-              digital infrastructure for global enterprises and ambitious
-              scale-ups.
+              {HERO_CONTENT.description}
             </motion.p>
 
             <motion.div
               style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <Button
-                type="primary"
-                size="large"
-                style={{
-                  height: '64px',
-                  padding: '0 40px',
-                  borderRadius: '12px',
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  backgroundColor: COLORS.primary,
-                  boxShadow: `0 20px 40px -10px ${COLORS.primary}44`,
-                }}
-                icon={<ArrowRightOutlined />}>
-                Initiate Project
-              </Button>
-              <Button
-                size="large"
-                style={{
-                  height: '64px',
-                  padding: '0 40px',
-                  borderRadius: '12px',
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  border: `1px solid ${COLORS.border}`,
-                }}>
-                Our Services
-              </Button>
+              {HERO_CONTENT.buttons.map((btn: any, idx: number) => {
+                const isValidIcon = btn.iconName && ICON_MAP[btn.iconName as IconName];
+                return (
+                  <Link key={idx} href={btn.href} scroll={btn.scroll}>
+                    <Button
+                      type={btn.type}
+                      size="large"
+                      icon={isValidIcon ? ICON_MAP[btn.iconName as IconName] : null}
+                      style={{
+                        height: '64px',
+                        padding: '0 40px',
+                        borderRadius: '12px',
+                        fontSize: '18px',
+                        fontWeight: idx === 0 ? 700 : 600,
+                        backgroundColor: btn.type === 'primary' ? COLORS.primary : 'transparent',
+                        border: btn.type === 'default' ? `1px solid ${COLORS.border}` : 'none',
+                        boxShadow: btn.type === 'primary' ? `0 20px 40px -10px ${COLORS.primary}44` : 'none',
+                      }}>
+                      {btn.label}
+                    </Button>
+                  </Link>
+                );
+              })}
             </motion.div>
 
             {/* TRUST INDICATORS */}
@@ -472,7 +188,7 @@ function MainCompanyHero() {
                       color: COLORS.primary,
                       letterSpacing: '-0.02em',
                     }}>
-                    24/7
+                    {HERO_CONTENT.stats.value}
                   </span>
                   <div
                     style={{
@@ -483,7 +199,7 @@ function MainCompanyHero() {
                       fontSize: '10px',
                       fontWeight: 800,
                     }}>
-                    LIVE
+                    {HERO_CONTENT.stats.badge}
                   </div>
                 </div>
                 <span
@@ -494,7 +210,7 @@ function MainCompanyHero() {
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                   }}>
-                  Agile Support Cycle
+                  {HERO_CONTENT.stats.label}
                 </span>
               </div>
               <div
@@ -504,16 +220,15 @@ function MainCompanyHero() {
                   background: COLORS.border,
                 }}
               />
-              <div style={{ display: 'flex', gap: '24px' }}>
-                <SafetyCertificateOutlined
-                  style={{ fontSize: '24px', color: COLORS.textMuted }}
-                />
-                <GlobalOutlined
-                  style={{ fontSize: '24px', color: COLORS.textMuted }}
-                />
-                <CodeOutlined
-                  style={{ fontSize: '24px', color: COLORS.textMuted }}
-                />
+              <div style={{ display: 'flex', gap: '24px', fontSize: '24px', color: COLORS.textMuted }}>
+                {HERO_CONTENT.trustIconNames.map((iconName: string, idx: number) => {
+                  const validIcon = ICON_MAP[iconName as IconName];
+                  return validIcon ? (
+                    <div key={idx}>
+                      {validIcon}
+                    </div>
+                  ) : null;
+                })}
               </div>
             </motion.div>
           </motion.div>
@@ -524,12 +239,10 @@ function MainCompanyHero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             style={{ position: 'relative' }}>
-            {/* GLASS MORPHIC LAB CARD */}
             <div>
-              {/* Replace src with your specific company visual / hero image */}
               <img
-                src="/code1.jpg"
-                alt="Industrial Engineering Visual"
+                src={HERO_CONTENT.visual.image}
+                alt={HERO_CONTENT.visual.alt}
                 style={{
                   width: '100%',
                   height: 'auto',
@@ -560,7 +273,6 @@ function MainCompanyHero() {
                   boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
                   zIndex: 20,
                 }}>
-                {/* Pulsing Green "Live" Indicator */}
                 <div style={{ position: 'relative', display: 'flex' }}>
                   <div
                     style={{
@@ -592,7 +304,7 @@ function MainCompanyHero() {
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em',
                     }}>
-                    Deployment Status
+                    {HERO_CONTENT.visual.badgeTitle}
                   </div>
                   <div
                     style={{
@@ -602,9 +314,9 @@ function MainCompanyHero() {
                       alignItems: 'center',
                       gap: '6px',
                     }}>
-                    99.9%{' '}
+                    {HERO_CONTENT.visual.badgeValue}{' '}
                     <span style={{ color: '#10B981', fontSize: '12px' }}>
-                      Uptime
+                      {HERO_CONTENT.visual.badgeUnit}
                     </span>
                   </div>
                 </div>

@@ -14,9 +14,6 @@ import {
   logout as logoutAction,
 } from '@/store/authSlice';
 import { RootState } from '@/store';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
-import DocklyLoader from '../dockly-loader';
 
 interface AdminContextType {
   isAdmin: boolean;
@@ -37,89 +34,198 @@ export const emptySiteConfig = {
     src: '',
     alt: '',
   },
-  header: {
-    menus: [],
-    buttons: {
-      waitlist: '',
-    },
-  },
-  hero: {
-    title: '',
-    cycleWords: [],
-    subtitle: '',
-    emailPlaceholder: '',
-    waitlistButton: '',
-    features: [],
-  },
-  features: {
-    title: '',
-    subtitle: '',
-    items: [],
-  },
-  video: {
-    title: '',
-    subtitle: '',
-    youtubeId: '',
-    thumbnailText: '',
-    thumbnailImage: '',
-  },
-  hubs: {
-    title: '',
-    subtitle: '',
-    items: [],
-  },
-  boards: {
-    title: '',
-    subtitle: '',
-    items: [],
-  },
-  security: {
-    title: '',
-    subtitle: '',
-    features: [],
-  },
-  pricing: {
-    title: '',
-    subtitle: '',
-    guaranteeText: '',
-    subtext: '',
-    plans: [],
-    taxNote: '',
-    features: [],
-  },
-  cta: {
-    title: '',
-    subtitle: '',
-    steps: [],
-    buttons: {
-      primary: '',
-      secondary: '',
-    },
-  },
-  faqs: {
-    title: 'Frequently Asked Questions',
-    subtitle: 'Get instant answers to common questions...',
-    items: [
-      {
-        question: 'What is Dockly and how does it work?',
-        answer: 'Dockly is an all-in-one workspace...',
+  home: {
+    hero: {
+      title: {
+        line1: '',
+        highlight: '',
+        line2: '',
       },
-    ],
-  },
-  footer: {
-    description: '',
-    links: {
-      Product: [],
-      Company: [],
-      Support: [],
+      description: '',
+      buttons: [],
+      stats: {
+        value: '',
+        badge: '',
+        label: '',
+      },
+      trustIconNames: [],
+      visual: {
+        image: '',
+        alt: '',
+        badgeTitle: '',
+        badgeValue: '',
+        badgeUnit: '',
+      },
     },
-    copyright: '',
-    socialLinks: {
-      twitter: '',
-      facebook: '',
-      pinterest: '',
+    services: {
+      header: {
+        highlight: '',
+        title: '',
+        description: ''
+      },
+      ctaLabel: '',
+      items: []
+    },
+    IndustriesSection: {
+      header: {
+        highlight: '',
+        normalText: '',
+      },
+      items: []
+    },
+    LEADERSHIP_DATA: {
+      author: {
+        name: '',
+        role: '',
+        image: '',
+      },
+      quote: {
+        part1: '',
+        highlight: '',
+        part2: '',
+        boldSegment: '',
+        part3: '',
+      },
+    },
+    WHY_CRESTCODE_DATA: {
+      header: {
+        mainText: '',
+        brandName: ''
+      },
+      features: []
     },
   },
+  service: {
+    hero: {
+      breadcrumbs: {
+        parent: '',
+        current: ''
+      },
+      heading: {
+        highlight: '',
+        main: '',
+        suffix: '',
+      },
+      description: '',
+      cta: {
+        text: '',
+        targetId: ''
+      },
+      rating: {
+        score: '',
+        certification: ''
+      },
+      features: [],
+    },
+    SERVICES_DATA: {
+      header: {
+        main: '',
+        highlight: '',
+        sub: ''
+      },
+      services: []
+    },
+    BANNER: {
+      title: '',
+      description: '',
+      button: {
+        text: '',
+        link: ''
+      },
+    },
+    FAQ_DATA: {
+      header: {
+        main: '',
+        highlight: '',
+        sub: ''
+      },
+      questions: []
+    },
+    mvp: {
+      header: {
+        main: '',
+        highlight: '',
+        description: ''
+      },
+      tabs: [],
+      footerBadge: ''
+    },
+    ctaLabel: '',
+    services: [],
+    PROCESS: {
+      header: {
+        titlePrefix: '',
+        titleHighlight: '',
+        description: ''
+      },
+      phases: []
+    },
+    Technology: {
+      header: {
+        titlePrefix: '',
+        titleHighlight: '',
+        description: ''
+      },
+      technologies: []
+    },
+    TESTIMONIAL_DATA: {
+      author: {
+        name: '',
+        role: '',
+        image: '',
+      },
+      quote: {
+        prefix: '',
+        highlight: '',
+        suffix: ''
+      },
+      settings: {
+        quoteIcon: '',
+        gridGap: [0, 0] as [number, number],
+      },
+    },
+  },
+  sd_services: {
+    HERO_CONTENT: {
+      breadcrumbs: [],
+      heading: {
+        highlight: '',
+        main: '',
+        muted: ''
+      },
+      description: '',
+      ctas: [],
+      socialProof: {
+        rating: '',
+        tagline: ''
+      },
+      features: [],
+    },
+    PROCESS_DATA: {
+      header: {
+        title: '',
+        highlight: '',
+        description: ''
+      },
+      phases: []
+    },
+    SERVICE_DATA: {
+      header: {
+        title: '',
+        highlight: '',
+        suffix: ''
+      },
+      models: []
+    },
+    SERVICES_CONTENT: {
+      header: {
+        title: '',
+        highlight: '',
+        description: ''
+      },
+      services: []
+    }
+  }
 };
 
 export const AdminProvider: React.FC<{ children: ReactNode }> = ({
@@ -129,7 +235,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({
   const { isAdmin, isLoginModalOpen } = useSelector(
     (state: RootState) => state.auth
   );
-  const [config, setConfig] = useState<typeof siteConfig>(emptySiteConfig);
+  const [config, setConfig] = useState<typeof siteConfig>(siteConfig);
 
   const { data: configData, isLoading, error } = useGetConfigQuery();
   const [saveConfigMutation] = useSaveConfigMutation();
@@ -137,7 +243,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     if (configData && configData.payload) {
       setConfig(configData.payload.config);
-    } else if (!configData?.payload.config) {
+    } else {
       setConfig(siteConfig);
     }
   }, [configData]);
