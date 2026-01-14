@@ -57,35 +57,35 @@ const FAQ = () => {
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: 'clamp(30px, 6vw, 60px) clamp(12px, 3vw, 20px)',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
       }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <div style={{ maxWidth: 'min(900px, 95%)', margin: '0 auto' }}>
         {/* HEADER SECTION */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '80px' }}>
+          style={{ textAlign: 'center', marginBottom: 'clamp(40px, 8vw, 80px)' }}>
           <h2
             style={{
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
-              letterSpacing: '-0.04em',
-              marginBottom: '20px',
+              letterSpacing: '-0.03em',
+              marginBottom: 'clamp(16px, 3vw, 20px)',
             }}>
             {FAQ_DATA.header.main}
             <span style={{ color: COLORS.primary }}>{FAQ_DATA.header.highlight}</span>
           </h2>
           <p
             style={{
-              fontSize: '16px',
+              fontSize: 'clamp(14px, 2.5vw, 16px)',
               color: COLORS.textMuted,
               lineHeight: '1.6',
-              maxWidth: '600px',
+              maxWidth: 'min(600px, 90%)',
               margin: '0 auto',
             }}>
             {FAQ_DATA.header.sub}
@@ -93,7 +93,7 @@ const FAQ = () => {
         </motion.div>
 
         {/* FAQ LIST */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(12px, 2vw, 16px)' }}>
           {FAQ_DATA.questions.map((faq, index) => (
             <motion.div
               key={index}
@@ -118,7 +118,7 @@ const FAQ = () => {
                 onClick={() => toggleFAQ(index)}
                 style={{
                   width: '100%',
-                  padding: '28px 32px',
+                  padding: 'clamp(20px, 4vw, 28px) clamp(20px, 4vw, 32px)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
@@ -129,7 +129,7 @@ const FAQ = () => {
                 }}>
                 <h3
                   style={{
-                    fontSize: '16px',
+                    fontSize: 'clamp(14px, 2.5vw, 16px)',
                     fontWeight: 700,
                     color: COLORS.textBlack,
                     margin: 0,
@@ -144,7 +144,7 @@ const FAQ = () => {
                       openIndex === index ? COLORS.primary : COLORS.textMuted,
                   }}
                   transition={{ duration: 0.3 }}>
-                  <Plus size={24} />
+                  <Plus size={20} />
                 </motion.div>
               </button>
 
@@ -157,9 +157,9 @@ const FAQ = () => {
                     transition={{ duration: 0.3, ease: 'easeOut' }}>
                     <div
                       style={{
-                        padding: '0 32px 32px 32px',
+                        padding: '0 clamp(20px, 4vw, 32px)',
                         color: COLORS.textMuted,
-                        fontSize: '14px',
+                        fontSize: 'clamp(13px, 2.5vw, 14px)',
                         lineHeight: '1.7',
                         fontWeight: 450,
                       }}>
@@ -167,7 +167,7 @@ const FAQ = () => {
                         style={{
                           height: '1px',
                           backgroundColor: COLORS.border,
-                          marginBottom: '24px',
+                          marginBottom: 'clamp(16px, 3vw, 24px)',
                         }}
                       />
                       {faq.answer}

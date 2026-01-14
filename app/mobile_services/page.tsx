@@ -23,7 +23,7 @@ Build Your Custom Mobile App."
         description="We turn ideas into high-performance iOS, Android, and cross-platform apps users love."
       />
       <Process />
-      <FAQ />
+      
     </>
   );
 }

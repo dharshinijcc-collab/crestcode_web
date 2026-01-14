@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -24,26 +25,27 @@ interface CommonBannerProps {
 }
 
 export default function Banner({
-  // Props default to the JSON data if not provided
-  title,
-  description,
-  buttonText,
+  title: propsTitle,
+  description: propsDescription,
+  buttonText: propsButtonText,
 }: CommonBannerProps) {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const BANNER_DATA = config?.service?.BANNER;
-  console.log(BANNER_DATA)
+
+  const handleSave = () => saveConfigToServer();
 
   if (!BANNER_DATA) return null;
 
-  title = title || BANNER_DATA.title;
-  description = description || BANNER_DATA.description;
-  buttonText = buttonText || BANNER_DATA.button.text;
+  // Use props if provided, otherwise fallback to config data
+  const displayTitle = propsTitle || BANNER_DATA.title;
+  const displayDescription = propsDescription || BANNER_DATA.description;
+  const displayButtonText = propsButtonText || BANNER_DATA.button.text;
 
   return (
     <section
       style={{
         position: 'relative',
-        padding: '60px 24px',
+        padding: '40px 24px',
         background: COLORS.bgGradient,
         overflow: 'hidden',
         fontFamily: FONT_PRIMARY,
@@ -101,7 +103,7 @@ export default function Banner({
             justifyContent: 'space-between',
           }}>
           
-          {/* DYNAMIC TEXT CONTENT FROM CONFIG */}
+          {/* DYNAMIC TEXT CONTENT */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -117,7 +119,13 @@ export default function Banner({
                 letterSpacing: '-0.04em',
                 margin: 0,
               }}>
-              {title}
+              <EditableText
+                value={displayTitle}
+                onSave={handleSave}
+                configPath="service.BANNER.title"
+              >
+                {displayTitle}
+              </EditableText>
             </h2>
 
             <p
@@ -128,11 +136,17 @@ export default function Banner({
                 lineHeight: 1.6,
                 margin: '20px 0 0 0',
               }}>
-              {description}
+              <EditableText
+                value={displayDescription}
+                onSave={handleSave}
+                configPath="service.BANNER.description"
+              >
+                {displayDescription}
+              </EditableText>
             </p>
           </motion.div>
 
-          {/* DYNAMIC ACTION BUTTON FROM CONFIG */}
+          {/* DYNAMIC ACTION BUTTON */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -167,7 +181,14 @@ export default function Banner({
                   e.currentTarget.style.transform = 'translateY(0) scale(1)';
                   e.currentTarget.style.boxShadow = '0 20px 40px -10px rgba(0, 0, 0, 0.3)';
                 }}>
-                {buttonText} <ArrowRight size={20} />
+                <EditableText
+                  value={displayButtonText}
+                  onSave={handleSave}
+                  configPath="service.BANNER.button.text"
+                >
+                  {displayButtonText}
+                </EditableText>
+                <ArrowRight size={20} />
               </button>
             </Link>
           </motion.div>

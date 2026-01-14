@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Smartphone, Layers, type LucideIcon } from 'lucide-react';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const getIconComponent = (iconName: string): LucideIcon => {
@@ -32,45 +33,24 @@ const COLORS = {
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
-// --- TYPE DEFINITIONS ---
 type TabType = 'native' | 'hybrid';
 
-interface TabContent {
-  id: string;
-  icon: string;
-  label: string;
-  description: string;
-  title: string;
-  points: string[];
-}
-
-interface AppData {
-  header: {
-    title: string;
-    accent: string;
-    description: string;
-  };
-  tabs: {
-    native: TabContent;
-    hybrid: TabContent;
-  };
-}
-
 export default function NativeVsHybrid() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const APP_DATA = config?.mobile?.APP_DATA;
-  console.log(APP_DATA)
+  
+  const [activeTab, setActiveTab] = useState<TabType>('native');
+  const handleSave = () => saveConfigToServer();
   
   if (!APP_DATA) return null;
   
-  const [activeTab, setActiveTab] = useState<TabType>('native');
   const currentContent = APP_DATA.tabs[activeTab];
 
   return (
     <section
       style={{
         backgroundColor: COLORS.bgDark,
-        padding: '100px 24px',
+        padding: '60px 20px',
         fontFamily: FONT_FAMILY,
         position: 'relative',
         overflow: 'hidden',
@@ -106,26 +86,48 @@ export default function NativeVsHybrid() {
           style={{ textAlign: 'center', marginBottom: '80px' }}>
           <h1
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
               fontWeight: 800,
               color: COLORS.textWhite,
               letterSpacing: '-0.04em',
               marginBottom: '24px',
               lineHeight: 1.1,
             }}>
-            {APP_DATA.header.title}{' '}
-            <span style={{ color: COLORS.primary }}>{APP_DATA.header.accent}</span>
+            <EditableText
+              value={APP_DATA.header.title}
+              onSave={handleSave}
+              configPath="mobile.APP_DATA.header.title"
+            >
+              {APP_DATA.header.title}
+            </EditableText>
+            {' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={APP_DATA.header.accent}
+                onSave={handleSave}
+                configPath="mobile.APP_DATA.header.accent"
+              >
+                {APP_DATA.header.accent}
+              </EditableText>
+            </span>
           </h1>
           <p
             style={{
-              fontSize: '18px',
+              fontSize: '16px',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '800px',
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            {APP_DATA.header.description}
+            <EditableText
+              value={APP_DATA.header.description}
+              onSave={handleSave}
+              configPath="mobile.APP_DATA.header.description"
+              multiline={true}
+            >
+              {APP_DATA.header.description}
+            </EditableText>
           </p>
         </motion.div>
 
@@ -134,41 +136,45 @@ export default function NativeVsHybrid() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '60px',
+            gap: '40px',
           }}>
           
           {/* LEFT: ARCHITECTURAL SELECTORS */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {(Object.keys(APP_DATA.tabs) as TabType[]).map((type: TabType) => (
-              <button
+              <div
                 key={type}
                 onClick={() => setActiveTab(type)}
                 style={{
                   width: '100%',
                   textAlign: 'left',
-                  padding: '28px 32px',
+                  padding: '20px 24px',
                   background: activeTab === type ? 'rgba(79, 70, 229, 0.1)' : 'transparent',
-                  border: 'none',
                   borderLeft: `4px solid ${activeTab === type ? COLORS.primary : 'transparent'}`,
                   cursor: 'pointer',
                   transition: '0.3s all cubic-bezier(0.4, 0, 0.2, 1)',
-                  fontFamily: FONT_FAMILY,
                   display: 'flex',
                   alignItems: 'center',
                   gap: '16px',
                 }}>
                 <div style={{ color: activeTab === type ? COLORS.primary : COLORS.textMuted }}>
-                  {React.createElement(getIconComponent(APP_DATA.tabs[type].icon), { size: 24 })}
+                  {React.createElement(getIconComponent(APP_DATA.tabs[type].icon), { size: 20 })}
                 </div>
                 <span
                   style={{
-                    fontSize: '20px',
+                    fontSize: '18px',
                     fontWeight: 700,
                     color: activeTab === type ? COLORS.textWhite : COLORS.textMuted,
                   }}>
-                  {APP_DATA.tabs[type].label}
+                  <EditableText
+                    value={APP_DATA.tabs[type].label}
+                    onSave={handleSave}
+                    configPath={`mobile.APP_DATA.tabs.${type}.label`}
+                  >
+                    {APP_DATA.tabs[type].label}
+                  </EditableText>
                 </span>
-              </button>
+              </div>
             ))}
           </div>
 
@@ -178,8 +184,8 @@ export default function NativeVsHybrid() {
               background: 'rgba(255, 255, 255, 0.02)',
               border: `1px solid ${COLORS.border}`,
               borderRadius: '24px',
-              padding: '48px',
-              minHeight: '420px',
+              padding: '32px',
+              minHeight: '320px',
               backdropFilter: 'blur(12px)',
               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
             }}>
@@ -193,24 +199,37 @@ export default function NativeVsHybrid() {
                 
                 <p
                   style={{
-                    fontSize: '17px',
+                    fontSize: '14px',
                     color: COLORS.textMuted,
                     lineHeight: '1.8',
-                    marginBottom: '40px',
+                    marginBottom: '18px',
                     fontWeight: 500,
                   }}>
-                  {currentContent.description}
+                  <EditableText
+                    value={currentContent.description}
+                    onSave={handleSave}
+                    configPath={`mobile.APP_DATA.tabs.${activeTab}.description`}
+                    multiline={true}
+                  >
+                    {currentContent.description}
+                  </EditableText>
                 </p>
 
                 <h3
                   style={{
-                    fontSize: '24px',
+                    fontSize: '16px',
                     fontWeight: 800,
                     color: COLORS.textWhite,
-                    marginBottom: '24px',
+                    marginBottom: '40px',
                     letterSpacing: '-0.02em',
                   }}>
-                  {currentContent.title}
+                  <EditableText
+                    value={currentContent.title}
+                    onSave={handleSave}
+                    configPath={`mobile.APP_DATA.tabs.${activeTab}.title`}
+                  >
+                    {currentContent.title}
+                  </EditableText>
                 </h3>
 
                 <ul
@@ -220,7 +239,7 @@ export default function NativeVsHybrid() {
                     listStyle: 'none',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '16px',
+                    gap: '12px',
                   }}>
                   {currentContent.points.map((point: string, i: number) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'start', gap: '12px' }}>
@@ -237,16 +256,22 @@ export default function NativeVsHybrid() {
                           flexShrink: 0,
                           border: `1px solid ${COLORS.primary}40`,
                         }}>
-                        <Check size={14} color={COLORS.primary} strokeWidth={3} />
+                        <Check size={12} color={COLORS.primary} strokeWidth={3} />
                       </div>
                       <span
                         style={{
-                          fontSize: '16px',
+                          fontSize: '15px',
                           color: COLORS.textWhite,
                           fontWeight: 500,
                           lineHeight: 1.5,
                         }}>
-                        {point}
+                        <EditableText
+                          value={point}
+                          onSave={handleSave}
+                          configPath={`mobile.APP_DATA.tabs.${activeTab}.points.${i}`}
+                        >
+                          {point}
+                        </EditableText>
                       </span>
                     </li>
                   ))}

@@ -1,4 +1,4 @@
-import Hackathon from '@/components/Hackathon';
+import Hackathon from '@/components/main_hackathon';
 
 export default function HackathonPage() {
   return <Hackathon />;

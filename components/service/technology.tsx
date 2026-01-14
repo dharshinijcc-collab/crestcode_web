@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Coffee, Server, Component, Gem } from 'lucide-react';
 import { useAdmin } from '../admin/context';
-import Link from 'next/link';
+import EditableText from '@/components/admin/editableText';
 
 const ICON_MAP = {
   Coffee: <Coffee size={32} />,
@@ -14,9 +14,6 @@ const ICON_MAP = {
 } as const;
 
 type IconName = keyof typeof ICON_MAP;
-
-// --- DATA CONFIGURATION ---
-// Data will be imported from config
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -31,14 +28,17 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function TechnologiesSection() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const TECH_CONTENT = config?.service?.Technology;
   
+  const handleSave = () => saveConfigToServer();
+
   if (!TECH_CONTENT) return null;
+
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: '32px 24px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
@@ -70,27 +70,48 @@ export default function TechnologiesSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '80px' }}>
+          style={{ textAlign: 'center', marginBottom: '50px' }}>
           <h1
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4.5vw, 2.8rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '20px',
             }}>
-            {TECH_CONTENT.header.titlePrefix}
-            <span style={{ color: COLORS.primary }}>{TECH_CONTENT.header.titleHighlight}</span>
+            <EditableText
+              value={TECH_CONTENT.header.titlePrefix}
+              onSave={handleSave}
+              configPath="service.Technology.header.titlePrefix"
+            >
+              {TECH_CONTENT.header.titlePrefix}
+            </EditableText>
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={TECH_CONTENT.header.titleHighlight}
+                onSave={handleSave}
+                configPath="service.Technology.header.titleHighlight"
+              >
+                {TECH_CONTENT.header.titleHighlight}
+              </EditableText>
+            </span>
           </h1>
           <p
             style={{
-              fontSize: '18px',
+              fontSize: '15px',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '850px',
               margin: '0 auto',
             }}>
-            {TECH_CONTENT.header.description}
+            <EditableText
+              value={TECH_CONTENT.header.description}
+              onSave={handleSave}
+              configPath="service.Technology.header.description"
+              multiline={true}
+            >
+              {TECH_CONTENT.header.description}
+            </EditableText>
           </p>
         </motion.div>
 
@@ -99,9 +120,9 @@ export default function TechnologiesSection() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
-            gap: '32px',
+            gap: '24px',
           }}>
-          {TECH_CONTENT.technologies.map((tech, index) => (
+          {TECH_CONTENT.technologies.map((tech: any, index: number) => (
             <motion.div
               key={tech.id}
               initial={{ opacity: 0, y: 30 }}
@@ -115,19 +136,19 @@ export default function TechnologiesSection() {
               whileHover={{ y: -8 }}
               style={{
                 backgroundColor: COLORS.white,
-                padding: '48px',
-                borderRadius: '20px',
+                padding: '32px',
+                borderRadius: '16px',
                 border: `1px solid ${COLORS.border}`,
                 boxShadow: '0 10px 30px -15px rgba(0, 0, 0, 0.05)',
                 display: 'flex',
-                gap: '24px',
+                gap: '12px',
                 transition: 'all 0.3s ease',
               }}>
               <div
                 style={{
                   flexShrink: 0,
-                  width: '64px',
-                  height: '64px',
+                  width: '48px',
+                  height: '48px',
                   backgroundColor: `${COLORS.primary}08`,
                   borderRadius: '14px',
                   display: 'flex',
@@ -141,23 +162,36 @@ export default function TechnologiesSection() {
               <div>
                 <h3
                   style={{
-                    fontSize: '22px',
+                    fontSize: '18px',
                     fontWeight: 800,
                     color: COLORS.textBlack,
-                    marginBottom: '12px',
+                    marginBottom: '10px',
                     letterSpacing: '-0.02em',
                   }}>
-                  {tech.name}
+                  <EditableText
+                    value={tech.name}
+                    onSave={handleSave}
+                    configPath={`service.Technology.technologies.${index}.name`}
+                  >
+                    {tech.name}
+                  </EditableText>
                 </h3>
                 <p
                   style={{
-                    fontSize: '15px',
+                    fontSize: '14px',
                     color: COLORS.textMuted,
                     lineHeight: '1.7',
                     margin: 0,
                     fontWeight: 500,
                   }}>
-                  {tech.description}
+                  <EditableText
+                    value={tech.description}
+                    onSave={handleSave}
+                    configPath={`service.Technology.technologies.${index}.description`}
+                    multiline={true}
+                  >
+                    {tech.description}
+                  </EditableText>
                 </p>
               </div>
             </motion.div>
@@ -169,7 +203,7 @@ export default function TechnologiesSection() {
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
         
         @media (max-width: 600px) {
-          div[style*="grid-template-columns"] {
+          .tech-grid-mobile {
             grid-template-columns: 1fr !important;
           }
         }

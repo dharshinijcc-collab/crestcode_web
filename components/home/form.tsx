@@ -1,36 +1,7 @@
-'use client';
-
 import React, { useState } from 'react';
+import { submitContactForm } from '@/services/api';
 import { Paperclip, Calendar, Mail, Phone, Building } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-// --- DATA CONFIGURATION ---
-const CONTACT_DATA = {
-  header: "Let's start",
-  emailPrimary: "contact@crestcode.in",
-  steps: [
-    { num: '1', text: 'Vision' },
-    { num: '2', text: 'Discovery' },
-    { num: '3', text: 'Roadmap' },
-    { num: '4', text: 'Launch' },
-  ],
-  officeInfo: {
-    address: "2nd Floor, Plot No:248, Kannan St, Sree Balaji Nagar, Pallikaranai, Chennai - 600 100.",
-    phone: "9629664974",
-    landline: "044 4604 7460",
-    hours: [
-      "Tuesday - Friday: 11:00 AM - 8:00 PM IST",
-      "Saturday: 09:00 AM - 5:00 PM IST"
-    ]
-  },
-  formLabels: {
-    name: "NAME*",
-    email: "EMAIL*",
-    message: "MESSAGE*",
-    submit: "Send",
-    attach: "Attach"
-  }
-};
 
 // --- THEME TOKENS ---
 const COLORS = {
@@ -51,10 +22,46 @@ function ContactForm() {
     email: '',
     message: '',
   });
+  const [attachment, setAttachment] = useState<File | null>(null);
+  const [status, setStatus] = useState('idle'); // idle, loading, success, error
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setAttachment(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setStatus('loading');
+    
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('email', formData.email);
+    data.append('message', formData.message);
+    if (attachment) {
+      data.append('attachment', attachment);
+    }
+
+    try {
+      await submitContactForm(data);
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      setAttachment(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } catch (error) {
+      setStatus('error');
+      console.error('Form submission error:', error);
+    }
   };
 
   const containerFade = {
@@ -69,8 +76,9 @@ function ContactForm() {
 
   return (
     <div
+      id="contact-form"
       style={{
-        minHeight: 'auto',
+        minHeight: 'auto', // Removed 100vh for compactness
         backgroundColor: COLORS.bgLeft,
         color: COLORS.textWhite,
         display: 'flex',
@@ -78,9 +86,9 @@ function ContactForm() {
         flexWrap: 'wrap',
         fontFamily: FONT_FAMILY,
         overflow: 'hidden',
-        padding: '40px 0',
+        padding: '40px 0', // Reduced section padding
       }}>
-      {/* LEFT SIDE: STEPS & INFO */}
+      {/* LEFT SIDE: STEPS & INFO (Condensed) */}
       <motion.div
         variants={containerFade}
         initial="hidden"
@@ -97,13 +105,13 @@ function ContactForm() {
         <motion.h1
           variants={itemSlide}
           style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
+            fontSize: 'clamp(2rem, 4vw, 3rem)', // Smaller font size
             fontWeight: 800,
             color: COLORS.primary,
-            marginBottom: '30px',
+            marginBottom: '30px', // Reduced margin
             letterSpacing: '-0.04em',
           }}>
-          {CONTACT_DATA.header}
+          Let's start
         </motion.h1>
 
         <div style={{ position: 'relative', paddingLeft: '35px' }}>
@@ -118,7 +126,12 @@ function ContactForm() {
             }}
           />
 
-          {CONTACT_DATA.steps.map((step, i) => (
+          {[
+            { num: '1', text: 'Vision' },
+            { num: '2', text: 'Discovery' },
+            { num: '3', text: 'Roadmap' },
+            { num: '4', text: 'Launch' },
+          ].map((step, i) => (
             <motion.div
               key={i}
               variants={itemSlide}
@@ -152,7 +165,7 @@ function ContactForm() {
 
         <motion.div variants={itemSlide} style={{ marginTop: '30px' }}>
           <a
-            href={`mailto:${CONTACT_DATA.emailPrimary}`}
+            href="mailto:contact@crestcode.in"
             style={{
               color: COLORS.accentRed,
               fontSize: '16px',
@@ -162,12 +175,12 @@ function ContactForm() {
               alignItems: 'center',
               gap: '8px',
             }}>
-            <Mail size={16} /> {CONTACT_DATA.emailPrimary}
+            <Mail size={16} /> contact@crestcode.in
           </a>
         </motion.div>
       </motion.div>
 
-      {/* RIGHT SIDE: THE FORM */}
+      {/* RIGHT SIDE: THE FORM (Compact Grid) */}
       <motion.div
         initial={{ opacity: 0, x: 30 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -180,6 +193,7 @@ function ContactForm() {
           marginRight: '20px',
         }}>
         <form onSubmit={handleSubmit}>
+          {/* Row for Name and Email */}
           <div
             style={{
               display: 'grid',
@@ -188,32 +202,96 @@ function ContactForm() {
               marginBottom: '30px',
             }}>
             <div>
-              <label style={labelStyle}>{CONTACT_DATA.formLabels.name}</label>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '12px',
+                  color: COLORS.textMuted,
+                  marginBottom: '8px',
+                  fontWeight: 600,
+                }}>
+                NAME*
+              </label>
               <input
                 required
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 type="text"
                 placeholder="John Smith"
-                style={inputStyle}
+                style={{
+                  width: '100%',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: `1px solid ${COLORS.border}`,
+                  paddingBottom: '8px',
+                  color: COLORS.textWhite,
+                  outline: 'none',
+                  fontSize: '15px',
+                }}
               />
             </div>
             <div>
-              <label style={labelStyle}>{CONTACT_DATA.formLabels.email}</label>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '12px',
+                  color: COLORS.textMuted,
+                  marginBottom: '8px',
+                  fontWeight: 600,
+                }}>
+                EMAIL*
+              </label>
               <input
                 required
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 type="email"
                 placeholder="name@company.com"
-                style={inputStyle}
+                style={{
+                  width: '100%',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: `1px solid ${COLORS.border}`,
+                  paddingBottom: '8px',
+                  color: COLORS.textWhite,
+                  outline: 'none',
+                  fontSize: '15px',
+                }}
               />
             </div>
           </div>
 
           <div style={{ marginBottom: '25px' }}>
-            <label style={labelStyle}>{CONTACT_DATA.formLabels.message}</label>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '12px',
+                color: COLORS.textMuted,
+                marginBottom: '8px',
+                fontWeight: 600,
+              }}>
+              MESSAGE*
+            </label>
             <textarea
               required
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Briefly describe your idea"
               rows={2}
-              style={{ ...inputStyle, resize: 'none' }}
+              style={{
+                width: '100%',
+                background: 'transparent',
+                border: 'none',
+                borderBottom: `1px solid ${COLORS.border}`,
+                paddingBottom: '8px',
+                color: COLORS.textWhite,
+                outline: 'none',
+                fontSize: '15px',
+                resize: 'none',
+              }}
             />
           </div>
 
@@ -224,94 +302,45 @@ function ContactForm() {
               alignItems: 'center',
               marginBottom: '30px',
             }}>
-            <button type="button" style={actionBtnStyle}>
-              <Paperclip size={14} /> {CONTACT_DATA.formLabels.attach}
-            </button>
+            <div>
+              <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: COLORS.textWhite,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                }}>
+                <Paperclip size={14} /> {attachment ? attachment.name : 'Attach'}
+              </button>
+            </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              style={submitBtnStyle}>
-              {CONTACT_DATA.formLabels.submit}
+              style={{
+                backgroundColor: COLORS.accentRed,
+                color: 'white',
+                padding: '10px 40px',
+                fontSize: '16px',
+                fontWeight: 700,
+                border: 'none',
+                cursor: 'pointer',
+                borderRadius: '4px',
+              }}>
+              {status === 'loading' ? 'Sending...' : status === 'success' ? 'Sent!' : status === 'error' ? 'Retry' : 'Send'}
             </motion.button>
           </div>
         </form>
       </motion.div>
-
-      {/* FOOTER INFO */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        style={footerContainerStyle}>
-        <h3 style={footerHeaderStyle}>Contact Information</h3>
-        
-        <div style={footerGridStyle}>
-          <InfoBlock icon={<Building size={18} color={COLORS.primary} />} title="Our Office">
-            {CONTACT_DATA.officeInfo.address}
-          </InfoBlock>
-
-          <InfoBlock icon={<Phone size={18} color={COLORS.primary} />} title="Phone">
-            Mobile: {CONTACT_DATA.officeInfo.phone}<br />
-            Landline: {CONTACT_DATA.officeInfo.landline}
-          </InfoBlock>
-
-          <InfoBlock icon={<Mail size={18} color={COLORS.primary} />} title="Email">
-            {CONTACT_DATA.emailPrimary}
-          </InfoBlock>
-
-          <InfoBlock icon={<Calendar size={18} color={COLORS.primary} />} title="Business Hours">
-            {CONTACT_DATA.officeInfo.hours.map((h, i) => <React.Fragment key={i}>{h}<br/></React.Fragment>)}
-          </InfoBlock>
-        </div>
-      </motion.div>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        input:focus, textarea:focus { border-bottom: 1px solid ${COLORS.primary} !important; }
-      `}</style>
     </div>
   );
 }
-
-// --- SHARED STYLES & SUB-COMPONENTS ---
-const labelStyle: React.CSSProperties = {
-  display: 'block', fontSize: '12px', color: COLORS.textMuted, marginBottom: '8px', fontWeight: 600
-};
-
-const inputStyle: React.CSSProperties = {
-  width: '100%', background: 'transparent', border: 'none', borderBottom: `1px solid ${COLORS.border}`,
-  paddingBottom: '8px', color: COLORS.textWhite, outline: 'none', fontSize: '15px'
-};
-
-const actionBtnStyle: React.CSSProperties = {
-  background: 'none', border: 'none', color: COLORS.textWhite, display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '14px'
-};
-
-const submitBtnStyle: React.CSSProperties = {
-  backgroundColor: COLORS.accentRed, color: 'white', padding: '10px 40px', fontSize: '16px', fontWeight: 700, border: 'none', cursor: 'pointer', borderRadius: '4px'
-};
-
-const footerContainerStyle: React.CSSProperties = {
-  width: '100%', padding: '40px 6%', backgroundColor: 'rgba(255, 255, 255, 0.02)', borderTop: `1px solid ${COLORS.border}`
-};
-
-const footerHeaderStyle: React.CSSProperties = {
-  fontSize: '1.2rem', fontWeight: 700, color: COLORS.primary, marginBottom: '25px', textAlign: 'center'
-};
-
-const footerGridStyle: React.CSSProperties = {
-  display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px', maxWidth: '1200px', margin: '0 auto'
-};
-
-const InfoBlock = ({ icon, title, children }: any) => (
-  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-    <div style={{ marginTop: '2px' }}>{icon}</div>
-    <div>
-      <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: COLORS.textWhite }}>{title}</p>
-      <p style={{ margin: 0, fontSize: '12px', color: COLORS.textMuted, lineHeight: 1.4 }}>{children}</p>
-    </div>
-  </div>
-);
 
 export default ContactForm;

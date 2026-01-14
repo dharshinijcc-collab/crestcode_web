@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, BarChart2, ShieldCheck, type LucideIcon } from 'lucide-react';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const getIconComponent = (iconName: string): LucideIcon => {
@@ -22,23 +23,6 @@ const getIconComponent = (iconName: string): LucideIcon => {
   return icon;
 };
 
-// --- TYPE DEFINITIONS ---
-interface StatItem {
-  icon: LucideIcon;
-  value: string;
-  label: string;
-  description: string;
-}
-
-interface WhyData {
-  header: {
-    title: string;
-    highlight: string;
-    description: string;
-  };
-  stats: StatItem[];
-}
-
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
   bgBase: '#F3F5F9',
@@ -52,15 +36,17 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function WhyCrestcode() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const WHY_DATA = config?.web?.WHY_DATA;
-  console.log(WHY_DATA)
+
+  const handleSave = () => saveConfigToServer();
   
   if (!WHY_DATA) return null;
+
   return (
     <section
       style={{
-        padding: '80px 24px',
+        padding: '32px 20px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
@@ -81,20 +67,35 @@ export default function WhyCrestcode() {
       <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
         
         {/* HEADER SECTION */}
-        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '12px',
             }}>
-            {WHY_DATA.header.title}{' '}
-            <span style={{ color: COLORS.primary }}>{WHY_DATA.header.highlight}</span>
+            <EditableText
+              value={WHY_DATA.header.title}
+              onSave={handleSave}
+              configPath="web.WHY_DATA.header.title"
+            >
+              {WHY_DATA.header.title}
+            </EditableText>
+            {' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={WHY_DATA.header.highlight}
+                onSave={handleSave}
+                configPath="web.WHY_DATA.header.highlight"
+              >
+                {WHY_DATA.header.highlight}
+              </EditableText>
+            </span>
           </motion.h1>
           
           <motion.p
@@ -103,28 +104,37 @@ export default function WhyCrestcode() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             style={{
-              fontSize: '19px',
+              fontSize: '17px',
               color: COLORS.textMuted,
-              lineHeight: '1.7',
-              maxWidth: '900px',
+              lineHeight: '1.6',
+              maxWidth: '800px',
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            {WHY_DATA.header.description}
+            <EditableText
+              value={WHY_DATA.header.description}
+              onSave={handleSave}
+              configPath="web.WHY_DATA.header.description"
+              multiline={true}
+            >
+              {WHY_DATA.header.description}
+            </EditableText>
           </motion.p>
         </div>
 
         {/* STATS GRID */}
         <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '24px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '16px',
           }}>
-          {WHY_DATA.stats.map((item, index) => (
-            <StatCard key={index} item={{
-              ...item,
-              icon: getIconComponent(item.icon)
-            }} index={index} />
+          {WHY_DATA.stats.map((item: any, index: number) => (
+            <StatCard 
+              key={index} 
+              item={item} 
+              index={index} 
+              onSave={handleSave}
+            />
           ))}
         </div>
       </div>
@@ -137,7 +147,9 @@ export default function WhyCrestcode() {
 }
 
 // --- SUB-COMPONENT: INDIVIDUAL STAT CARD ---
-function StatCard({ item, index }: { item: StatItem; index: number }) {
+function StatCard({ item, index, onSave }: { item: any; index: number; onSave: () => void }) {
+  const Icon = getIconComponent(item.icon);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -146,8 +158,8 @@ function StatCard({ item, index }: { item: StatItem; index: number }) {
       transition={{ delay: index * 0.1 }}
       style={{
         backgroundColor: COLORS.white,
-        padding: '38px 28px',
-        borderRadius: '24px',
+        padding: '20px 16px',
+        borderRadius: '20px',
         border: `1px solid ${COLORS.border}`,
         boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)',
         display: 'flex',
@@ -159,36 +171,48 @@ function StatCard({ item, index }: { item: StatItem; index: number }) {
       {/* ICON CIRCLE */}
       <div style={{
           color: COLORS.primary,
-          marginBottom: '24px',
+          marginBottom: '12px',
           background: `${COLORS.primary}08`,
-          padding: '16px',
+          padding: '10px',
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <item.icon size={28} />
+        <Icon size={20} />
       </div>
 
       <div style={{
-          fontSize: '48px',
+          fontSize: 'clamp(1rem, 3vw, 1.75rem)',
           fontWeight: 800,
           color: COLORS.textBlack,
-          marginBottom: '8px',
+          marginBottom: '24px',
           letterSpacing: '-0.04em',
         }}>
-        {item.value}
+        <EditableText
+          value={item.value}
+          onSave={onSave}
+          configPath={`web.WHY_DATA.stats.${index}.value`}
+        >
+          {item.value}
+        </EditableText>
       </div>
 
       <div style={{
-          fontSize: '16px',
+          fontSize: 'clamp(0.75rem, 2vw, 0.875rem)',
           fontWeight: 700,
           color: COLORS.primary,
-          marginBottom: '16px',
+          marginBottom: '12px',
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
         }}>
-        {item.label}
+        <EditableText
+          value={item.label}
+          onSave={onSave}
+          configPath={`web.WHY_DATA.stats.${index}.label`}
+        >
+          {item.label}
+        </EditableText>
       </div>
 
       <p style={{
@@ -198,7 +222,14 @@ function StatCard({ item, index }: { item: StatItem; index: number }) {
           margin: 0,
           fontWeight: 500,
         }}>
-        {item.description}
+        <EditableText
+          value={item.description}
+          onSave={onSave}
+          configPath={`web.WHY_DATA.stats.${index}.description`}
+          multiline={true}
+        >
+          {item.description}
+        </EditableText>
       </p>
     </motion.div>
   );

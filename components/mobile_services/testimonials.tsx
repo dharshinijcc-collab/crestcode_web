@@ -4,28 +4,9 @@ import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 const { Text, Paragraph } = Typography;
-
-// --- TYPE DEFINITIONS ---
-interface TestimonialAuthor {
-  name: string;
-  role: string;
-  image: string;
-}
-
-interface TestimonialQuote {
-  prefix: string;
-  accent: string;
-  middle: string;
-  bold: string;
-  suffix: string;
-}
-
-interface TestimonialData {
-  author: TestimonialAuthor;
-  quote: TestimonialQuote;
-}
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -40,15 +21,17 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const LeadershipTestimonial = () => {
-  const { config } = useAdmin();
-  const TESTIMONIAL_DATA = config?.mobile?.TESTIMONIAL_DATA as TestimonialData;
-  console.log(TESTIMONIAL_DATA)
+  const { config, saveConfigToServer } = useAdmin();
+  const TESTIMONIAL_DATA = config?.mobile?.TESTIMONIAL_DATA;
+
+  const handleSave = () => saveConfigToServer();
 
   if (!TESTIMONIAL_DATA || typeof TESTIMONIAL_DATA !== 'object' || !('author' in TESTIMONIAL_DATA)) return null;
+
   return (
     <section
       style={{
-        padding: '100px 24px',
+        padding: '50px 20px 80px 20px',
         backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
@@ -82,7 +65,7 @@ const LeadershipTestimonial = () => {
           background: 'rgba(255, 255, 255, 0.7)',
           backdropFilter: 'blur(20px)',
           borderRadius: '24px',
-          padding: '64px 48px',
+          padding: '50px 36px',
           border: `1px solid ${COLORS.white}`,
           boxShadow: '0 20px 50px -15px rgba(0,0,0,0.04)',
         }}>
@@ -93,9 +76,9 @@ const LeadershipTestimonial = () => {
             <div style={{ textAlign: 'center' }}>
               <div
                 style={{
-                  width: '160px',
-                  height: '160px',
-                  margin: '0 auto 28px auto',
+                  width: '140px',
+                  height: '140px',
+                  margin: '0 auto 20px auto',
                   borderRadius: '24px',
                   overflow: 'hidden',
                   boxShadow: `0 12px 30px -10px rgba(79, 70, 229, 0.2)`,
@@ -110,25 +93,37 @@ const LeadershipTestimonial = () => {
               <div style={{ marginBottom: '4px' }}>
                 <Text
                   style={{
-                    fontSize: '24px',
+                    fontSize: '20px',
                     fontWeight: 800,
                     color: COLORS.textBlack,
                     fontFamily: FONT_PRIMARY,
                     display: 'block',
                     letterSpacing: '-0.02em',
                   }}>
-                  {TESTIMONIAL_DATA.author.name}
+                  <EditableText
+                    value={TESTIMONIAL_DATA.author.name}
+                    onSave={handleSave}
+                    configPath="mobile.TESTIMONIAL_DATA.author.name"
+                  >
+                    {TESTIMONIAL_DATA.author.name}
+                  </EditableText>
                 </Text>
               </div>
               <Text
                 style={{
-                  fontSize: '13px',
+                  fontSize: '12px',
                   fontWeight: 700,
                   color: COLORS.primary,
                   textTransform: 'uppercase',
                   letterSpacing: '0.12em',
                 }}>
-                {TESTIMONIAL_DATA.author.role}
+                <EditableText
+                  value={TESTIMONIAL_DATA.author.role}
+                  onSave={handleSave}
+                  configPath="mobile.TESTIMONIAL_DATA.author.role"
+                >
+                  {TESTIMONIAL_DATA.author.role}
+                </EditableText>
               </Text>
             </div>
           </Col>
@@ -139,13 +134,13 @@ const LeadershipTestimonial = () => {
               {/* Refined Quote Mark */}
               <div
                 style={{
-                  fontSize: '120px',
+                  fontSize: '100px',
                   color: COLORS.primary,
                   lineHeight: 1,
                   fontFamily: 'serif',
                   opacity: 0.1,
                   position: 'absolute',
-                  top: '-60px',
+                  top: '-50px',
                   left: '-25px',
                   userSelect: 'none',
                   fontWeight: 900,
@@ -155,7 +150,7 @@ const LeadershipTestimonial = () => {
 
               <Paragraph
                 style={{
-                  fontSize: 'clamp(1.1rem, 1.8vw, 1.45rem)',
+                  fontSize: 'clamp(1rem, 1.6vw, 1.35rem)',
                   fontWeight: 600,
                   lineHeight: 1.6,
                   color: COLORS.textBlack,
@@ -163,13 +158,49 @@ const LeadershipTestimonial = () => {
                   margin: 0,
                   letterSpacing: '-0.015em',
                 }}>
-                {TESTIMONIAL_DATA.quote.prefix}{' '}
-                <span style={{ color: COLORS.primary }}>{TESTIMONIAL_DATA.quote.accent}</span>
-                {TESTIMONIAL_DATA.quote.middle}{' '}
+                <EditableText
+                  value={TESTIMONIAL_DATA.quote.prefix}
+                  onSave={handleSave}
+                  configPath="mobile.TESTIMONIAL_DATA.quote.prefix"
+                >
+                  {TESTIMONIAL_DATA.quote.prefix}
+                </EditableText>
+                {' '}
+                <span style={{ color: COLORS.primary }}>
+                  <EditableText
+                    value={TESTIMONIAL_DATA.quote.accent}
+                    onSave={handleSave}
+                    configPath="mobile.TESTIMONIAL_DATA.quote.accent"
+                  >
+                    {TESTIMONIAL_DATA.quote.accent}
+                  </EditableText>
+                </span>
+                {' '}
+                <EditableText
+                  value={TESTIMONIAL_DATA.quote.middle}
+                  onSave={handleSave}
+                  configPath="mobile.TESTIMONIAL_DATA.quote.middle"
+                >
+                  {TESTIMONIAL_DATA.quote.middle}
+                </EditableText>
+                {' '}
                 <span style={{ fontWeight: 800 }}>
-                  {TESTIMONIAL_DATA.quote.bold}
-                </span>{' '}
-                {TESTIMONIAL_DATA.quote.suffix}
+                  <EditableText
+                    value={TESTIMONIAL_DATA.quote.bold}
+                    onSave={handleSave}
+                    configPath="mobile.TESTIMONIAL_DATA.quote.bold"
+                  >
+                    {TESTIMONIAL_DATA.quote.bold}
+                  </EditableText>
+                </span>
+                {' '}
+                <EditableText
+                  value={TESTIMONIAL_DATA.quote.suffix}
+                  onSave={handleSave}
+                  configPath="mobile.TESTIMONIAL_DATA.quote.suffix"
+                >
+                  {TESTIMONIAL_DATA.quote.suffix}
+                </EditableText>
               </Paragraph>
 
               {/* Architectural Detail Line */}
@@ -178,7 +209,7 @@ const LeadershipTestimonial = () => {
                   width: '64px',
                   height: '4px',
                   backgroundColor: COLORS.primary,
-                  marginTop: '40px',
+                  marginTop: '32px',
                   borderRadius: '2px',
                 }}
               />

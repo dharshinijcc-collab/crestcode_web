@@ -14,7 +14,7 @@ export default function AdminBar() {
             animate={{ opacity: 1, y: 0 }}
             style={{
                 position: 'fixed',
-                top: 0,
+                top: 80,
                 left: 0,
                 right: 0,
                 height: '3rem',

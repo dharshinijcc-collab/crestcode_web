@@ -3,22 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAdmin } from '../admin/context';
-
-// --- TYPE DEFINITIONS ---
-interface LeadershipData {
-  author: {
-    name: string;
-    role: string;
-    image: string;
-  };
-  quote: {
-    main: string;
-    highlight1: string;
-    mid: string;
-    highlight2: string;
-    end: string;
-  };
-}
+import EditableText from '@/components/admin/editableText';
 
 // --- DESIGN TOKENS ---
 const COLORS = {
@@ -33,14 +18,16 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function LeadershipTestimonial() {
-  const { config } = useAdmin();
-  const LEADERSHIP_DATA: LeadershipData = config?.web?.LEADERSHIP_DATA;
-  console.log(LEADERSHIP_DATA)
+  const { config, saveConfigToServer } = useAdmin();
+  const LEADERSHIP_DATA = config?.web?.LEADERSHIP_DATA;
+
+  const handleSave = () => saveConfigToServer();
   
   if (!LEADERSHIP_DATA) return null;
+
   return (
     <section style={{
-      padding: '100px 24px',
+      padding: '40px 20px',
       backgroundColor: COLORS.bgBase,
       position: 'relative',
       overflow: 'hidden',
@@ -73,7 +60,7 @@ export default function LeadershipTestimonial() {
           background: 'rgba(255, 255, 255, 0.7)',
           backdropFilter: 'blur(20px)',
           borderRadius: '32px',
-          padding: '80px 60px',
+          padding: '40px 25px',
           border: `1px solid ${COLORS.white}`,
           boxShadow: '0 20px 50px -15px rgba(0,0,0,0.04)',
         }}>
@@ -81,21 +68,21 @@ export default function LeadershipTestimonial() {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '64px',
+          gap: '50px',
           alignItems: 'center'
         }}>
           
           {/* PROFILE SECTION */}
           <div style={{ textAlign: 'center' }}>
             <div style={{
-                width: '160px',
-                height: '160px',
-                margin: '0 auto 28px auto',
+                width: '140px',
+                height: '140px',
+                margin: '0 auto 20px auto',
                 borderRadius: '24px',
                 overflow: 'hidden',
                 boxShadow: `0 20px 40px -10px rgba(79, 70, 229, 0.25)`,
                 border: `4px solid ${COLORS.white}`,
-                transform: 'rotate(-2deg)' // Industrial "Blueprint" slight tilt
+                transform: 'rotate(-2deg)' 
               }}>
               <img
                 src={LEADERSHIP_DATA.author.image}
@@ -104,36 +91,47 @@ export default function LeadershipTestimonial() {
               />
             </div>
             <h3 style={{
-              fontSize: '24px',
+              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
-              marginBottom: '4px',
+              marginBottom: '30px',
               letterSpacing: '-0.02em',
             }}>
-              {LEADERSHIP_DATA.author.name}
+              <EditableText
+                value={LEADERSHIP_DATA.author.name}
+                onSave={handleSave}
+                configPath="web.LEADERSHIP_DATA.author.name"
+              >
+                {LEADERSHIP_DATA.author.name}
+              </EditableText>
             </h3>
             <span style={{
-              fontSize: '13px',
+              fontSize: 'clamp(0.75rem, 1.5vw, 1rem)',
               fontWeight: 700,
               color: COLORS.primary,
               textTransform: 'uppercase',
               letterSpacing: '0.15em',
             }}>
-              {LEADERSHIP_DATA.author.role}
+              <EditableText
+                value={LEADERSHIP_DATA.author.role}
+                onSave={handleSave}
+                configPath="web.LEADERSHIP_DATA.author.role"
+              >
+                {LEADERSHIP_DATA.author.role}
+              </EditableText>
             </span>
           </div>
 
           {/* QUOTE SECTION */}
           <div style={{ position: 'relative' }}>
-            {/* Massive Stylized Quote Mark */}
             <div style={{
-                fontSize: '120px',
+                fontSize: 'clamp(0.875rem, 2vw, 1.25rem)',
                 color: COLORS.primary,
                 lineHeight: 1,
                 fontFamily: 'serif',
                 opacity: 0.1,
                 position: 'absolute',
-                top: '-60px',
+                top: '-50px',
                 left: '-20px',
                 userSelect: 'none',
                 fontWeight: 900,
@@ -142,7 +140,7 @@ export default function LeadershipTestimonial() {
             </div>
 
             <p style={{
-              fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
+              fontSize: 'clamp(1rem, 1.5vw, 1.375rem)',
               fontWeight: 600,
               lineHeight: 1.6,
               color: COLORS.textBlack,
@@ -151,25 +149,63 @@ export default function LeadershipTestimonial() {
               position: 'relative',
               zIndex: 2
             }}>
-              {LEADERSHIP_DATA.quote.main}{' '}
-              <span style={{ color: COLORS.primary }}>{LEADERSHIP_DATA.quote.highlight1}</span>
-              {LEADERSHIP_DATA.quote.mid}{' '}
+              <EditableText
+                value={LEADERSHIP_DATA.quote.main}
+                onSave={handleSave}
+                configPath="web.LEADERSHIP_DATA.quote.main"
+                multiline={true}
+              >
+                {LEADERSHIP_DATA.quote.main}
+              </EditableText>
+              {' '}
+              <span style={{ color: COLORS.primary }}>
+                <EditableText
+                  value={LEADERSHIP_DATA.quote.highlight1}
+                  onSave={handleSave}
+                  configPath="web.LEADERSHIP_DATA.quote.highlight1"
+                >
+                  {LEADERSHIP_DATA.quote.highlight1}
+                </EditableText>
+              </span>
+              {' '}
+              <EditableText
+                value={LEADERSHIP_DATA.quote.mid}
+                onSave={handleSave}
+                configPath="web.LEADERSHIP_DATA.quote.mid"
+                multiline={true}
+              >
+                {LEADERSHIP_DATA.quote.mid}
+              </EditableText>
+              {' '}
               <span style={{ 
                 background: `linear-gradient(120deg, ${COLORS.primary}15 0%, ${COLORS.primary}15 100%)`,
                 padding: '0 4px',
                 fontWeight: 800 
               }}>
-                {LEADERSHIP_DATA.quote.highlight2}
-              </span>{' '}
-              {LEADERSHIP_DATA.quote.end}
+                <EditableText
+                  value={LEADERSHIP_DATA.quote.highlight2}
+                  onSave={handleSave}
+                  configPath="web.LEADERSHIP_DATA.quote.highlight2"
+                >
+                  {LEADERSHIP_DATA.quote.highlight2}
+                </EditableText>
+              </span>
+              {' '}
+              <EditableText
+                value={LEADERSHIP_DATA.quote.end}
+                onSave={handleSave}
+                configPath="web.LEADERSHIP_DATA.quote.end"
+                multiline={true}
+              >
+                {LEADERSHIP_DATA.quote.end}
+              </EditableText>
             </p>
 
-            {/* Industrial Detail: Accent Line */}
             <div style={{
                 width: '80px',
                 height: '4px',
                 backgroundColor: COLORS.primary,
-                marginTop: '40px',
+                marginTop: '30px',
                 borderRadius: '2px',
               }}
             />

@@ -12,16 +12,7 @@ import {
   type LucideIcon
 } from 'lucide-react';
 import { useAdmin } from '../admin/context';
-
-// --- TYPE DEFINITIONS ---
-interface Phase {
-  number: number;
-  icon: string;
-  title: string;
-  duration: string;
-  description: string;
-  items: string[];
-}
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const getIconComponent = (iconName: string): LucideIcon => {
@@ -56,11 +47,10 @@ const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 function Process() {
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const PROCESS_DATA = config?.aiml?.PROCESS_DATA;
-  console.log(PROCESS_DATA)
-  
-  if (!PROCESS_DATA) return null;
+
+  const handleSave = () => saveConfigToServer();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -81,11 +71,13 @@ function Process() {
 
     return () => observer.disconnect();
   }, []);
+  
+  if (!PROCESS_DATA) return null;
 
   return (
     <section
       style={{
-        padding: '80px 24px',
+        padding: '60px 24px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
@@ -105,32 +97,54 @@ function Process() {
       <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
         
         {/* HEADER */}
-        <div style={{ textAlign: 'center', marginBottom: '100px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto 60px auto' }}>
           <h1 style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '16px',
             }}>
-            {PROCESS_DATA.title.prefix}{' '}
-            <span style={{ color: COLORS.primary }}>{PROCESS_DATA.title.highlight}</span>
+            <EditableText
+              value={PROCESS_DATA.title.prefix}
+              onSave={handleSave}
+              configPath="aiml.PROCESS_DATA.title.prefix"
+            >
+              {PROCESS_DATA.title.prefix}
+            </EditableText>
+            {' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={PROCESS_DATA.title.highlight}
+                onSave={handleSave}
+                configPath="aiml.PROCESS_DATA.title.highlight"
+              >
+                {PROCESS_DATA.title.highlight}
+              </EditableText>
+            </span>
           </h1>
           <p style={{
-              fontSize: '18px',
+              fontSize: 'clamp(0.75rem, 2vw, 0.9375rem)',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '800px',
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            {PROCESS_DATA.subtitle}
+            <EditableText
+              value={PROCESS_DATA.subtitle}
+              onSave={handleSave}
+              configPath="aiml.PROCESS_DATA.subtitle"
+              multiline={true}
+            >
+              {PROCESS_DATA.subtitle}
+            </EditableText>
           </p>
         </div>
 
         {/* TIMELINE */}
         <div style={{ position: 'relative' }}>
-          {PROCESS_DATA.phases.map((phase: Phase, index: number) => {
+          {PROCESS_DATA.phases.map((phase: any, index: number) => {
             const isVisible = visibleSections.has(phase.number);
             const Icon = getIconComponent(phase.icon);
             
@@ -141,7 +155,7 @@ function Process() {
                 className="process-step-ai"
                 style={{
                   position: 'relative',
-                  paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '100px',
+                  paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '40px',
                   opacity: isVisible ? 1 : 0,
                   transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
                   transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -153,7 +167,7 @@ function Process() {
                   <div style={{
                       position: 'absolute',
                       left: '40px',
-                      top: '80px',
+                      top: '60px',
                       bottom: 0,
                       width: '2px',
                       background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
@@ -163,11 +177,11 @@ function Process() {
                   />
                 )}
 
-                <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
+                <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
                   {/* Badge */}
                   <div style={{
-                      width: '80px',
-                      height: '80px',
+                      width: '60px',
+                      height: '60px',
                       borderRadius: '50%',
                       background: isVisible ? COLORS.primary : COLORS.white,
                       border: `2px solid ${COLORS.primary}`,
@@ -180,37 +194,65 @@ function Process() {
                       zIndex: 2,
                       color: isVisible ? COLORS.white : COLORS.primary,
                     }}>
-                    <Icon size={24} />
+                    <Icon size={20} />
                   </div>
 
                   {/* Content */}
                   <div style={{ flex: 1 }}>
-                    <div style={{ marginBottom: '24px' }}>
-                      <h2 style={{ fontSize: '28px', fontWeight: 800, color: COLORS.textBlack, marginBottom: '8px', letterSpacing: '-0.02em' }}>
-                        {phase.title}
+                    <div style={{ marginBottom: '16px' }}>
+                      <h2 style={{ fontSize: 'clamp(1.125rem, 3.5vw, 1.75rem)', fontWeight: 800, color: COLORS.textBlack, letterSpacing: '-0.02em', marginBottom: '8px' }}>
+                        <EditableText
+                          value={phase.title}
+                          onSave={handleSave}
+                          configPath={`aiml.PROCESS_DATA.phases.${index}.title`}
+                        >
+                          {phase.title}
+                        </EditableText>
                       </h2>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: COLORS.primary, fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                        <Clock size={16} /> {phase.duration}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: COLORS.primary, fontSize: 'clamp(0.6875rem, 1.8vw, 0.8125rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <Clock size={14} /> 
+                        <EditableText
+                          value={phase.duration}
+                          onSave={handleSave}
+                          configPath={`aiml.PROCESS_DATA.phases.${index}.duration`}
+                        >
+                          {phase.duration}
+                        </EditableText>
                       </div>
                     </div>
 
-                    <p style={{ fontSize: '16px', color: COLORS.textMuted, lineHeight: '1.7', marginBottom: '24px', fontWeight: 500 }}>
-                      {phase.description}
+                    <p style={{ fontSize: 'clamp(0.6875rem, 1.8vw, 0.8125rem)', color: COLORS.textMuted, lineHeight: '1.7', marginBottom: '16px', fontWeight: 500 }}>
+                      <EditableText
+                        value={phase.description}
+                        onSave={handleSave}
+                        configPath={`aiml.PROCESS_DATA.phases.${index}.description`}
+                        multiline={true}
+                      >
+                        {phase.description}
+                      </EditableText>
                     </p>
 
-                    <ul style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '12px', padding: 0, listStyle: 'none' }}>
+                    <ul style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', alignItems: 'center', padding: 0, listStyle: 'none' }}>
                       {phase.items.map((item: string, i: number) => (
                         <li key={i} style={{
                             display: 'flex',
                             alignItems: 'flex-start',
-                            gap: '10px',
+                            gap: '24px',
                             background: 'rgba(255,255,255,0.7)',
                             padding: '12px 16px',
                             borderRadius: '10px',
                             border: `1px solid ${COLORS.border}`,
                           }}>
-                          <Check size={16} color={COLORS.primary} style={{ marginTop: '3px' }} strokeWidth={3} />
-                          <span style={{ fontSize: '14px', color: COLORS.textBlack, fontWeight: 500 }}>{item}</span>
+                          <Check size={14} color={COLORS.primary} style={{ marginTop: '3px' }} strokeWidth={3} />
+                          <span style={{ fontSize: 'clamp(0.6875rem, 1.8vw, 0.8125rem)', color: COLORS.textBlack, fontWeight: 500 }}>
+                            <EditableText
+                              value={item}
+                              onSave={handleSave}
+                              configPath={`aiml.PROCESS_DATA.phases.${index}.items.${i}`}
+                            >
+                              {item}
+                            </EditableText>
+                          </span>
                         </li>
                       ))}
                     </ul>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ChevronRight, Star, Code2, ShieldCheck, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- DATA CONFIGURATION ---
 const COLORS = {
@@ -18,28 +19,12 @@ const COLORS = {
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
-// --- CONFIG NAVIGATION FUNCTION ---
-const navigateToConfig = (targetId: string) => {
-  const target = document.getElementById(targetId);
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-};
-
-// --- ICON MAPPING ---
-const ICON_MAP = {
-  Code2: <Code2 />,
-  ShieldCheck: <ShieldCheck />,
-  Zap: <Zap />,
-} as const;
-
-type IconName = keyof typeof ICON_MAP;
-
 export default function SoftwareServicesHero() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const HERO_DATA = config?.service?.hero;
   const [isMobile, setIsMobile] = useState(false);
-  console.log("HERO_DATA",HERO_DATA)
+
+  const handleSave = () => saveConfigToServer();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -53,99 +38,27 @@ export default function SoftwareServicesHero() {
 
   if (!HERO_DATA) return null;
 
-  // --- SHARED STYLES ---
-  const gridLayout: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: '60px',
-    alignItems: 'center',
-  };
-
-  const breadcrumbStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    marginBottom: '40px',
-    fontSize: '12px',
-    fontWeight: 600,
-    color: COLORS.textMuted
-  };
-
-  const headingStyle: React.CSSProperties = {
-    fontSize: 'clamp(2.8rem, 6vw, 5.2rem)',
-    fontWeight: 800,
-    color: COLORS.textBlack,
-    lineHeight: 1,
-    letterSpacing: '-0.06em',
-    marginBottom: '32px',
-  };
-
-  const descriptionStyle: React.CSSProperties = {
-    fontSize: 'clamp(1.1rem, 1.8vw, 1.35rem)',
-    color: COLORS.textMuted,
-    lineHeight: 1.6,
-    marginBottom: '48px',
-    maxWidth: '650px',
-    fontWeight: 450,
-  };
-
-  const ctaButtonStyle: React.CSSProperties = {
-    backgroundColor: COLORS.textBlack,
-    color: '#FFF',
-    border: 'none',
-    padding: '20px 44px',
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontWeight: 700,
-    cursor: 'pointer',
-    boxShadow: '0 20px 40px -12px rgba(2, 6, 23, 0.3)',
-    transition: '0.3s all',
-  };
-
-  const dividerStyle: React.CSSProperties = {
-    width: '1px',
-    height: '20px',
-    background: COLORS.border,
-  };
-
-  const glassCardStyle: React.CSSProperties = {
-    background: 'rgba(255, 255, 255, 0.7)',
-    backdropFilter: 'blur(24px)',
-    border: `1px solid ${COLORS.white}`,
-    padding: '50px',
-    borderRadius: '32px',
-    boxShadow: '0 50px 100px -20px rgba(0,0,0,0.12)',
-    position: 'relative',
-  };
-
-  const iconBoxStyle: React.CSSProperties = {
-    padding: '14px',
-    borderRadius: '14px',
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   };
 
   return (
     <section
       style={{
-        minHeight: '100vh',
+        minHeight: 'clamp(50vh, 70vh, 85vh)',
         background: COLORS.bgGradient,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         fontFamily: FONT_PRIMARY,
-        padding: '100px 24px',
+        padding: 'clamp(12px, 3vw, 20px)',
+        paddingTop: 'clamp(90px, 20vw, 130px)',
+        paddingBottom: 'clamp(25px, 5vw, 45px)',
       }}>
       
       {/* 1. ARCHITECTURAL PATTERN OVERLAY */}
@@ -154,96 +67,120 @@ export default function SoftwareServicesHero() {
           style={{
             position: 'absolute',
             inset: 0,
-            backgroundImage: `linear-gradient(${COLORS.textMuted}11 1px, transparent 1px), linear-gradient(90deg, ${COLORS.textMuted}11 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-            maskImage: 'radial-gradient(circle at center, black, transparent 90%)',
+            backgroundImage: `radial-gradient(${COLORS.primary}15 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+            maskImage: 'linear-gradient(to bottom, black, transparent)',
+            zIndex: 0,
           }}
         />
       </div>
 
-      <div style={{ maxWidth: '1300px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 10 }}>
-        <div style={gridLayout}>
+      <div style={{ maxWidth: 'min(1400px, 95%)', margin: '0 auto', width: '100%', position: 'relative', zIndex: 10 }}>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            maxWidth: '900px',
+            margin: '0 auto',
+            textAlign: 'center'
+          }}>
           
-          {/* LEFT CONTENT */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
-            <motion.div style={breadcrumbStyle}>
-              {HERO_DATA.breadcrumbs.parent}
-              <ChevronRight size={14} color={COLORS.textMuted} />
-              <span style={{ fontSize: '12px', fontWeight: 600, color: COLORS.textMuted }}>
-                {HERO_DATA.breadcrumbs.current}
-              </span>
-            </motion.div>
+            <motion.div variants={containerVariants} initial="hidden" animate="visible">
+              {/* HEADING - Aligned to clamp sizes of Company Hero */}
+              <motion.h1 style={{
+                  fontSize: 'clamp(2.2rem, 6vw, 3.2rem)',
+                  fontWeight: 800,
+                  color: COLORS.textBlack,
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.03em',
+                  marginBottom: 'clamp(20px, 4vw, 32px)',
+                }}>
+                <EditableText value={HERO_DATA.heading.highlight} onSave={handleSave} configPath="service.hero.heading.highlight">
+                  {HERO_DATA.heading.highlight}
+                </EditableText>
+                {' '}
+                <EditableText value={HERO_DATA.heading.main} onSave={handleSave} configPath="service.hero.heading.main">
+                  {HERO_DATA.heading.main.split(' ').map((word: string, index: number) => (
+                    <span key={index} style={{ color: word.toLowerCase() === 'development' ? '#4F46E5' : 'inherit' }}>
+                      {word}{' '}
+                    </span>
+                  ))}
+                </EditableText>
+                {' '}
+                <EditableText value={HERO_DATA.heading.suffix} onSave={handleSave} configPath="service.hero.heading.suffix">
+                  {HERO_DATA.heading.suffix}
+                </EditableText>
+              </motion.h1>
 
-            <motion.h1 style={headingStyle}>
-              <span style={{ color: COLORS.primary }}>{HERO_DATA.heading.highlight}</span>
-              <br />
-              {HERO_DATA.heading.main}{' '}
-              <span style={{ fontWeight: 300, color: COLORS.textMuted }}>
-                {HERO_DATA.heading.suffix}
-              </span>
-            </motion.h1>
+              {/* DESCRIPTION - Centered and same size as Company Hero */}
+              <motion.p style={{
+                  fontSize: 'clamp(18px, 4vw, 22px)',
+                  color: COLORS.textMuted,
+                  lineHeight: 1.6,
+                  maxWidth: 'min(600px, 90%)',
+                  fontWeight: 500,
+                  textAlign: 'center',
+                  margin: '0 auto clamp(30px, 5vw, 48px)',
+                }}>
+                <EditableText value={HERO_DATA.description} onSave={handleSave} configPath="service.hero.description">
+                  {HERO_DATA.description}
+                </EditableText>
+              </motion.p>
 
-            <motion.p style={descriptionStyle}>
-              {HERO_DATA.description}
-            </motion.p>
+              {/* CTA BUTTON */}
+              <motion.div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '40px' }}>
+                <button
+                  style={{
+                    backgroundColor: COLORS.textBlack,
+                    color: '#FFF',
+                    border: 'none',
+                    height: 'clamp(48px, 8vw, 56px)',
+                    padding: '0 clamp(20px, 4vw, 32px)',
+                    borderRadius: '12px',
+                    fontSize: 'clamp(14px, 2.5vw, 16px)',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    boxShadow: '0 20px 40px -12px rgba(2, 6, 23, 0.3)',
+                    transition: '0.3s all',
+                  }}
+                  onClick={() => {
+                    const target = document.getElementById(HERO_DATA.cta.targetId);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}>
+                  <EditableText value={HERO_DATA.cta.text} onSave={handleSave} configPath="service.hero.cta.text">
+                    {HERO_DATA.cta.text}
+                  </EditableText>
+                </button>
+              </motion.div>
 
-            <motion.div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
-              <button
-                style={ctaButtonStyle}
-                onClick={() => {
-                  const target = document.getElementById(HERO_DATA.cta.targetId);
-                  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }}
-                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = COLORS.primary)}
-                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = COLORS.textBlack)}>
-                {HERO_DATA.cta.text}
-              </button>
-            </motion.div>
-
-            <motion.div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{ display: 'flex', gap: '2px' }}>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={18} fill="#FFB800" stroke="none" />
-                ))}
-              </div>
-              <span style={{ fontWeight: 700, color: COLORS.textBlack }}>
-                {HERO_DATA.rating.score}
-              </span>
-              <span style={dividerStyle} />
-              <span style={{ color: COLORS.textMuted, fontSize: '14px' }}>
-                {HERO_DATA.rating.certification}
-              </span>
-            </motion.div>
-          </motion.div>
-
-          {/* RIGHT CONTENT: THE GLASS FEATURE CARD */}
-          {!isMobile && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="hero-glass-card">
-              <div style={glassCardStyle}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
-                  {HERO_DATA.features.map((feature, idx) => (
-                    <div key={idx} style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                      <div style={{ ...iconBoxStyle, background: feature.color }}>
-                        {typeof feature.icon === 'string' ? ICON_MAP[feature.icon as IconName] : feature.icon}
-                      </div>
-                      <div>
-                        <p style={{ margin: 0, fontWeight: 800, fontSize: '19px' }}>{feature.title}</p>
-                        <p style={{ margin: 0, color: COLORS.textMuted, fontSize: '13px' }}>{feature.sub}</p>
-                      </div>
-                    </div>
+              {/* RATING SECTION */}
+              <motion.div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+                <div style={{ display: 'flex', gap: '2px' }}>
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={18} fill="#FFB800" stroke="none" />
                   ))}
                 </div>
-              </div>
+                <span style={{ fontWeight: 700, color: COLORS.textBlack }}>
+                  <EditableText value={HERO_DATA.rating.score} onSave={handleSave} configPath="service.hero.rating.score">
+                    {HERO_DATA.rating.score}
+                  </EditableText>
+                </span>
+                <div style={{ width: '1px', height: '20px', background: COLORS.border }} />
+                <span style={{ color: COLORS.textMuted, fontSize: '14px' }}>
+                  <EditableText value={HERO_DATA.rating.certification} onSave={handleSave} configPath="service.hero.rating.certification">
+                    {HERO_DATA.rating.certification}
+                  </EditableText>
+                </span>
+              </motion.div>
             </motion.div>
-          )}
-
+          </motion.div>
         </div>
       </div>
-
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+      `}</style>
     </section>
   );
 }

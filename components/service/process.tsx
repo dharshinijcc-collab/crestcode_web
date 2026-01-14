@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Clock, Target, Zap, Shield, Users } from 'lucide-react';
 import { useAdmin } from '../admin/context';
-import Link from 'next/link';
+import EditableText from '@/components/admin/editableText';
 
 const ICON_MAP = {
   Target: <Target size={24} />,
@@ -14,11 +14,6 @@ const ICON_MAP = {
   Check: <Check size={16} />,
   Clock: <Clock size={16} />,
 } as const;
-
-type IconName = keyof typeof ICON_MAP;
-
-// --- DATA CONFIGURATION ---
-// Data will be imported from config
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -33,13 +28,11 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 function DevelopmentProcess() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const PROCESS_DATA = config?.service?.PROCESS;
-  console.log(PROCESS_DATA);
-  
-  if (!PROCESS_DATA) return null;
-
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
+
+  const handleSave = () => saveConfigToServer();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -59,19 +52,21 @@ function DevelopmentProcess() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [PROCESS_DATA]); // Re-observe if data changes
+
+  if (!PROCESS_DATA) return null;
 
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: '32px 24px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
         overflow: 'hidden',
       }}>
       
-      {/* 1. ENGINEERING GRID OVERLAY */}
+      {/* ENGINEERING GRID OVERLAY */}
       <div
         style={{
           position: 'absolute',
@@ -92,40 +87,61 @@ function DevelopmentProcess() {
         }}>
         
         {/* HEADER SECTION */}
-        <div style={{ textAlign: 'center', marginBottom: '70px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4.5vw, 2.8rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '20px',
             }}>
-            {PROCESS_DATA.header.titlePrefix}
-            <span style={{ color: COLORS.primary }}>{PROCESS_DATA.header.titleHighlight}</span>
+            <EditableText
+              value={PROCESS_DATA.header.titlePrefix}
+              onSave={handleSave}
+              configPath="service.PROCESS.header.titlePrefix"
+            >
+              {PROCESS_DATA.header.titlePrefix}
+            </EditableText>
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={PROCESS_DATA.header.titleHighlight}
+                onSave={handleSave}
+                configPath="service.PROCESS.header.titleHighlight"
+              >
+                {PROCESS_DATA.header.titleHighlight}
+              </EditableText>
+            </span>
           </h1>
           <p
             style={{
-              fontSize: '18px',
+              fontSize: '15px',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '800px',
               margin: '0 auto',
             }}>
-            {PROCESS_DATA.header.description}
+            <EditableText
+              value={PROCESS_DATA.header.description}
+              onSave={handleSave}
+              configPath="service.PROCESS.header.description"
+              multiline={true}
+            >
+              {PROCESS_DATA.header.description}
+            </EditableText>
           </p>
         </div>
 
         {/* TIMELINE STEPS */}
         <div style={{ position: 'relative' }}>
-          {PROCESS_DATA.phases.map((phase, index) => (
+          {PROCESS_DATA.phases.map((phase: any, index: number) => (
             <div
               key={phase.number}
               data-section={phase.number}
               className="process-step"
               style={{
                 position: 'relative',
-                paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '100px',
+                paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '60px',
                 opacity: visibleSections.has(phase.number) ? 1 : 0,
                 transform: visibleSections.has(phase.number) ? 'translateY(0)' : 'translateY(40px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -137,8 +153,8 @@ function DevelopmentProcess() {
                 <div
                   style={{
                     position: 'absolute',
-                    left: '40px',
-                    top: '80px',
+                    left: '32px',
+                    top: '64px',
                     bottom: 0,
                     width: '2px',
                     background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
@@ -148,12 +164,12 @@ function DevelopmentProcess() {
                 />
               )}
 
-              <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
+              <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
                 {/* CIRCULAR NUMBER BADGE */}
                 <div
                   style={{
-                    width: '80px',
-                    height: '80px',
+                    width: '64px',
+                    height: '64px',
                     borderRadius: '50%',
                     background: visibleSections.has(phase.number) ? COLORS.primary : COLORS.white,
                     border: `2px solid ${COLORS.primary}`,
@@ -167,7 +183,7 @@ function DevelopmentProcess() {
                   }}>
                   <span
                     style={{
-                      fontSize: '28px',
+                      fontSize: '20px',
                       fontWeight: 800,
                       color: visibleSections.has(phase.number) ? COLORS.white : COLORS.primary,
                     }}>
@@ -177,16 +193,22 @@ function DevelopmentProcess() {
 
                 {/* CONTENT AREA */}
                 <div style={{ flex: 1 }}>
-                  <div style={{ marginBottom: '32px' }}>
+                  <div style={{ marginBottom: '20px' }}>
                     <h2
                       style={{
-                        fontSize: '28px',
+                        fontSize: '22px',
                         fontWeight: 800,
                         color: COLORS.textBlack,
                         marginBottom: '12px',
                         letterSpacing: '-0.02em',
                       }}>
-                      {phase.title}
+                      <EditableText
+                        value={phase.title}
+                        onSave={handleSave}
+                        configPath={`service.PROCESS.phases.${index}.title`}
+                      >
+                        {phase.title}
+                      </EditableText>
                     </h2>
                     <div
                       style={{
@@ -199,7 +221,14 @@ function DevelopmentProcess() {
                         textTransform: 'uppercase',
                         letterSpacing: '0.05em',
                       }}>
-                      <Clock size={16} /> {phase.duration}
+                      <Clock size={16} /> 
+                      <EditableText
+                        value={phase.duration}
+                        onSave={handleSave}
+                        configPath={`service.PROCESS.phases.${index}.duration`}
+                      >
+                        {phase.duration}
+                      </EditableText>
                     </div>
                   </div>
 
@@ -211,7 +240,7 @@ function DevelopmentProcess() {
                       padding: 0,
                       listStyle: 'none',
                     }}>
-                    {phase.items.map((item, i) => (
+                    {phase.items.map((item: string, i: number) => (
                       <li
                         key={i}
                         style={{
@@ -230,7 +259,13 @@ function DevelopmentProcess() {
                             color: COLORS.textMuted,
                             fontWeight: 500,
                           }}>
-                          {item}
+                          <EditableText
+                            value={item}
+                            onSave={handleSave}
+                            configPath={`service.PROCESS.phases.${index}.items.${i}`}
+                          >
+                            {item}
+                          </EditableText>
                         </span>
                       </li>
                     ))}

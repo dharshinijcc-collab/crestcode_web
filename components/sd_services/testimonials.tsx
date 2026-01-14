@@ -4,10 +4,9 @@ import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 const { Text, Paragraph } = Typography;
-
-// --- DATA CONFIGURATION (JSON TYPE) ---
 
 // --- UNIFIED INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -22,15 +21,17 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const Testimonials = () => {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const TESTIMONIAL_DATA = config?.sd_services?.TESTIMONIAL_DATA;
-  console.log()
+  
+  const handleSave = () => saveConfigToServer();
   
   if (!TESTIMONIAL_DATA) return null;
+
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: '32px 24px',
         backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
@@ -63,8 +64,8 @@ const Testimonials = () => {
           zIndex: 1,
           background: 'rgba(255, 255, 255, 0.7)',
           backdropFilter: 'blur(24px)',
-          borderRadius: '24px',
-          padding: '80px 60px',
+          borderRadius: '16px',
+          padding: '60px 80px',
           border: `1px solid ${COLORS.white}`,
           boxShadow: '0 30px 60px -15px rgba(0,0,0,0.05)',
         }}>
@@ -81,7 +82,7 @@ const Testimonials = () => {
                   borderRadius: '20px',
                   overflow: 'hidden',
                   boxShadow: `0 20px 40px -10px rgba(79, 70, 229, 0.25)`,
-                  border: `4px solid ${COLORS.white}`,
+                  border: `3px solid ${COLORS.white}`,
                 }}>
                 <img
                   src={TESTIMONIAL_DATA.founder.image}
@@ -89,46 +90,58 @@ const Testimonials = () => {
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
-              <div style={{ marginBottom: '6px' }}>
+              <div style={{ marginBottom: '4px' }}>
                 <Text
                   style={{
-                    fontSize: '24px',
+                    fontSize: '18px',
                     fontWeight: 800,
                     color: COLORS.textBlack,
                     fontFamily: FONT_PRIMARY,
                     display: 'block',
                     letterSpacing: '-0.02em',
                   }}>
-                  {TESTIMONIAL_DATA.founder.name}
+                  <EditableText
+                    value={TESTIMONIAL_DATA.founder.name}
+                    onSave={handleSave}
+                    configPath="sd_services.TESTIMONIAL_DATA.founder.name"
+                  >
+                    {TESTIMONIAL_DATA.founder.name}
+                  </EditableText>
                 </Text>
               </div>
               <Text
                 style={{
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: 700,
                   color: COLORS.primary,
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
                 }}>
-                {TESTIMONIAL_DATA.founder.role}
+                <EditableText
+                  value={TESTIMONIAL_DATA.founder.role}
+                  onSave={handleSave}
+                  configPath="sd_services.TESTIMONIAL_DATA.founder.role"
+                >
+                  {TESTIMONIAL_DATA.founder.role}
+                </EditableText>
               </Text>
             </div>
           </Col>
 
           {/* Vision Quote (Right) */}
           <Col xs={24} md={16} lg={17}>
-            <div style={{ position: 'relative', paddingLeft: '20px' }}>
+            <div style={{ position: 'relative', paddingLeft: '16px' }}>
               {/* Refined Quote Mark */}
               <div
                 style={{
-                  fontSize: '110px',
+                  fontSize: '80px',
                   color: COLORS.primary,
                   lineHeight: 1,
                   fontFamily: 'serif',
                   opacity: 0.1,
                   position: 'absolute',
-                  top: '-50px',
-                  left: '-20px',
+                  top: '-40px',
+                  left: '-16px',
                   userSelect: 'none',
                   fontWeight: 900,
                 }}>
@@ -137,19 +150,51 @@ const Testimonials = () => {
 
               <Paragraph
                 style={{
-                  fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
+                  fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
                   fontWeight: 600,
-                  lineHeight: 1.7,
+                  lineHeight: 1.6,
                   color: COLORS.textBlack,
                   fontFamily: FONT_PRIMARY,
                   margin: 0,
                   letterSpacing: '-0.01em',
                   fontStyle: 'normal',
                 }}>
-                {TESTIMONIAL_DATA.quote.main}{' '}
-                <span style={{ color: COLORS.primary }}>{TESTIMONIAL_DATA.quote.highlight1}</span>{' '}
-                {TESTIMONIAL_DATA.quote.middle}{' '}
-                <span style={{ fontWeight: 800 }}>{TESTIMONIAL_DATA.quote.highlight2}</span>
+                <EditableText
+                  value={TESTIMONIAL_DATA.quote.main}
+                  onSave={handleSave}
+                  configPath="sd_services.TESTIMONIAL_DATA.quote.main"
+                  multiline={true}
+                >
+                  {TESTIMONIAL_DATA.quote.main}
+                </EditableText>
+                {' '}
+                <span style={{ color: COLORS.primary }}>
+                  <EditableText
+                    value={TESTIMONIAL_DATA.quote.highlight1}
+                    onSave={handleSave}
+                    configPath="sd_services.TESTIMONIAL_DATA.quote.highlight1"
+                  >
+                    {TESTIMONIAL_DATA.quote.highlight1}
+                  </EditableText>
+                </span>
+                {' '}
+                <EditableText
+                  value={TESTIMONIAL_DATA.quote.middle}
+                  onSave={handleSave}
+                  configPath="sd_services.TESTIMONIAL_DATA.quote.middle"
+                >
+                  {TESTIMONIAL_DATA.quote.middle}
+                </EditableText>
+                {' '}
+                <span style={{ fontWeight: 800 }}>
+                  <EditableText
+                    value={TESTIMONIAL_DATA.quote.highlight2}
+                    onSave={handleSave}
+                    configPath="sd_services.TESTIMONIAL_DATA.quote.highlight2"
+                  >
+                    {TESTIMONIAL_DATA.quote.highlight2}
+                  </EditableText>
+                </span>
               </Paragraph>
 
               {/* Architectural Accent Line */}

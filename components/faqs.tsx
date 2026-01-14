@@ -561,7 +561,7 @@ export default function FaqPage() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
 
   // Get FAQ data from config, with fallback to default structure
-  const faqConfig = config?.faqs;
+  const faqConfig = (config as any)?.faqs || {};
   const faqs = faqConfig?.items || [];
 
   const toggleFaq = (index: number) => {

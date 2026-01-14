@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 
 export default function SecuritySection() {
   const { config, saveConfigToServer } = useAdmin();
+  const securityConfig = (config as any)?.security || { features: [], title: '', subtitle: '' };
+  const securityFeatures = securityConfig.features;
   const iconMap = {
     Lock,
     ShieldX,
@@ -136,13 +138,13 @@ export default function SecuritySection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}>
             <EditableText
-              value={config.security.subtitle}
+              value={securityConfig.subtitle}
               onSave={() => {
                 saveConfigToServer();
               }}
               configPath="security.subtitle"
               multiline>
-              {config.security.subtitle}
+              {securityConfig.subtitle}
             </EditableText>
           </motion.p>
         </motion.div>
@@ -155,7 +157,7 @@ export default function SecuritySection() {
             marginTop: '1rem',
           }}
           className="md:grid-cols-3">
-          {config.security.features.map((feature, index) => {
+          {securityFeatures.map((feature: { icon: string; title: string; description: string }, index: number) => {
             const IconComponent = iconMap[feature.icon as keyof typeof iconMap];
             const gradients = [
               'linear-gradient(135deg, #3b82f6, #1d4ed8)',

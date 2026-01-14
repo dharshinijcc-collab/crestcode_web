@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { usePageTitle } from './common';
 import Hero from '@/components/home/hero';
-import IndustriesSection from '@/components/home/industries';
 import TestimonialSection from '@/components/home/testimonials';
 import WhyCrestcode from '@/components/home/whyCrestcode';
 import FAQ from '@/components/home/faq';
@@ -26,9 +25,7 @@ export default function HomePage() {
       <Hero />
       <HomeService />
       <TestimonialSection />
-      <IndustriesSection />
       <WhyCrestcode />
-      <FAQ />
     </div>
   );
 }

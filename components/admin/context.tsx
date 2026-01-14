@@ -225,6 +225,63 @@ export const emptySiteConfig = {
       },
       services: []
     }
+  },
+  team: {
+    TEAM_CONTENT: {
+      hero: {
+        title: '',
+        description: '',
+        bg: ''
+      },
+      culture: {
+        title: '',
+        description: '',
+        image: '',
+        accordion: []
+      },
+      copilot: {
+        title: '',
+        subtitle: '',
+        features: []
+      },
+      members: {
+        title: '',
+        ctaLabel: '',
+        ctaHref: '',
+        groupPhoto: '',
+        individual: []
+      },
+      values: {
+        title: '',
+        description: '',
+        items: []
+      },
+      IndustriesSection: {
+        header: {
+          highlight: '',
+          normalText: '',
+        },
+        items: []
+      }
+    }
+  },
+  vacancies: {
+    VACANCIES_DATA: {
+      hero: {
+        title: '',
+        titleAccent: '',
+        description: '',
+        cta: {
+          text: '',
+          link: ''
+        }
+      },
+      jobs: [],
+      modal: {
+        badge: '',
+        ctaText: ''
+      }
+    }
   }
 };
 
@@ -241,9 +298,14 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({
   const [saveConfigMutation] = useSaveConfigMutation();
 
   useEffect(() => {
+    console.log('useEffect triggered with configData:', configData);
     if (configData && configData.payload) {
+      console.log('Setting config from API payload:', configData.payload.config);
+      console.log('IndustriesSection in API payload:', configData.payload.config?.team?.TEAM_CONTENT?.IndustriesSection);
       setConfig(configData.payload.config);
     } else {
+      console.log('Falling back to siteConfig');
+      console.log('IndustriesSection in siteConfig:', siteConfig?.team?.TEAM_CONTENT?.IndustriesSection);
       setConfig(siteConfig);
     }
   }, [configData]);

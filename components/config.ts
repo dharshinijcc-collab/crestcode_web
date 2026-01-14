@@ -1,65 +1,13 @@
 import React from 'react';
 import { Zap, CreditCard, Gavel, User, Lightbulb, Eye, Users, Award, Heart, Target, Coffee, Sparkles, GraduationCap, Wallet } from 'lucide-react';
 
-export interface HubConfig {
-  icon: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  features?: string[] | Array<{ icon: string; text: string }>;
-  badges?: string[];
-  gradient: string;
-  bgGradient?: string;
-  textColor: string;
-  large?: boolean;
-}
 
-export interface BoardConfig {
-  icon: string;
-  title: string;
-  description: string;
-  features: string[];
-  gradient: string;
-  bgGradient: string;
-  borderColor: string;
-  textColor: string;
-}
-
-export interface SecurityFeature {
-  icon: string;
-  title: string;
-  description: string;
-}
-
-export interface PricingPlan {
-  name: string;
-  description: string;
-  price: string;
-  period: string;
-  features: string[];
-  buttonText: string;
-  popular?: boolean;
-  gradient: string;
-}
-
-export interface HeroWord {
-  word: string;
-  image: string;
-  color: string;
-}
-
-export interface FeatureConfig {
-  icon: string;
-  title: string;
-  description: string;
-  gradient: string;
-}
 
 export const siteConfig = {
-  siteName: 'dockly',
+  siteName: 'crerstcode',
   logo: {
     src: '/dockly-logo.png',
-    alt: 'Dockly Logo',
+    alt: 'crestcode Logo',
   },
   home: {
     hero: {
@@ -105,87 +53,35 @@ export const siteConfig = {
         title: "we provide",
         description: "We are Crestcode, a technical consultancy that leverages technology to address business challenges. Guided by transparency and close collaboration, we focus on delivering long-term business value."
       },
-      ctaLabel: "Learn More",
+      
       items: [
         {
-          title: 'Software Product Development',
+          title: 'Start-up Lab',
           description:
-            'We develop custom software products from concept to deployment. Our team handles the entire development lifecycle, creating scalable and maintainable solutions that meet your business objectives and deliver exceptional user experiences.',
-          link: '/services',
+            'Transform your innovative ideas into a viable and predictable business model. Our comprehensive approach helps early-stage entrepreneurs validate their concepts and build sustainable foundations.'
+        
         },
         {
-          title: 'AI and ML',
+          title: 'Growth Accelerator',
           description:
-            'Crestcode leverages artificial intelligence and machine learning to build intelligent solutions. We develop AI-powered applications, create predictive models, and implement machine learning algorithms that transform your business data into actionable insights.',
-          link: '/aiml_services',
+            'Optimize profitability and scale your SMB with our proven strategies. We redefine Product Market Fit to ensure sustainable long-term success and exponential growth.'
+          
         },
         {
-          title: 'Web Development',
+          title: 'Product Consulting',
           description:
-            'Our web development services cover everything from simple websites to complex web applications. We use modern frameworks and best practices to build responsive, fast, and secure web solutions that work seamlessly across all devices.',
-          link: '/web_services',
+            'Partner with our experts to define your product vision, mission, goals, and roadmap. We help enterprises make strategic decisions that drive long-term value creation.'
+          
         },
         {
-          title: 'Mobile App Development',
+          title: 'Digital Transformation',
           description:
-            'We create native and cross-platform mobile applications for iOS and Android. Our mobile solutions are designed to provide excellent user experiences while leveraging device capabilities to deliver powerful functionality.',
-          link: '/mobile_services',
+            'Drive scalability and operational efficiency by modernizing your business processes. Transform, upgrade, and automate for the digital-first future.'
+        
         },
       ]
     },
-    IndustriesSection: {
-      header: {
-        highlight: 'Industries',
-        normalText: ' we help',
-      },
-      items: [
-        {
-          title: 'Healthcare',
-          iconName: "Stethoscope",
-          desc: 'We develop services, tools, and systems to provide patients and staff with up-to-date software.',
-        },
-        {
-          title: 'Education',
-          iconName: "GraduationCap",
-          desc: 'E-learning solutions that make education flexible, engaging, and highly efficient.',
-        },
-        {
-          title: 'Retail',
-          iconName: "Store",
-          desc: 'We build stronger connections with customers through web and mobile applications with superior shopping experience and 24/7 availability.',
-        },
-        {
-          title: 'Manufacturing',
-          iconName: "Factory",
-          desc: 'Comprehensive software solutions for supply chain management, inventory management, warehouses, production monitoring, process automation, and more.',
-        },
-        {
-          title: 'Professional Services',
-          iconName: "Briefcase",
-          desc: 'We develop CRM, management tools, billing products, document management systems, and more. Our solutions are built for professionals by professionals.',
-        },
-        {
-          title: 'Telecoms',
-          iconName: "Network",
-          desc: 'We enhance global communication by building solutions for network management, customer experience, IoT, security, automation, and analytics.',
-        },
-        {
-          title: 'Logistics & Transportation',
-          iconName: "Truck",
-          desc: 'Software for freight reservation, transportation management, and streamlined supply chain operations to keep goods and business moving.',
-        },
-        {
-          title: 'Engineering & Construction',
-          iconName: "HardHat",
-          desc: 'From advanced BIM solutions and cost estimation tools to IoT integration, we lay the foundation for the construction industry.',
-        },
-        {
-          title: 'Marketing & Advertising',
-          iconName: "Target",
-          desc: 'We build effective Client relationships with marketing automation tools that help optimize strategies, gather insights, and achieve brave goals.',
-        },
-      ],
-    },
+   
     LEADERSHIP_DATA: {
       author: {
         name: "Asfarul Huda",
@@ -1443,6 +1339,7 @@ export const siteConfig = {
         accent: "clear planning",
         middle: ", an agile approach, and continuous early feedback, we ensure every product aligns with business goals. Our methodology minimizes risks and delivers",
         bold: "high-quality applications",
+        suffix: "that exceed client expectations and drive business growth."
       }
     }
   },
@@ -1662,124 +1559,114 @@ export const siteConfig = {
   privacypolicy: {
     PRIVACY_DATA: {
       hero: {
-        badge: "Trust & Security Infrastructure",
-        title: "Privacy ",
-        titleAccent: "Policy.",
-        lastUpdated: "September 18, 2025",
-        description: "CrestCode values your trust. This infrastructure explains our commitment to data acquisition, utilization, and absolute safeguarding."
-      },
-      philosophy: {
-        title: "Zero-Sale Commitment",
-        description: "We do not sell your personal information. Your digital organization is powered by privacy-first protocols and enterprise-grade security.",
-        icon: "ShieldCheck"
+        badge: "Privacy Policy",
+        title: "CrestCode Privacy ",
+        titleAccent: "Policy",
+        lastUpdated: "January 12, 2026",
+        description: "CrestCode is designed to help you organize your digital life while keeping your data private and secure."
       },
       sections: [
         {
           id: 1,
-          title: "1. Information Acquisition",
-          intro: "To maintain system performance and security, we collect:",
+          title: "1. Information We Collect",
+          intro: "CrestCode is designed to help you organize your digital life while keeping your data private and secure. We may collect:",
           icon: "Database",
           items: [
             {
-              label: "Account Credentials",
-              text: "Authentication markers including name, email, and secure login tokens.",
+              label: "Account Information",
+              text: "Name, email address, and login credentials when you sign up.",
               icon: "User"
             },
             {
-              label: "Interaction Telemetry",
-              text: "Technical logs on feature utilization to optimize infrastructure latency.",
+              label: "Usage Information",
+              text: "How you interact with CrestCode (features used, time spent).",
               icon: "Eye"
             },
             {
-              label: "User-Provisioned Data",
-              text: "Content you explicitly upload: notes, files, bookmarks, and reminders.",
+              label: "Optional Data You Add",
+              text: "Notes, reminders, bookmarks, files, or other content you choose to store in CrestCode.",
               icon: "FileText"
             }
           ]
         },
         {
           id: 2,
-          title: "2. Operational Utilization",
+          title: "2. How We Use Your Information",
+          intro: "We use your information to:",
           icon: "Users",
           bullets: [
-            "Deliver and calibrate services",
-            "Process secure transactions",
-            "Deploy technical security alerts",
-            "Respond to support protocols"
+            "Deliver and maintain our services to you",
+            "Process transactions and send related information",
+            "Send technical notices, updates, security alerts, and support messages",
+            "Respond to your comments, questions, and requests"
           ]
-        }
-      ],
-      securityVault: {
-        title: "3. Security Infrastructure",
-        icon: "Lock",
-        features: [
-          {
-            title: "Active Encryption",
-            text: "End-to-end encryption in transit (TLS) and at rest across all nodes.",
-            icon: "Server"
-          },
-          {
-            title: "Vault Protocol",
-            text: "Sensitive vault data uses industry-standard hashing; invisible to CrestCode staff.",
-            icon: "Lock"
-          },
-          {
-            title: "Continuous Audit",
-            text: "Regular security reviews to mitigate unauthorized access vectors.",
-            icon: "AlertCircle"
-          }
-        ]
-      },
-      transparency: {
-        title: "4. Information Transparency",
-        icon: "UserCheck",
-        blocks: [
-          { label: "Explicit Consent", text: "Third-party integrations enabled by you." },
-          { label: "Legal Mandate", text: "Compliance with valid law or regulations." },
-          { label: "Service Orchestration", text: "Strictly bound cloud providers (AWS/GCP)." }
-        ]
-      },
-      governance: {
-        title: "5. Governance Rights",
-        icon: "ShieldCheck",
-        rights: [
-          "Right to know and control collection",
-          "Right to access personal data copies",
-          "Right to request deletion/correction",
-          "Right to object to data processing"
-        ],
-        contactPrompt: "Contact contact@cctps.com to exercise these rights."
-      },
-      gridCards: [
+        },
+        {
+          id: 3,
+          title: "3. Data Storage & Security",
+          intro: "All data is encrypted in transit (TLS) and at rest.\nSensitive information (e.g., passwords in Vault) is stored using industry-standard encryption and never shared with CrestCode staff.\nWe regularly review our security practices to protect against unauthorized access.",
+          icon: "Lock"
+        },
+        {
+          id: 4,
+          title: "4. Sharing of Information",
+          intro: "We do not sell or rent your personal information. We may share your information only in these limited circumstances:",
+          icon: "UserCheck",
+          items: [
+            {
+              label: "With your consent",
+              text: "(e.g., integrations with third-party apps).",
+              icon: "CheckCircle2"
+            },
+            {
+              label: "For legal reasons",
+              text: "(if required by law, regulation, or valid legal process).",
+              icon: "AlertCircle"
+            },
+            {
+              label: "Service providers",
+              text: "that help us operate CrestCode (e.g., cloud hosting providers), under strict confidentiality and security obligations.",
+              icon: "Server"
+            }
+          ]
+        },
+        {
+          id: 5,
+          title: "5. Your Rights",
+          intro: "Depending on where you live, you may have right to:",
+          icon: "ShieldCheck",
+          bullets: [
+            "Know and control personal data we collect",
+            "Access and receive a copy of your personal data",
+            "Request correction or deletion of your personal data",
+            "Object to or restrict processing of your personal data"
+          ],
+          contact: "To exercise these rights, contact us at contact@cctps.com."
+        },
         {
           id: 6,
           title: "6. Data Retention",
-          text: "Retained only as long as necessary for service fulfillment or legal compliance.",
+          intro: "We retain your information only as long as necessary to provide Service, comply with legal obligations, and resolve disputes. You can request deletion of your account and data at any time.",
           icon: "Clock"
         },
         {
           id: 7,
           title: "7. Children's Privacy",
-          text: "Not intended for individuals under 13. We do not knowingly acquire minor data.",
+          intro: "CrestCode is not intended for children under 13 (or the minimum age in your country). We do not knowingly collect data from children without parental consent.",
           icon: "Baby"
         },
         {
           id: 8,
-          title: "8. Policy Evolution",
-          text: "We may update these terms. Significant changes will be notified via email.",
+          title: "8. Changes to This Policy",
+          intro: "We may update this Privacy Policy from time to time. If changes are material, we will notify you by email or within the app before they take effect.",
           icon: "FileText"
         }
       ],
       contact: {
-        title: "9. Contact & Infrastructure Support",
+        title: "9. Contact Us",
+        intro: "If you have questions or concerns about this Privacy Policy, please contact us at:",
         email: "contact@cctps.com",
-        supportLabel: "CrestCode Support"
-      },
-      cta: {
-        title: "Have Governance Questions?",
-        description: "Our security team is ready to address your specific data or privacy inquiries.",
-        buttonText: "Initiate Contact",
-        link: "/Getintouch"
+        supportLabel: "CrestCode Support Team"
       }
     }
   },
@@ -1797,69 +1684,179 @@ export const siteConfig = {
         { icon: "Scale", label: "Jurisdiction", val: "Chennai, India" },
         { icon: "Lock", label: "Confidentiality", val: "Mutual NDA" }
       ],
-      sections: {
-        intro: {
-          number: "01",
-          title: "Introduction & Scope",
-          icon: "Info",
-          content: "Welcome to CrestCode Technologies Pvt Ltd. These Terms govern your use of our custom engineering services, software architecture, and technical consulting. By engaging with our ecosystem, you agree to these foundational governance protocols."
+      sections: [
+        {
+          id: "1",
+          title: "1. INTRODUCTION",
+          paragraphs: [
+            "Welcome to CrestCode Technologies Pvt Ltd (\"Company,\" \"we,\" \"us,\" or \"our\"). These Terms and Conditions (\"Terms\") govern your use of our services, including software development, consulting, and participation in hackathons and events organized by CrestCode Technologies Pvt Ltd.",
+            "By engaging with our services or participating in our events, you (\"Client,\" \"Participant,\" \"you,\" or \"your\") agree to be bound by these Terms. If you do not agree to these Terms, please do not use our services or participate in our events."
+          ]
         },
-        services: {
-          number: "02",
-          title: "Service Delivery Infrastructure",
-          icon: "Code2",
-          description: "CrestCode executes high-performance technical transformations including:",
-          list: ['Web/Mobile Engineering', 'Software Architecture', 'System Integration', 'Technical Strategy']
-        },
-        ipProtocol: {
-          title: "3. IP Ownership Standards",
-          badge: "Intellectual Property Protocol",
-          cards: [
+        {
+          id: "2",
+          title: "2. COMPANY SERVICES",
+          subsections: [
             {
-              title: "Client Retained Rights",
-              text: "CrestCode does NOT claim ownership over ideas, concepts, or business models shared by clients. All client-provided IP remains exclusive property of the client."
+              head: "2.1 Software Development Services",
+              text: "CrestCode provides custom software development services including but not limited to:",
+              list: [
+                "Web application development",
+                "Mobile application development",
+                "Software architecture and design",
+                "System integration services",
+                "Technical consulting",
+                "Project management"
+              ]
             },
             {
-              title: "Developed Software",
-              text: "Custom code developed specifically for the engagement transfers to the client upon full settlement of finalized service fees."
+              head: "2.2 Client Collaboration",
+              text: "We work primarily with entrepreneurs, ideators, startups, and businesses looking to develop software solutions. Our services are tailored to transform ideas into functional software products."
+            },
+            {
+              head: "2.3 Service Delivery",
+              list: [
+                "All services provided according to agreed specifications and timelines.",
+                "We reserve the right to modify our service offerings at any time.",
+                "Service availability is not guaranteed to be uninterrupted."
+              ]
             }
           ]
         },
-        hackathon: {
-          number: "04",
-          title: "Hackathon Governance",
-          icon: "Zap",
-          alert: {
-            title: "IP Transfer Alert",
-            text: "Selected winners or awarded projects undergo an automatic IP rights transfer to CrestCode Technologies Pvt Ltd. Participation constitutes agreement to this specific technical transfer."
-          },
-          details: [
-            { label: "Eligibility", text: "Open to 2025, 2026, and 2027 graduates with verified credentials." },
-            { label: "Conduct", text: "Disqualification results from any form of technical or behavioral misconduct." }
+        {
+          id: "3",
+          title: "3. INTELLECTUAL PROPERTY RIGHTS",
+          subsections: [
+            {
+              head: "3.1 Client Intellectual Property",
+              notice: {
+                type: "blue",
+                label: "IMPORTANT:",
+                text: "CrestCode Technologies Pvt Ltd does NOT claim ownership rights over ideas, concepts, business models, or intellectual property shared by clients during the course of our engagement."
+              }
+            },
+            {
+              head: "3.2 Developed Software",
+              list: [
+                "Custom software belongs to the client upon full payment.",
+                "Pre-existing code, frameworks, or tools used by CrestCode remain our property.",
+                "Third-party components are governed by their respective licenses."
+              ]
+            }
           ]
         },
-        finance: {
-          number: "05",
-          title: "Financial Protocols",
-          icon: "CreditCard",
-          content: "Fees and settlement terms are integrated into individual Statements of Work (SoW). CrestCode reserves the right to suspend technical delivery in the event of overdue audit accounts."
+        {
+          id: "4",
+          title: "4. HACKATHON TERMS",
+          subsections: [
+            {
+              head: "4.1 Hackathon Participation",
+              notice: {
+                type: "red",
+                label: "IMPORTANT NOTICE:",
+                text: "Participants must understand that any submissions selected as winners or awarded prizes will have their intellectual property rights transferred to CrestCode Technologies Pvt Ltd."
+              }
+            },
+            {
+              head: "4.2 Eligibility",
+              list: [
+                "Participants must be at least 18 years old.",
+                "Only graduates of the years 2025, 2026, and 2027 are eligible.",
+                "CrestCode reserves the right to refuse participation to anyone."
+              ]
+            },
+            {
+              head: "4.3 IP Split",
+              blocks: [
+                { label: "Selected Projects:", text: "Awarded projects automatically become the intellectual property of CrestCode." },
+                { label: "Non-Selected:", text: "Unawarded projects remain the property of the participants." }
+              ]
+            },
+            {
+              head: "4.4 Awards",
+              notice: {
+                type: "yellow",
+                label: "Submission Requirement:",
+                text: "Awards and certificates are only provided for complete, functional projects."
+              }
+            }
+          ]
         },
-        dispute: {
-          number: "09",
-          title: "Dispute Resolution",
-          icon: "Gavel",
-          text: "Disputes are governed by the laws of India. Legal proceedings must be resolved exclusively within the courts of ",
-          location: "Chennai, Tamil Nadu"
+        {
+          id: "5",
+          title: "5. PAYMENT TERMS",
+          subsections: [
+            {
+              head: "5.1 Service Fees",
+              list: [
+                "Fees specified in individual service agreements.",
+                "All fees are exclusive of applicable taxes.",
+                "Late payments may incur additional charges."
+              ]
+            },
+            {
+              head: "5.2 Refund Policy",
+              text: "Refund policies are outlined in individual agreements. Generally, work completed cannot be refunded."
+            }
+          ]
+        },
+        {
+          id: "6",
+          title: "6. CONFIDENTIALITY",
+          paragraphs: [
+            "Both parties agree to maintain the confidentiality of proprietary information shared during engagement.",
+            "CrestCode will not disclose client information to third parties without explicit written consent."
+          ]
+        },
+        {
+          id: "7",
+          title: "7. LIMITATION OF LIABILITY",
+          list: [
+            "Services are provided 'as is' without warranties.",
+            "Liability is limited to the amount paid for services.",
+            "We are not liable for indirect or consequential damages."
+          ]
+        },
+        {
+          id: "8",
+          title: "8. TERMINATION",
+          paragraphs: [
+            "Either party may terminate services with written notice as specified in agreements.",
+            "Upon termination, outstanding payments become immediately due."
+          ]
+        },
+        {
+          id: "9",
+          title: "9. DISPUTE RESOLUTION",
+          paragraphs: [
+            "Governing Law: Laws of India and the state of Tamil Nadu.",
+            "Jurisdiction: All disputes must be resolved exclusively in the courts of Chennai, Tamil Nadu, India."
+          ]
+        },
+        {
+          id: "10",
+          title: "10. GENERAL PROVISIONS",
+          list: [
+            "We reserve the right to modify these Terms at any time.",
+            "If any provision is unenforceable, the remaining provisions remain in effect."
+          ]
+        },
+        {
+          id: "11",
+          title: "11. ACCEPTANCE",
+          paragraphs: [
+            "By using our services or participating in our events, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions."
+          ]
         }
-      },
-      footer: {
-        email: "contact@crestcode.in",
-        location: "Chennai, India",
-        acknowledgment: "By leveraging our technical infrastructure, you acknowledge receipt and acceptance of these Terms.",
+      ],
+    footer: {
+      email: "contact@crestcode.in",
+      location: "Chennai, India",
+      acknowledgment: "By leveraging our technical infrastructure, you acknowledge receipt and acceptance of these Terms.",
 
-      }
     }
-  },
+  }
+},
   team: {
     TEAM_CONTENT: {
       hero: {
@@ -1915,7 +1912,7 @@ export const siteConfig = {
         title: "Team Members",
         ctaLabel: "Join Team",
         ctaHref: "/Careers",
-        groupPhoto: "/group_photo.jpeg",
+        groupPhoto: "public/group_photo.jpeg",
         individual: [
           {
             name: "Mariya Fatima",
@@ -1959,15 +1956,58 @@ export const siteConfig = {
           { title: "Technologies", description: "Leveraging cutting-edge tools and platforms.", icon: "Coffee" }
         ]
       },
-      industries: {
-        title: "Industries We're Powering",
-        description: "Crestcode is shaping digital products across new-economy industries.",
+      IndustriesSection: {
+        header: {
+          highlight: 'Industries',
+          normalText: ' we help',
+        },
         items: [
-          { title: "AI-Driven Platforms", description: "Automations, copilots, and intelligence-led apps.", icon: "Sparkles" },
-          { title: "Education & Upskilling", description: "Learning platforms and digital classrooms.", icon: "GraduationCap" },
-          { title: "Fintech & Payments", description: "Secure, compliant, scalable systems.", icon: "Wallet" },
-          { title: "Health & Wellness Tech", description: "Patient portals, dashboards, connected care.", icon: "Heart" }
-        ]
+          {
+            title: 'Healthcare',
+          iconName: "Stethoscope",
+          desc: 'We develop services, tools, and systems to provide patients and staff with up-to-date software.',
+          },
+          {
+          title: 'Education',
+          iconName: "GraduationCap",
+          desc: 'E-learning solutions that make education flexible, engaging, and highly efficient.',
+          },
+          {
+          title: 'Retail',
+          iconName: "Store",
+          desc: 'We build stronger connections with customers through web and mobile applications with superior shopping experience and 24/7 availability.',
+          },
+          {
+          title: 'Manufacturing',
+          iconName: "Factory",
+          desc: 'Comprehensive software solutions for supply chain management, inventory management, warehouses, production monitoring, process automation, and more.',
+          },
+          {
+          title: 'Professional Services',
+          iconName: "Briefcase",
+          desc: 'We develop CRM, management tools, billing products, document management systems, and more. Our solutions are built for professionals by professionals.',
+          },
+          {
+          title: 'Telecoms',
+          iconName: "Network",
+          desc: 'We enhance global communication by building solutions for network management, customer experience, IoT, security, automation, and analytics.',
+          },
+          {
+          title: 'Logistics & Transportation',
+          iconName: "Truck",
+          desc: 'Software for freight reservation, transportation management, and streamlined supply chain operations to keep goods and business moving.',
+          },
+          {
+          title: 'Engineering & Construction',
+          iconName: "HardHat",
+          desc: 'From advanced BIM solutions and cost estimation tools to IoT integration, we lay the foundation for the construction industry.',
+          },
+          {
+          title: 'Marketing & Advertising',
+          iconName: "Target",
+          desc: 'We build effective Client relationships with marketing automation tools that help optimize strategies, gather insights, and achieve brave goals.',
+          },
+        ],
       }
     }
   },
@@ -2030,6 +2070,7 @@ export const siteConfig = {
     }
   },
   generalfaq: {
+    title: "General Questions",
     faqData: [
       {
         question: "What is Crestcode and what services do you offer?",
@@ -2058,6 +2099,7 @@ export const siteConfig = {
     ]
   },
   aifaq: {
+    title: "AI & Machine Learning Services",
     faqData: [
       {
         question: "What AI and ML services do you offer?",
@@ -2098,6 +2140,7 @@ export const siteConfig = {
     ]
   },
   hackathonfaq: {
+    title: "Hackathon FAQ",
     faqData: [
       {
         question: "What is the Student's Hackathon 2025?",
@@ -2142,6 +2185,7 @@ export const siteConfig = {
     ]
   },
   mobilefaq: {
+    title: "Mobile App Development Services",
     faqData: [
       {
         question: "What mobile app development services do you provide?",
@@ -2183,6 +2227,7 @@ export const siteConfig = {
 
   },
   sdefaq: {
+    title: "Software Development Services",
     faqData: [
       {
         question: "What software development services do you offer?",
@@ -2223,6 +2268,7 @@ export const siteConfig = {
     ]
   },
   webfaq: {
+    title: "Web Development Services",
     faqData: [
       {
         question: "What web development services do you offer?",

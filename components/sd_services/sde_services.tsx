@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { BarChart3, Code2, Smartphone, Globe, ArrowRight } from 'lucide-react';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const ICON_MAP = {
@@ -16,45 +17,6 @@ const ICON_MAP = {
 
 type IconName = keyof typeof ICON_MAP;
 
-// --- DATA CONFIGURATION (JSON TYPE) ---
-const SERVICES_CONTENT = {
-  header: {
-    title: "Our",
-    highlight: "services",
-    description: "For over a decade, we have been accumulating knowledge and expertise in several services that became our specialization."
-  },
-  services: [
-    {
-      id: 'custom',
-      iconName: 'BarChart3',
-      title: 'Custom software development',
-      description: "We develop and deliver custom solutions of varying complexity for both startup and enterprise Clients. Our custom approach means we delve deeply into the Client's needs and business goals, shaping the concept or vision of the software solution and bringing it to life with cutting-edge technologies.",
-      link: '/services/custom-software-development'
-    },
-    {
-      id: 'ai',
-      iconName: 'Code2',
-      title: 'AI & Machine Learning',
-      description: 'Cutting-edge artificial intelligence solutions that transform your business with predictive analytics and intelligent automation. We leverage the latest AI and machine learning technologies to build intelligent systems that drive business value and enhance decision-making.',
-      link: '/services/ai-ml-development'
-    },
-    {
-      id: 'web',
-      iconName: 'Globe',
-      title: 'Web Development',
-      description: 'Modern, responsive web applications built with the latest technologies and best practices. We create high-performance web applications that deliver exceptional user experiences, optimized for speed, SEO, and accessibility across all devices.',
-      link: '/services/web-development'
-    },
-    {
-      id: 'mobile',
-      iconName: 'Smartphone',
-      title: 'Mobile App Development',
-      description: 'Native and cross-platform mobile solutions that engage users and drive business growth. We develop feature-rich mobile applications for iOS and Android platforms, ensuring flawless performance and intuitive user experiences.',
-      link: '/services/mobile-app-development'
-    }
-  ]
-};
-
 // --- STYLING TOKENS ---
 const COLORS = {
   primary: '#4A9EFF',
@@ -62,17 +24,14 @@ const COLORS = {
   textMain: '#111827',
   textMuted: '#4B5563',
   bgWhite: '#FFFFFF',
-  secondary: '#6B7280',
-  success: '#34C759',
-  warning: '#F7DC6F',
-  error: '#FF2D2D',
 };
 
 export default function ServicesSection() {
   const router = useRouter();
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const SERVICES_CONTENT = config?.sd_services?.SERVICES_CONTENT;
-  console.log(SERVICES_CONTENT)
+
+  const handleSave = () => saveConfigToServer();
 
   const handleNavigation = (link: string) => {
     router.push(link);
@@ -87,21 +46,45 @@ export default function ServicesSection() {
         {/* HEADER */}
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-gray-900">
-            {SERVICES_CONTENT.header.title}{' '}
-            <span style={{ color: COLORS.primary }}>{SERVICES_CONTENT.header.highlight}</span>
+            <EditableText
+              value={SERVICES_CONTENT.header.title}
+              onSave={handleSave}
+              configPath="sd_services.SERVICES_CONTENT.header.title"
+            >
+              {SERVICES_CONTENT.header.title}
+            </EditableText>
+            {' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={SERVICES_CONTENT.header.highlight}
+                onSave={handleSave}
+                configPath="sd_services.SERVICES_CONTENT.header.highlight"
+              >
+                {SERVICES_CONTENT.header.highlight}
+              </EditableText>
+            </span>
           </h2>
           <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            {SERVICES_CONTENT.header.description}
+            <EditableText
+              value={SERVICES_CONTENT.header.description}
+              onSave={handleSave}
+              configPath="sd_services.SERVICES_CONTENT.header.description"
+              multiline={true}
+            >
+              {SERVICES_CONTENT.header.description}
+            </EditableText>
           </p>
         </div>
 
         {/* SERVICES GRID */}
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {SERVICES_CONTENT.services.map((service) => (
+          {SERVICES_CONTENT.services.map((service: any, index: number) => (
             <ServiceCard
               key={service.id}
               service={service}
+              index={index}
               onNavigate={() => handleNavigation(service.link)}
+              onSave={handleSave}
             />
           ))}
         </div>
@@ -113,10 +96,14 @@ export default function ServicesSection() {
 // --- SUB-COMPONENT ---
 function ServiceCard({ 
   service, 
-  onNavigate 
+  index,
+  onNavigate,
+  onSave 
 }: { 
-  service: typeof SERVICES_CONTENT.services[0], 
-  onNavigate: () => void 
+  service: any, 
+  index: number,
+  onNavigate: () => void,
+  onSave: () => void
 }) {
   const iconName = service.iconName as IconName;
   const IconComponent = ICON_MAP[iconName];
@@ -124,7 +111,7 @@ function ServiceCard({
   return (
     <div className="group hover:bg-gradient-to-br hover:from-gray-50 hover:to-blue-50/20 p-8 rounded-xl transition-all duration-500 hover:shadow-2xl hover:shadow-[#4A9EFF]/10 hover:border hover:border-[#4A9EFF]/20 border border-transparent">
       <div className="mb-6">
-        {React.cloneElement(IconComponent, { 
+        {IconComponent && React.cloneElement(IconComponent, { 
           size: 48, 
           className: "w-12 h-12",
           style: { color: COLORS.primary } 
@@ -132,11 +119,24 @@ function ServiceCard({
       </div>
       
       <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-[#4A9EFF] transition-colors duration-300">
-        {service.title}
+        <EditableText
+          value={service.title}
+          onSave={onSave}
+          configPath={`sd_services.SERVICES_CONTENT.services.${index}.title`}
+        >
+          {service.title}
+        </EditableText>
       </h3>
       
       <p className="text-gray-600 leading-relaxed mb-6">
-        {service.description}
+        <EditableText
+          value={service.description}
+          onSave={onSave}
+          configPath={`sd_services.SERVICES_CONTENT.services.${index}.description`}
+          multiline={true}
+        >
+          {service.description}
+        </EditableText>
       </p>
       
       <button

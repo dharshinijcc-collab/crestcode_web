@@ -8,6 +8,7 @@ import EditableImage from "./admin/editableImages";
 
 export default function VideoSection() {
     const { config, saveConfigToServer } = useAdmin();
+    const videoConfig = (config as any)?.video || { title: '', subtitle: '', thumbnailImage: '', youtubeId: '' };
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -83,11 +84,11 @@ export default function VideoSection() {
                         viewport={{ once: true }}
                     >
                         <EditableText
-                            value={config.video.title}
+                            value={videoConfig.title}
                             onSave={() => { saveConfigToServer() }}
                             configPath="video.title"
                         >
-                            {config.video.title}
+                            {videoConfig.title}
                         </EditableText>
                     </motion.h2>
                     <motion.p
@@ -104,12 +105,12 @@ export default function VideoSection() {
                         viewport={{ once: true }}
                     >
                         <EditableText
-                            value={config.video.subtitle}
+                            value={videoConfig.subtitle}
                             onSave={() => { saveConfigToServer() }}
                             configPath="video.subtitle"
                             multiline
                         >
-                            {config.video.subtitle}
+                            {videoConfig.subtitle}
                         </EditableText>
                     </motion.p>
                 </motion.div>
@@ -157,7 +158,7 @@ export default function VideoSection() {
                                         justifyContent: 'center',
                                         flexDirection: 'column',
                                         color: 'white',
-                                        backgroundImage: `url(${config.video.thumbnailImage || '/dashboard'})`,
+                                        backgroundImage: `url(${videoConfig.thumbnailImage || '/dashboard'})`,
                                     }}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
@@ -259,7 +260,7 @@ export default function VideoSection() {
                                     </motion.p>
 
                                     <EditableImage
-                                        src={config.video.thumbnailImage}
+                                        src={videoConfig.thumbnailImage}
                                         alt="Video thumbnail"
                                         onSave={() => { saveConfigToServer() }}
                                         configPath="video.thumbnailImage"
@@ -284,7 +285,7 @@ export default function VideoSection() {
                                         height: '100%',
                                         border: 'none'
                                     }}
-                                    src={`https://www.youtube.com/embed/${config.video.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                                    src={`https://www.youtube.com/embed/${videoConfig.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
                                     title="Dockly Demo Video"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen

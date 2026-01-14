@@ -3,23 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Clock } from 'lucide-react';
 import { useAdmin } from '../admin/context';
-
-// --- TYPE DEFINITIONS ---
-interface ProcessPhase {
-  number: number;
-  title: string;
-  duration: string;
-  items: string[];
-}
-
-interface ProcessData {
-  header: {
-    title: string;
-    accent: string;
-    description: string;
-  };
-  phases: ProcessPhase[];
-}
+import EditableText from '@/components/admin/editableText';
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -34,12 +18,11 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function MobileProcess() {
-  const { config } = useAdmin();
-  const PROCESS_DATA = config?.mobile?.PROCESS_DATA as ProcessData;
+  const { config, saveConfigToServer } = useAdmin();
+  const PROCESS_DATA = config?.mobile?.PROCESS_DATA;
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
-  console.log(PROCESS_DATA)
 
-  if (!PROCESS_DATA || typeof PROCESS_DATA !== 'object' || !('header' in PROCESS_DATA)) return null;
+  const handleSave = () => saveConfigToServer();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -59,12 +42,14 @@ export default function MobileProcess() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [PROCESS_DATA]);
+
+  if (!PROCESS_DATA || typeof PROCESS_DATA !== 'object' || !('header' in PROCESS_DATA)) return null;
 
   return (
     <section
       style={{
-        padding: '100px 24px',
+        padding: '80px 20px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
@@ -92,35 +77,57 @@ export default function MobileProcess() {
         }}>
         
         {/* HEADER SECTION */}
-        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <h1
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '20px',
               lineHeight: 1.1,
             }}>
-            {PROCESS_DATA.header.title}{' '}
-            <span style={{ color: COLORS.primary }}>{PROCESS_DATA.header.accent}</span>
+            <EditableText
+              value={PROCESS_DATA.header.title}
+              onSave={handleSave}
+              configPath="mobile.PROCESS_DATA.header.title"
+            >
+              {PROCESS_DATA.header.title}
+            </EditableText>
+            {' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={PROCESS_DATA.header.accent}
+                onSave={handleSave}
+                configPath="mobile.PROCESS_DATA.header.accent"
+              >
+                {PROCESS_DATA.header.accent}
+              </EditableText>
+            </span>
           </h1>
           <p
             style={{
-              fontSize: '18px',
+              fontSize: '16px',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '800px',
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            {PROCESS_DATA.header.description}
+            <EditableText
+              value={PROCESS_DATA.header.description}
+              onSave={handleSave}
+              configPath="mobile.PROCESS_DATA.header.description"
+              multiline={true}
+            >
+              {PROCESS_DATA.header.description}
+            </EditableText>
           </p>
         </div>
 
         {/* TIMELINE ARCHITECTURE */}
         <div style={{ position: 'relative' }}>
-          {PROCESS_DATA.phases.map((phase, index) => {
+          {PROCESS_DATA.phases.map((phase: any, index: number) => {
             const isVisible = visibleSections.has(phase.number);
             
             return (
@@ -130,7 +137,7 @@ export default function MobileProcess() {
                 className="mobile-process-step"
                 style={{
                   position: 'relative',
-                  paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '100px',
+                  paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '50px',
                   opacity: isVisible ? 1 : 0,
                   transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
                   transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -142,8 +149,8 @@ export default function MobileProcess() {
                   <div
                     style={{
                       position: 'absolute',
-                      left: '40px',
-                      top: '80px',
+                      left: '35px',
+                      top: '70px',
                       bottom: 0,
                       width: '2px',
                       background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
@@ -153,12 +160,12 @@ export default function MobileProcess() {
                   />
                 )}
 
-                <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start' }}>
+                <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start' }}>
                   {/* CIRCULAR NUMBER BADGE */}
                   <div
                     style={{
-                      width: '80px',
-                      height: '80px',
+                      width: '70px',
+                      height: '70px',
                       borderRadius: '50%',
                       background: isVisible ? COLORS.primary : COLORS.white,
                       border: `2px solid ${COLORS.primary}`,
@@ -171,23 +178,29 @@ export default function MobileProcess() {
                       zIndex: 2,
                       color: isVisible ? COLORS.white : COLORS.primary,
                     }}>
-                    <span style={{ fontSize: '28px', fontWeight: 800 }}>
+                    <span style={{ fontSize: '24px', fontWeight: 800 }}>
                       {phase.number}
                     </span>
                   </div>
 
                   {/* CONTENT AREA */}
                   <div style={{ flex: 1 }}>
-                    <div style={{ marginBottom: '32px' }}>
+                    <div style={{ marginBottom: '28px' }}>
                       <h2
                         style={{
-                          fontSize: '28px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: COLORS.textBlack,
-                          marginBottom: '12px',
+                          marginBottom: '10px',
                           letterSpacing: '-0.02em',
                         }}>
-                        {phase.title}
+                        <EditableText
+                          value={phase.title}
+                          onSave={handleSave}
+                          configPath={`mobile.PROCESS_DATA.phases.${index}.title`}
+                        >
+                          {phase.title}
+                        </EditableText>
                       </h2>
                       <div
                         style={{
@@ -200,7 +213,14 @@ export default function MobileProcess() {
                           textTransform: 'uppercase',
                           letterSpacing: '0.05em',
                         }}>
-                        <Clock size={16} /> {phase.duration}
+                        <Clock size={14} />
+                        <EditableText
+                          value={phase.duration}
+                          onSave={handleSave}
+                          configPath={`mobile.PROCESS_DATA.phases.${index}.duration`}
+                        >
+                          {phase.duration}
+                        </EditableText>
                       </div>
                     </div>
 
@@ -209,12 +229,12 @@ export default function MobileProcess() {
                       style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                        gap: '16px',
+                        gap: '8px',
                         padding: 0,
                         margin: 0,
                         listStyle: 'none',
                       }}>
-                      {phase.items.map((item, i) => (
+                      {phase.items.map((item: string, i: number) => (
                         <li
                           key={i}
                           style={{
@@ -222,18 +242,24 @@ export default function MobileProcess() {
                             alignItems: 'center',
                             gap: '12px',
                             background: 'rgba(255,255,255,0.6)',
-                            padding: '12px 16px',
+                            padding: '10px 14px',
                             borderRadius: '12px',
                             border: `1px solid ${COLORS.border}`,
                           }}>
-                          <Check size={16} color={COLORS.primary} strokeWidth={3} />
+                          <Check size={14} color={COLORS.primary} strokeWidth={3} />
                           <span
                             style={{
-                              fontSize: '15px',
+                              fontSize: '14px',
                               color: COLORS.textMuted,
                               fontWeight: 500,
                             }}>
-                            {item}
+                            <EditableText
+                              value={item}
+                              onSave={handleSave}
+                              configPath={`mobile.PROCESS_DATA.phases.${index}.items.${i}`}
+                            >
+                              {item}
+                            </EditableText>
                           </span>
                         </li>
                       ))}

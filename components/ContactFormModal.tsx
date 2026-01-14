@@ -9,7 +9,6 @@ const COLORS = {
   bgLeft: '#020617',
   bgRight: '#0B1224',
   primary: '#4F46E5',
-  accentRed: '#FF5757',
   textWhite: '#F8FAFC',
   textMuted: '#94A3B8',
   border: 'rgba(255, 255, 255, 0.1)',
@@ -27,22 +26,53 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
     name: '',
     email: '',
     message: '',
+    attachment: null as File | null,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Here you would typically send the data to your backend
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
-    onClose();
+    
+    try {
+      const response = await fetch('/server/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          attachment: formData.attachment ? formData.attachment.name : null,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Form submitted successfully:', result);
+        alert('Thank you for your message! We will get back to you soon.');
+        setFormData({ name: '', email: '', message: '', attachment: null });
+        onClose();
+      } else {
+        console.error('Form submission failed:', response.status);
+        alert('Sorry, there was an error submitting your message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      alert('Network error. Please check your connection and try again.');
+    }
   };
 
   // Add debugging
   console.log('ContactFormModal render - isOpen:', isOpen);
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string | File | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    handleInputChange('attachment', file);
   };
 
   return (
@@ -197,25 +227,6 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
                 ))}
               </motion.div>
 
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                style={{ marginTop: '30px' }}>
-                <a
-                  href="mailto:contact@crestcode.in"
-                  style={{
-                    color: COLORS.accentRed,
-                    fontSize: '16px',
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                  }}>
-                  contact@crestcode.in
-                </a>
-              </motion.div>
             </div>
 
             {/* RIGHT SIDE: THE FORM */}
@@ -356,24 +367,31 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
                   }}>
                   <button
                     type="button"
+                    onClick={() => document.getElementById('file-input')?.click()}
                     style={{
                       background: 'none',
                       border: 'none',
-                      color: COLORS.textWhite,
+                      color: COLORS.primary,
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
                       cursor: 'pointer',
                       fontSize: '14px',
                     }}>
-                    <Paperclip size={14} /> Attach
+                    <input
+                      id="file-input"
+                      type="file"
+                      style={{ display: 'none' }}
+                      onChange={handleFileChange}
+                    />
+                    <Paperclip size={14} /> {formData.attachment ? formData.attachment.name : 'Attach'}
                   </button>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="submit"
                     style={{
-                      backgroundColor: COLORS.accentRed,
+                      backgroundColor: COLORS.primary,
                       color: 'white',
                       padding: '10px 40px',
                       fontSize: '16px',
@@ -384,61 +402,6 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
                     }}>
                     Send
                   </motion.button>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.8 }}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingTop: '20px',
-                    borderTop: `1px solid ${COLORS.border}`,
-                  }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <img
-                      src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150"
-                      alt="Manager"
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                      }}
-                    />
-                    <div>
-                      <p style={{ margin: 0, fontWeight: 700, fontSize: '14px' }}>
-                        Elizabeth K.
-                      </p>
-                      <p
-                        style={{
-                          margin: 0,
-                          color: COLORS.textMuted,
-                          fontSize: '11px',
-                        }}>
-                        Account Manager
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    style={{
-                      border: `1px solid ${COLORS.accentRed}`,
-                      color: COLORS.accentRed,
-                      background: 'none',
-                      padding: '6px 15px',
-                      fontWeight: 700,
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                      borderRadius: '4px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                    }}>
-                    <Calendar size={12} /> Book Call
-                  </button>
                 </motion.div>
               </motion.form>
             </div>

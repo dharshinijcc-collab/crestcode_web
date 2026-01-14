@@ -12,6 +12,9 @@ function FeaturesSection() {
     Users,
   };
 
+  const featuresConfig = (config as any)?.features || {};
+  const features = featuresConfig?.items || [];
+
   return (
     <section
       id="features"
@@ -231,8 +234,9 @@ function FeaturesSection() {
             marginBottom: '3rem',
           }}
           className="md:grid-cols-3">
-          {config.features.items.map((feature, index) => {
-            const IconComponent = iconMap[feature.icon as keyof typeof iconMap];
+          {features.map((feature: any, index: number) => {
+            const IconComponent =
+              iconMap[feature.icon as keyof typeof iconMap] || Link;
             return (
               <motion.div
                 key={feature.title}

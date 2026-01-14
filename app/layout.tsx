@@ -11,6 +11,7 @@ import Footer from '@/components/footer';
 import LoginModal from '@/components/admin/adminmodal';
 import { FloatButton } from 'antd';
 import { UpCircleFilled } from '@ant-design/icons';
+import FAQ from '@/components/home/faq';
 import React, {
   useEffect,
   useRef,
@@ -21,7 +22,6 @@ import React, {
 import { WishlistFormRef } from '@/components/hero-section';
 import Form from '@/components/home/form';
 import { ContactFormProvider } from '@/components/ContactFormContext';
-import GlobalContactFormModal from '@/components/GlobalContactFormModal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -74,6 +74,7 @@ function RootLayoutContent({ children }: RootLayoutProps) {
           <Header />
           <main>{children}</main>
           <Form />
+          <FAQ />
           <Footer />
           {showScroll && (
             <FloatButton
@@ -103,7 +104,7 @@ function RootLayoutContent({ children }: RootLayoutProps) {
           )}
         </div>
         <LoginModal />
-        <GlobalContactFormModal />
+        {/* <GlobalContactFormModal /> */}
       </div>
     </ContactFormProvider>
   );

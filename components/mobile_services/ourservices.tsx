@@ -3,19 +3,18 @@
 import React from 'react';
 import { Apple, Smartphone, type LucideIcon } from 'lucide-react';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const getIconComponent = (iconName: string): React.ReactNode => {
-  // Handle image icons
   if (iconName === 'cross-platform') {
-    return <img src="/cross-platform.png" alt="Cross-platform" style={{ width: '48px', height: '48px' }} />;
+    return <img src="/cross-platform.png" alt="Cross-platform" style={{ width: '40px', height: '40px' }} />;
   }
   
   if (iconName === 'pwa') {
-    return <img src="/pwa.png" alt="PWA" style={{ width: '48px', height: '48px' }} />;
+    return <img src="/pwa.png" alt="PWA" style={{ width: '40px', height: '40px' }} />;
   }
   
-  // Handle Lucide icons
   const iconMap: Record<string, LucideIcon> = {
     Apple,
     Smartphone,
@@ -24,29 +23,11 @@ const getIconComponent = (iconName: string): React.ReactNode => {
   const icon = iconMap[iconName];
   if (!icon) {
     console.warn(`Icon "${iconName}" not found, using default Apple`);
-    return React.createElement(Apple, { size: 48, strokeWidth: 1.5 });
+    return React.createElement(Apple, { size: 40, strokeWidth: 1.5 });
   }
   
-  return React.createElement(icon, { size: 48, strokeWidth: 1.5 });
+  return React.createElement(icon, { size: 40, strokeWidth: 1.5 });
 };
-
-// --- TYPE DEFINITIONS ---
-interface ServiceItem {
-  id: string;
-  icon: string;
-  title: string;
-  description: string;
-}
-
-interface ServicesData {
-  header: {
-    title: string;
-    accent: string;
-    suffix: string;
-    description: string;
-  };
-  items: ServiceItem[];
-}
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -60,46 +41,76 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function MobileServices() {
-  const { config } = useAdmin();
-  const SERVICES_DATA = config?.mobile?.SERVICES_DATA as ServicesData;
+  const { config, saveConfigToServer } = useAdmin();
+  const SERVICES_DATA = config?.mobile?.SERVICES_DATA;
   
+  const handleSave = () => saveConfigToServer();
+
   if (!SERVICES_DATA || typeof SERVICES_DATA !== 'object' || !('header' in SERVICES_DATA)) return null;
+
   return (
     <section
       style={{
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
-        padding: '100px 24px',
+        padding: '80px 20px',
       }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
         {/* HEADER SECTION */}
-        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <h1
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '20px',
               lineHeight: 1.1,
             }}>
-            {SERVICES_DATA.header.title}{' '}
+            <EditableText
+              value={SERVICES_DATA.header.title}
+              onSave={handleSave}
+              configPath="mobile.SERVICES_DATA.header.title"
+            >
+              {SERVICES_DATA.header.title}
+            </EditableText>
+            {' '}
             <span style={{ color: COLORS.primary }}>
-              {SERVICES_DATA.header.accent}
-            </span>{' '}
-            {SERVICES_DATA.header.suffix}
+              <EditableText
+                value={SERVICES_DATA.header.accent}
+                onSave={handleSave}
+                configPath="mobile.SERVICES_DATA.header.accent"
+              >
+                {SERVICES_DATA.header.accent}
+              </EditableText>
+            </span>
+            {' '}
+            <EditableText
+              value={SERVICES_DATA.header.suffix}
+              onSave={handleSave}
+              configPath="mobile.SERVICES_DATA.header.suffix"
+            >
+              {SERVICES_DATA.header.suffix}
+            </EditableText>
           </h1>
           <p
             style={{
-              fontSize: '18px',
+              fontSize: '16px',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '800px',
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            {SERVICES_DATA.header.description}
+            <EditableText
+              value={SERVICES_DATA.header.description}
+              onSave={handleSave}
+              configPath="mobile.SERVICES_DATA.header.description"
+              multiline={true}
+            >
+              {SERVICES_DATA.header.description}
+            </EditableText>
           </p>
         </div>
 
@@ -108,11 +119,11 @@ export default function MobileServices() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '32px',
+            gap: '24px',
           }}>
-          {SERVICES_DATA.items.map((service: ServiceItem) => (
+          {SERVICES_DATA.items.map((service: any, index: number) => (
             <div
-              key={service.id}
+              key={service.id || index}
               className="service-card-industrial"
               style={{
                 display: 'flex',
@@ -120,14 +131,14 @@ export default function MobileServices() {
                 height: '100%',
                 backgroundColor: COLORS.cardBg,
                 borderRadius: '24px',
-                padding: '48px',
+                padding: '36px',
                 transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                 cursor: 'pointer',
                 border: '1px solid rgba(0,0,0,0.03)',
               }}>
               <div
                 style={{
-                  marginBottom: '32px',
+                  marginBottom: '24px',
                   color: COLORS.primary,
                   transition: 'transform 0.3s ease',
                 }}
@@ -137,24 +148,37 @@ export default function MobileServices() {
 
               <h2
                 style={{
-                  fontSize: '24px',
+                  fontSize: '22px',
                   fontWeight: 700,
                   color: COLORS.textBlack,
-                  marginBottom: '20px',
+                  marginBottom: '16px',
                   letterSpacing: '-0.02em',
                 }}>
-                {service.title}
+                <EditableText
+                  value={service.title}
+                  onSave={handleSave}
+                  configPath={`mobile.SERVICES_DATA.items.${index}.title`}
+                >
+                  {service.title}
+                </EditableText>
               </h2>
 
               <p
                 style={{
-                  fontSize: '16px',
+                  fontSize: '15px',
                   color: COLORS.textMuted,
                   lineHeight: '1.7',
                   margin: 0,
                   fontWeight: 500,
                 }}>
-                {service.description}
+                <EditableText
+                  value={service.description}
+                  onSave={handleSave}
+                  configPath={`mobile.SERVICES_DATA.items.${index}.description`}
+                  multiline={true}
+                >
+                  {service.description}
+                </EditableText>
               </p>
             </div>
           ))}

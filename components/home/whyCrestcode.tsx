@@ -50,20 +50,20 @@ function WhyCrestcode(){
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: 'clamp(30px, 6vw, 60px) clamp(12px, 3vw, 20px)',
         backgroundColor: COLORS.bgDark,
         color: COLORS.textWhite,
         fontFamily: FONT_FAMILY,
       }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ maxWidth: 'min(1200px, 95%)', margin: '0 auto' }}>
         {/* HEADER */}
-        <div style={{ textAlign: 'center', marginBottom: '100px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(30px, 6vw, 60px)' }}>
           <Title
             level={2}
             style={{
               color: COLORS.textWhite,
               fontWeight: 700,
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)',
               letterSpacing: '-0.02em',
             }}>
             {WHY_CRESTCODE_DATA.header.mainText}{' '}
@@ -74,7 +74,7 @@ function WhyCrestcode(){
         </div>
 
         {/* GRID LAYOUT */}
-        <Row gutter={[64, 80]}>
+        <Row gutter={[24, 32]}>
           {WHY_CRESTCODE_DATA.features.map((item: any, index: number) => (
             <Col xs={24} md={12} key={index}>
               <motion.div
@@ -82,7 +82,7 @@ function WhyCrestcode(){
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}>
-                <div style={{ display: 'flex', gap: '24px' }}>
+                <div style={{ display: 'flex', gap: 'clamp(16px, 3vw, 24px)' }}>
                   {/* ICON */}
                   <div style={{ color: COLORS.primaryBlue, flexShrink: 0 }}>
                     {ICON_MAP[item.iconName as IconName]}
@@ -94,8 +94,8 @@ function WhyCrestcode(){
                       level={4}
                       style={{
                         color: COLORS.textWhite,
-                        margin: '0 0 16px 0',
-                        fontSize: '24px',
+                        margin: '0 0 clamp(12px, 2vw, 16px) 0',
+                        fontSize: 'clamp(18px, 3vw, 22px)',
                         fontWeight: 700,
                       }}>
                       {item.title}
@@ -103,7 +103,7 @@ function WhyCrestcode(){
                     <Paragraph
                       style={{
                         color: COLORS.textDim,
-                        fontSize: '16px',
+                        fontSize: 'clamp(14px, 2.5vw, 16px)',
                         lineHeight: '1.7',
                         margin: 0,
                       }}>

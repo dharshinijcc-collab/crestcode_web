@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
+  Menu,
+  X,
   Users,
   Globe,
   Boxes,
@@ -29,6 +31,7 @@ const COLORS = {
   textMain: '#0F172A',
   textMuted: '#64748B',
   border: '#E2E8F0',
+  white: '#FFFFFF',
 };
 
 const FONT_FAMILY = "'Plus Jakarta Sans', -apple-system, sans-serif";
@@ -38,6 +41,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === '/';
@@ -45,8 +49,16 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Check initial size
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -66,6 +78,7 @@ function Header() {
   };
 
   const menus = [
+    { key: 'home', label: 'Home', icon: <FileText size={16} /> },
     {
       key: 'services',
       label: 'Services',
@@ -92,30 +105,15 @@ function Header() {
         },
       ],
     },
-    { key: 'blogs', label: 'Blogs', icon: <FileText size={16} /> },
+    { key: 'product', label: 'Products', icon: <FileText size={16} /> },
     {
-      key: 'about',
-      label: 'About',
+      key: 'company',
+      label: 'Company',
       subMenu: [
         {
-          key: 'team',
-          label: 'Team',
+          key: 'about',
+          label: 'About',
           icon: <Users size={16} />,
-        },
-        {
-          key: 'hackathon',
-          label: 'Hackathon',
-          icon: <Bug size={16} />,
-        },
-        {
-          key: 'internship',
-          label: 'Internship',
-          icon: <Briefcase size={16} />,
-        },
-        {
-          key: 'faq',
-          label: 'FAQ',
-          icon: <HelpCircle size={16} />,
         },
         {
           key: 'careers',
@@ -123,9 +121,14 @@ function Header() {
           icon: <Briefcase size={16} />,
         },
         {
-          key: 'testimonials',
-          label: 'Testimonials',
-          icon: <MessageSquareQuote size={16} />,
+          key: 'blogs',
+          label: 'Blogs',
+          icon: <FileText size={16} />,
+        },
+        {
+          key: 'hackathon',
+          label: 'Hackathon',
+          icon: <Bug size={16} />,
         },
       ],
     },
@@ -170,8 +173,8 @@ function Header() {
         className="nav-glass"
         style={{
           backgroundColor: isScrolled
-            ? 'rgba(250, 251, 252, 0.9)'
-            : 'transparent',
+            ? 'rgba(0, 0, 0, 0.95)'
+            : 'rgba(0, 0, 0, 0.9)',
           borderBottom: isScrolled ? `1px solid ${COLORS.border}` : 'none',
           position: 'fixed',
           width: '100%',
@@ -194,13 +197,13 @@ function Header() {
         />
 
         <div
-          style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
+          style={{ maxWidth: 'min(1400px, 100%)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)' }}>
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: '85px',
+              height: isMobile ? '50px' : '70px',
             }}>
             {/* Enhanced Logo */}
             <motion.div
@@ -214,9 +217,9 @@ function Header() {
               whileTap={{ scale: 0.98 }}>
               <div
                 style={{
-                  width: 48,
-                  height: 48,
-                  marginRight: '16px',
+                  width: isMobile ? '30px' : '40px',
+                  height: isMobile ? '30px' : '40px',
+                  marginRight: isMobile ? '10px' : '14px',
                   // background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})`,
                   borderRadius: '14px',
                   display: 'grid',
@@ -234,11 +237,11 @@ function Header() {
                     placeItems: 'center',
                   }}>
                   <img
-                    src="https://crestcode.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.fd2671e3.png&w=1920&q=100"
+                    src="/Headerlogo.png"
                     alt="Crestcode"
                     style={{
-                      width: '32px',
-                      height: '32px',
+                      width: isMobile ? '24px' : '32px',
+                      height: isMobile ? '24px' : '32px',
                       objectFit: 'contain',
                     }}
                   />
@@ -248,164 +251,195 @@ function Header() {
               <div>
                 <div
                   style={{
-                    fontSize: '24px',
+                    fontSize: isMobile ? '16px' : '20px',
                     fontWeight: 800,
                     letterSpacing: '-0.02em',
                     lineHeight: 1,
+                    color: COLORS.white,
                   }}>
-                  Crestcode
+                  Crestcode 
                 </div>
                 <div
                   style={{
-                    fontSize: '11px',
+                    fontSize: isMobile ? '8px' : '10px',
                     fontWeight: 700,
                     color: COLORS.primary,
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
                     marginTop: '4px',
                   }}>
-                  Engineering Excellence
+                  Technologies
                 </div>
               </div>
             </motion.div>
 
             {/* Desktop Navigation */}
-            <nav
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}>
-              {menus.map((menu) => (
-                <div
-                  key={menu.key}
-                  style={{ position: 'relative' }}
-                  onMouseEnter={() => setActiveDropdown(menu.key)}
-                  onMouseLeave={() => setActiveDropdown(null)}>
-                  <motion.button
-                    className="nav-link"
-                    style={{
-                      color: COLORS.textMain,
-                      background: 'transparent',
-                      border: 'none',
-                      padding: '12px 20px',
-                      borderRadius: '12px',
-                      fontSize: '15px',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontFamily: FONT_FAMILY,
-                      transition: 'all 0.3s ease',
-                    }}
-                    whileHover={{
-                      backgroundColor: 'rgba(79, 70, 229, 0.08)',
-                      y: -1,
-                    }}
-                    onClick={() =>
-                      menu.key === 'services'
-                        ? scrollToSection('services')
-                        : menu.key === 'blogs'
-                        ? router.push('/blogs')
-                        : null
-                    }>
-                    {menu.label}
-                    {menu.subMenu && (
-                      <motion.div
-                        animate={{
-                          rotate: activeDropdown === menu.key ? 180 : 0,
-                        }}
-                        transition={{ duration: 0.2 }}>
-                        <ChevronDown size={16} style={{ opacity: 0.7 }} />
-                      </motion.div>
-                    )}
-                  </motion.button>
+            {!isMobile && (
+              <nav
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}>
+                {menus.map((menu) => (
+                  <div
+                    key={menu.key}
+                    style={{ position: 'relative' }}
+                    onMouseEnter={() => setActiveDropdown(menu.key)}
+                    onMouseLeave={() => setActiveDropdown(null)}>
+                    <motion.button
+                      className="nav-link"
+                      style={{
+                        color: COLORS.white,
+                        background: 'transparent',
+                        border: 'none',
+                        padding: '12px 20px',
+                        borderRadius: '12px',
+                        fontSize: '15px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        fontFamily: FONT_FAMILY,
+                        transition: 'all 0.3s ease',
+                      }}
+                      whileHover={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        y: -1,
+                      }}
+                      onClick={() =>
+                        menu.key === 'home'
+                          ? router.push('/')
+                          : menu.key === 'services'
+                          ? scrollToSection('services')
+                          : menu.key === 'product'
+                          ? router.push('/products')
+                          : menu.key === 'company'
+                          ? scrollToSection('company')
+                          : null
+                      }>
+                      {menu.label}
+                      {menu.subMenu && (
+                        <motion.div
+                          animate={{
+                            rotate: activeDropdown === menu.key ? 180 : 0,
+                          }}
+                          transition={{ duration: 0.2 }}>
+                          <ChevronDown size={16} style={{ opacity: 0.7 }} />
+                        </motion.div>
+                      )}
+                    </motion.button>
 
-                  <AnimatePresence>
-                    {menu.subMenu && activeDropdown === menu.key && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                        style={{
-                          position: 'absolute',
-                          top: '100%',
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          width: '280px',
-                          background: 'rgba(255, 255, 255, 0.95)',
-                          backdropFilter: 'blur(20px)',
-                          borderRadius: '20px',
-                          padding: '16px',
-                          boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.15)',
-                          border: `1px solid ${COLORS.border}`,
-                          marginTop: '8px',
-                        }}>
-                        {menu.subMenu.map((sub) => (
-                          <motion.button
-                            key={sub.key}
-                            onClick={() => {
-                              if (sub.key === 'team') {
-                                router.push('/team');
-                              } else if (sub.key === 'custom-software-development') {
-                                router.push('/sd_services');
-                              } else if (sub.key === 'ai-ml') {
-                                router.push('/aiml_services');
-                              } else if (sub.key === 'web-development') {
-                                router.push('/web_services');
-                              } else if (sub.key === 'mobile-app-development') {
-                                router.push('/mobile_services');
-                              } else if (sub.key === 'hackathon') {
-                                router.push('/hackathon');
-                              } else if (sub.key === 'internship') {
-                                router.push('/internship');
-                              } else if (sub.key === 'faq') {
-                                router.push('/faqs');
-                              } else if (sub.key === 'careers') {
-                                router.push('/careers');
-                              } else {
-                                router.push('/services');
-                              }
-                            }}
-                            style={{
-                              width: '100%',
-                              textAlign: 'left',
-                              padding: '14px 16px',
-                              background: 'none',
-                              border: 'none',
-                              borderRadius: '12px',
-                              cursor: 'pointer',
-                              fontSize: '14px',
-                              fontWeight: '600',
-                              color: COLORS.textMuted,
-                              transition: 'all 0.2s ease',
-                            }}
-                            whileHover={{
-                              backgroundColor: 'rgba(79, 70, 229, 0.08)',
-                              color: COLORS.primary,
-                              x: 4,
-                            }}>
-                            {sub.label}
-                          </motion.button>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
-            </nav>
+                    <AnimatePresence>
+                      {menu.subMenu && activeDropdown === menu.key && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            width: '280px',
+                            background: 'rgba(255, 255, 255, 0.95)',
+                            backdropFilter: 'blur(20px)',
+                            borderRadius: '20px',
+                            padding: '16px',
+                            boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.15)',
+                            border: `1px solid ${COLORS.border}`,
+                            marginTop: '8px',
+                          }}>
+                          {menu.subMenu.map((sub) => (
+                            <motion.button
+                              key={sub.key}
+                              onClick={() => {
+                                if (sub.key === 'about') {
+                                  router.push('/team');
+                                } else if (sub.key === 'custom-software-development') {
+                                  router.push('/sd_services');
+                                } else if (sub.key === 'ai-ml') {
+                                  router.push('/aiml_services');
+                                } else if (sub.key === 'web-development') {
+                                  router.push('/web_services');
+                                } else if (sub.key === 'mobile-app-development') {
+                                  router.push('/mobile_services');
+                                } else if (sub.key === 'careers') {
+                                  router.push('/careers');
+                                } else if (sub.key === 'blogs') {
+                                  router.push('/blogs');
+                                } else if (sub.key === 'hackathon') {
+                                  router.push('/hackathon');
+                                } else {
+                                  router.push('/services');
+                                }
+                              }}
+                              style={{
+                                width: '100%',
+                                textAlign: 'left',
+                                padding: '14px 16px',
+                                background: 'none',
+                                border: 'none',
+                                borderRadius: '12px',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                                fontWeight: '600',
+                                color: COLORS.textMuted,
+                                transition: 'all 0.2s ease',
+                              }}
+                              whileHover={{
+                                backgroundColor: 'rgba(79, 70, 229, 0.08)',
+                                color: COLORS.primary,
+                                x: 4,
+                              }}>
+                              {sub.label}
+                            </motion.button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+              </nav>
+            )}
 
-            {/* Enhanced CTA Button */}
+            {/* Mobile Menu Button */}
+            {isMobile && (
+              <motion.button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '8px',
+                }}
+                whileTap={{ scale: 0.95 }}>
+                <motion.div
+                  animate={{ rotate: isMenuOpen ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}>
+                  {isMenuOpen ? (
+                    <X size={24} color={COLORS.white} />
+                  ) : (
+                    <Menu size={24} color={COLORS.white} />
+                  )}
+                </motion.div>
+              </motion.button>
+            )}  {/* Enhanced CTA Button */}
             <motion.button
               style={{
                 background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})`,
                 color: 'white',
                 border: 'none',
-                padding: '14px 28px',
+                padding: isMobile ? '8px 16px' : '12px 24px',
                 borderRadius: '50px',
-                fontSize: '15px',
+                fontSize: isMobile ? '12px' : '14px',
                 fontWeight: '700',
                 cursor: 'pointer',
                 fontFamily: FONT_FAMILY,
@@ -419,9 +453,11 @@ function Header() {
               }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
-                console.log('Header Contact button clicked');
-                openModal();
-              }}>
+                  const contactForm = document.getElementById('contact-form');
+                  if (contactForm) {
+                    contactForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }}>
               {/* Button shine effect */}
               <motion.div
                 style={{
@@ -444,6 +480,154 @@ function Header() {
           </div>
         </div>
       </motion.header>
+
+      {/* Mobile Navigation Panel */}
+      <AnimatePresence>
+        {isMobile && isMenuOpen && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              width: '80vw',
+              maxWidth: '320px',
+              height: '100vh',
+              background: 'rgba(255, 255, 255, 0.98)',
+              backdropFilter: 'blur(20px)',
+              zIndex: 999,
+              boxShadow: '-10px 0 40px rgba(0, 0, 0, 0.1)',
+            }}>
+            <div style={{ padding: '20px', height: '100%', overflowY: 'auto' }}>
+              {/* Close Button */}
+              <motion.button
+                onClick={() => setIsMenuOpen(false)}
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                whileTap={{ scale: 0.95 }}>
+                <X size={20} color={COLORS.textMain} />
+              </motion.button>
+
+              {/* Mobile Menu Items */}
+              <div style={{ marginTop: '40px' }}>
+                {menus.map((menu) => (
+                  <div key={menu.key} style={{ marginBottom: '24px' }}>
+                    <motion.button
+                      onClick={() => {
+                        if (menu.key === 'home') {
+                          router.push('/');
+                        } else if (menu.key === 'services') {
+                          scrollToSection('services');
+                        } else if (menu.key === 'product') {
+                          router.push('/products');
+                        } else if (menu.key === 'company') {
+                          scrollToSection('company');
+                        }
+                        setIsMenuOpen(false);
+                      }}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        color: COLORS.textMain,
+                        fontFamily: FONT_FAMILY,
+                        marginBottom: menu.subMenu ? '12px' : '0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}>
+                      {menu.label}
+                      {menu.subMenu && <ChevronDown size={16} />}
+                    </motion.button>
+
+                    {/* Mobile SubMenu */}
+                    {menu.subMenu && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        style={{
+                          paddingLeft: '16px',
+                          borderLeft: `2px solid ${COLORS.border}`,
+                        }}>
+                        {menu.subMenu.map((sub) => (
+                          <motion.button
+                            key={sub.key}
+                            onClick={() => {
+                              if (sub.key === 'about') {
+                                router.push('/team');
+                              } else if (sub.key === 'custom-software-development') {
+                                router.push('/sd_services');
+                              } else if (sub.key === 'ai-ml') {
+                                router.push('/aiml_services');
+                              } else if (sub.key === 'web-development') {
+                                router.push('/web_services');
+                              } else if (sub.key === 'mobile-app-development') {
+                                router.push('/mobile_services');
+                              } else if (sub.key === 'careers') {
+                                router.push('/careers');
+                              } else if (sub.key === 'blogs') {
+                                router.push('/blogs');
+                              } else if (sub.key === 'hackathon') {
+                                router.push('/hackathon');
+                              } else {
+                                router.push('/services');
+                              }
+                              setIsMenuOpen(false);
+                            }}
+                            style={{
+                              width: '100%',
+                              textAlign: 'left',
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              fontSize: '14px',
+                              fontWeight: '500',
+                              color: COLORS.textMuted,
+                              fontFamily: FONT_FAMILY,
+                              padding: '8px 0',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                            }}
+                            whileHover={{ 
+                              color: COLORS.primary,
+                              x: 4,
+                            }}
+                            whileTap={{ scale: 0.98 }}>
+                            {sub.icon && sub.icon}
+                            {sub.label}
+                          </motion.button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

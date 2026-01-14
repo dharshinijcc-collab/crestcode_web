@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// export const API_URL = 'http://localhost:5000/server/api';
-export const API_URL = 'https://dev.api.dockly.me/server/api';
+export const API_URL = 'http://localhost:5000/server/api';
+// export const API_URL = 'https://dev.api.dockly.me/server/api';
 export const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -31,4 +31,20 @@ export async function authenticateAdmin(credentials: {
   password: string;
 }) {
   return api.post('/auth/admin', credentials);
+}
+
+export async function submitContactForm(formData: FormData) {
+  return api.post('/contact', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+
+export async function submitCareerForm(formData: FormData) {
+  return api.post('/careers', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 }

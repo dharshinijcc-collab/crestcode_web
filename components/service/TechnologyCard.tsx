@@ -7,11 +7,11 @@ import { LucideIcon } from 'lucide-react';
 const TECH_CARD_CONFIG = {
   styles: {
     container: "text-center animate-slideUp hover:transform hover:scale-105 transition-transform duration-300",
-    iconWrapper: "mb-4 flex justify-center",
+    iconWrapper: "mb-3 flex justify-center",
     iconSize: "w-10 h-10 sm:w-12 sm:h-12",
     iconColors: "text-gray-900 hover:text-gray-700 transition-colors duration-300",
-    title: "text-xl sm:text-2xl font-bold text-gray-900 mb-3",
-    description: "text-gray-700 leading-relaxed text-sm sm:text-base"
+    title: "text-lg sm:text-xl font-bold text-gray-900 mb-2",
+    description: "text-gray-700 leading-relaxed text-xs sm:text-sm"
   }
 };
 

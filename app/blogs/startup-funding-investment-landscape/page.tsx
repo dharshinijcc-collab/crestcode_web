@@ -115,7 +115,7 @@ export default function BlogArticlePage() {
             ))}
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
             {articleContent.title}
           </h1>
 
@@ -177,12 +177,12 @@ export default function BlogArticlePage() {
           <div className="lg:col-span-3">
             <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
               {articleContent.sections.map((section) => (
-                <section key={section.id} id={section.id} className="mb-12 scroll-mt-24">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                <section key={section.id} id={section.id} className="mb-8 scroll-mt-24">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
                     {section.title}
                   </h2>
                   <div className="prose prose-lg max-w-none">
-                    <p className="text-gray-700 leading-relaxed text-lg">
+                    <p className="text-gray-700 leading-relaxed text-base">
                       {section.content}
                     </p>
                   </div>
@@ -200,7 +200,7 @@ export default function BlogArticlePage() {
                     <p className="text-gray-600">Funding Strategy Expert</p>
                   </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed text-base">
                   {articleContent.author} is a seasoned funding strategist with deep expertise in helping startups navigate the complex investment landscape. With experience across multiple funding rounds and investment types, they guide entrepreneurs in securing the right capital at the right time for sustainable growth.
                 </p>
               </div>

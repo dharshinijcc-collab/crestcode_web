@@ -8,7 +8,7 @@ import Testimonial from '@/components/service/Testimonial';
 import Banner from '@/components/service/banner';
 import TechnologiesSection from '@/components/service/technology';
 import ServicesFAQ from '@/components/service/faq';
-
+import Predictable_engineering from '@/components/service/predictable_engineering';
 export default function ServicesPage() {
   return (
     <>
@@ -22,8 +22,9 @@ export default function ServicesPage() {
         description="Consult with our expert team today to unlock AI-powered growth and custom solutions built for real business impact."
       />
       <Process />
+      <Predictable_engineering />
       <TechnologiesSection />
-      <ServicesFAQ />
+      
     </>
   );
 }

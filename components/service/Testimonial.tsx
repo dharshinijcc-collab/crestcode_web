@@ -4,14 +4,11 @@ import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
 import { useAdmin } from '../admin/context';
-import Link from 'next/link';
+import EditableText from '@/components/admin/editableText';
 
 const { Text, Paragraph } = Typography;
 
-// --- DATA CONFIGURATION ---
-// Data will be imported from config
-
-// --- MATCHING INDUSTRIAL DESIGN TOKENS ---
+// --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
   bgBase: '#F3F5F9',
   textBlack: '#020617',
@@ -24,15 +21,17 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const TestimonialSection = () => {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const TESTIMONIAL_DATA = config?.service?.TESTIMONIAL_DATA;
-  console.log(TESTIMONIAL_DATA)
   
+  const handleSave = () => saveConfigToServer();
+
   if (!TESTIMONIAL_DATA) return null;
+
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: '32px 24px',
         backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
@@ -63,8 +62,8 @@ const TestimonialSection = () => {
           zIndex: 1,
           background: 'rgba(255, 255, 255, 0.7)',
           backdropFilter: 'blur(20px)',
-          borderRadius: '16px',
-          padding: '60px 48px',
+          borderRadius: '12px',
+          padding: '40px 32px',
           border: `1px solid ${COLORS.white}`,
           boxShadow: '0 20px 40px -10px rgba(0,0,0,0.03)',
         }}>
@@ -74,10 +73,11 @@ const TestimonialSection = () => {
             <div style={{ textAlign: 'center' }}>
               <div
                 style={{
-                  width: '140px',
-                  height: '140px',
-                  margin: '0 auto 28px auto',
+                  width: '100px',
+                  height: '100px',
+                  margin: '0 auto 20px auto',
                   borderRadius: '12px',
+                  background: COLORS.white,
                   overflow: 'hidden',
                   boxShadow: '0 10px 30px -10px rgba(0,0,0,0.2)',
                   border: `4px solid ${COLORS.white}`,
@@ -91,14 +91,20 @@ const TestimonialSection = () => {
               <div style={{ marginBottom: '4px' }}>
                 <Text
                   style={{
-                    fontSize: '22px',
+                    fontSize: '18px',
                     fontWeight: 800,
                     color: COLORS.textBlack,
                     fontFamily: FONT_PRIMARY,
                     display: 'block',
                     letterSpacing: '-0.02em',
                   }}>
-                  {TESTIMONIAL_DATA.author.name}
+                  <EditableText
+                    value={TESTIMONIAL_DATA.author.name}
+                    onSave={handleSave}
+                    configPath="service.TESTIMONIAL_DATA.author.name"
+                  >
+                    {TESTIMONIAL_DATA.author.name}
+                  </EditableText>
                 </Text>
               </div>
               <Text
@@ -109,7 +115,13 @@ const TestimonialSection = () => {
                   textTransform: 'uppercase',
                   letterSpacing: '0.12em',
                 }}>
-                {TESTIMONIAL_DATA.author.role}
+                <EditableText
+                  value={TESTIMONIAL_DATA.author.role}
+                  onSave={handleSave}
+                  configPath="service.TESTIMONIAL_DATA.author.role"
+                >
+                  {TESTIMONIAL_DATA.author.role}
+                </EditableText>
               </Text>
             </div>
           </Col>
@@ -120,7 +132,7 @@ const TestimonialSection = () => {
               {/* Engineering Style Quote Icon */}
               <div
                 style={{
-                  fontSize: '80px',
+                  fontSize: '60px',
                   color: COLORS.primary,
                   lineHeight: 1,
                   fontFamily: 'serif',
@@ -135,7 +147,7 @@ const TestimonialSection = () => {
 
               <Paragraph
                 style={{
-                  fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
+                  fontSize: 'clamp(1rem, 1.8vw, 1.3rem)',
                   fontWeight: 600,
                   lineHeight: 1.6,
                   color: COLORS.textBlack,
@@ -144,11 +156,29 @@ const TestimonialSection = () => {
                   letterSpacing: '-0.01em',
                   fontStyle: 'normal',
                 }}>
-                {TESTIMONIAL_DATA.quote.prefix}
+                <EditableText
+                  value={TESTIMONIAL_DATA.quote.prefix}
+                  onSave={handleSave}
+                  configPath="service.TESTIMONIAL_DATA.quote.prefix"
+                >
+                  {TESTIMONIAL_DATA.quote.prefix}
+                </EditableText>
                 <span style={{ color: COLORS.primary }}>
-                  {TESTIMONIAL_DATA.quote.highlight}
+                  <EditableText
+                    value={TESTIMONIAL_DATA.quote.highlight}
+                    onSave={handleSave}
+                    configPath="service.TESTIMONIAL_DATA.quote.highlight"
+                  >
+                    {TESTIMONIAL_DATA.quote.highlight}
+                  </EditableText>
                 </span>
-                {TESTIMONIAL_DATA.quote.suffix}
+                <EditableText
+                  value={TESTIMONIAL_DATA.quote.suffix}
+                  onSave={handleSave}
+                  configPath="service.TESTIMONIAL_DATA.quote.suffix"
+                >
+                  {TESTIMONIAL_DATA.quote.suffix}
+                </EditableText>
               </Paragraph>
 
               {/* Decorative Industrial Line */}
@@ -157,7 +187,7 @@ const TestimonialSection = () => {
                   width: '60px',
                   height: '4px',
                   backgroundColor: COLORS.primary,
-                  marginTop: '32px',
+                  marginTop: '24px',
                   borderRadius: '2px',
                 }}
               />

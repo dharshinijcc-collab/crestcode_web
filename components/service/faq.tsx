@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- THEME TOKENS ---
 const COLORS = {
@@ -18,10 +19,11 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 const ServicesFAQ = () => {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const FAQ_DATA = config?.service?.FAQ_DATA;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  console.log(FAQ_DATA)
+
+  const handleSave = () => saveConfigToServer();
 
   if (!FAQ_DATA) return null;
 
@@ -32,7 +34,7 @@ const ServicesFAQ = () => {
   return (
     <section
       style={{
-        padding: '40px 24px',
+        padding: '32px 24px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
@@ -43,33 +45,53 @@ const ServicesFAQ = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '80px' }}>
+          style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h2
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4.5vw, 2.8rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '20px',
+              marginBottom: '16px',
             }}>
-            {FAQ_DATA.header.main} 
-            <span style={{ color: COLORS.primary }}>{FAQ_DATA.header.highlight}</span>
+            <EditableText
+              value={FAQ_DATA.header.main}
+              onSave={handleSave}
+              configPath="service.FAQ_DATA.header.main"
+            >
+              {FAQ_DATA.header.main}
+            </EditableText>{' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={FAQ_DATA.header.highlight}
+                onSave={handleSave}
+                configPath="service.FAQ_DATA.header.highlight"
+              >
+                {FAQ_DATA.header.highlight}
+              </EditableText>
+            </span>
           </h2>
           <p
             style={{
-              fontSize: '18px',
+              fontSize: '15px',
               color: COLORS.textMuted,
               lineHeight: '1.6',
               maxWidth: '650px',
               margin: '0 auto',
             }}>
-            {FAQ_DATA.header.sub}
+            <EditableText
+              value={FAQ_DATA.header.sub}
+              onSave={handleSave}
+              configPath="service.FAQ_DATA.header.sub"
+            >
+              {FAQ_DATA.header.sub}
+            </EditableText>
           </p>
         </motion.div>
 
         {/* FAQ LIST */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {FAQ_DATA.questions.map((faq, index) => (
+          {FAQ_DATA.questions.map((faq: any, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 15 }}
@@ -89,19 +111,17 @@ const ServicesFAQ = () => {
                     ? '0 10px 30px -10px rgba(79, 70, 229, 0.1)'
                     : 'none',
               }}>
-              <button
-                onClick={() => toggleFAQ(index)}
+              <div
                 style={{
                   width: '100%',
                   padding: '28px 32px',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  background: 'none',
-                  border: 'none',
                   cursor: 'pointer',
-                  textAlign: 'left',
-                }}>
+                }}
+                onClick={() => toggleFAQ(index)}
+              >
                 <h3
                   style={{
                     fontSize: '18px',
@@ -110,8 +130,15 @@ const ServicesFAQ = () => {
                     margin: 0,
                     fontFamily: FONT_PRIMARY,
                     paddingRight: '20px',
+                    flex: 1,
                   }}>
-                  {faq.question}
+                  <EditableText
+                    value={faq.question}
+                    onSave={handleSave}
+                    configPath={`service.FAQ_DATA.questions.${index}.question`}
+                  >
+                    {faq.question}
+                  </EditableText>
                 </h3>
                 <motion.div
                   animate={{
@@ -122,7 +149,7 @@ const ServicesFAQ = () => {
                   transition={{ duration: 0.3 }}>
                   <Plus size={24} />
                 </motion.div>
-              </button>
+              </div>
 
               <AnimatePresence>
                 {openIndex === index && (
@@ -146,7 +173,14 @@ const ServicesFAQ = () => {
                           marginBottom: '24px',
                         }}
                       />
-                      {faq.answer}
+                      <EditableText
+                        value={faq.answer}
+                        onSave={handleSave}
+                        configPath={`service.FAQ_DATA.questions.${index}.answer`}
+                        multiline={true} // Helpful for multi-line FAQ answers
+                      >
+                        {faq.answer}
+                      </EditableText>
                     </div>
                   </motion.div>
                 )}

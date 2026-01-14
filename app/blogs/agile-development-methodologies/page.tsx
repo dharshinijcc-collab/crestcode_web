@@ -120,7 +120,7 @@ export default function BlogArticlePage() {
             ))}
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
             {articleContent.title}
           </h1>
 
@@ -153,7 +153,7 @@ export default function BlogArticlePage() {
           {/* Table of Contents */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 bg-white rounded-xl shadow-sm p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <FileText size={20} />
                 Table of Contents
               </h3>
@@ -182,12 +182,12 @@ export default function BlogArticlePage() {
           <div className="lg:col-span-3">
             <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
               {articleContent.sections.map((section) => (
-                <section key={section.id} id={section.id} className="mb-12 scroll-mt-24">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                <section key={section.id} id={section.id} className="mb-8 scroll-mt-24">
+                  <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">
                     {section.title}
                   </h2>
                   <div className="prose prose-lg max-w-none">
-                    <p className="text-gray-700 leading-relaxed text-lg">
+                    <p className="text-gray-700 leading-relaxed text-base">
                       {section.content}
                     </p>
                   </div>
@@ -205,7 +205,7 @@ export default function BlogArticlePage() {
                     <p className="text-gray-600">Agile Development Expert</p>
                   </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed text-base">
                   {articleContent.author} is an Agile methodologies specialist with extensive experience helping tech teams implement and scale Agile practices. With expertise in Scrum, Kanban, and Lean methodologies, they guide organizations in achieving higher productivity, better quality, and faster delivery cycles.
                 </p>
               </div>

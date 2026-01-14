@@ -4,13 +4,15 @@ import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import { motion } from 'framer-motion';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 const { Text, Paragraph } = Typography;
 
 function LeadershipInsight() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const LEADERSHIP_DATA = config?.home?.LEADERSHIP_DATA;
-  console.log("LEADERSHIP_DATA",LEADERSHIP_DATA)
+
+  const handleSave = () => saveConfigToServer();
 
   if (!LEADERSHIP_DATA) return null;
 
@@ -29,7 +31,7 @@ function LeadershipInsight() {
   return (
     <section
       style={{
-        padding: '40px 24px', // Standard Section Padding
+        padding: 'clamp(20px, 4vw, 40px) clamp(10px, 2.5vw, 16px)', // Standard Section Padding
         backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
@@ -56,26 +58,26 @@ function LeadershipInsight() {
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          maxWidth: '1250px',
+          maxWidth: 'min(1250px, 95%)',
           width: '100%',
           zIndex: 1,
           background: 'rgba(255, 255, 255, 0.7)',
           backdropFilter: 'blur(24px)',
-          borderRadius: '24px',
-          padding: '50px 50px',
+          borderRadius: 'clamp(16px, 3vw, 24px)',
+          padding: 'clamp(20px, 4vw, 40px)',
           border: `1px solid ${COLORS.white}`,
           boxShadow: '0 30px 60px -15px rgba(0,0,0,0.05)',
         }}>
-        <Row gutter={[64, 48]} align="middle">
+        <Row gutter={[16, 16]} align="middle" style={{ margin: '0 clamp(-8px, -1.5vw, -16px)' }}>
           {/* Author Branding (Left) */}
           <Col xs={24} md={8} lg={7}>
             <div style={{ textAlign: 'center' }}>
               <div
                 style={{
-                  width: '160px',
-                  height: '160px',
-                  margin: '0 auto 32px auto',
-                  borderRadius: '20px',
+                  width: 'clamp(120px, 20vw, 160px)',
+                  height: 'clamp(120px, 20vw, 160px)',
+                  margin: '0 auto clamp(16px, 3vw, 24px) auto',
+                  borderRadius: 'clamp(16px, 3vw, 20px)',
                   overflow: 'hidden',
                   boxShadow: `0 20px 40px -10px rgba(79, 70, 229, 0.25)`,
                   border: `4px solid ${COLORS.white}`,
@@ -86,46 +88,58 @@ function LeadershipInsight() {
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
-              <div style={{ marginBottom: '6px' }}>
+              <div style={{ marginBottom: '4px' }}>
                 <Text
                   style={{
-                    fontSize: '24px',
+                    fontSize: 'clamp(18px, 3.5vw, 24px)',
                     fontWeight: 800,
                     color: COLORS.textBlack,
                     fontFamily: FONT_PRIMARY,
                     display: 'block',
                     letterSpacing: '-0.02em',
                   }}>
-                  {LEADERSHIP_DATA.author.name}
+                  <EditableText
+                    value={LEADERSHIP_DATA.author.name}
+                    onSave={handleSave}
+                    configPath="home.LEADERSHIP_DATA.author.name"
+                  >
+                    {LEADERSHIP_DATA.author.name}
+                  </EditableText>
                 </Text>
               </div>
               <Text
                 style={{
-                  fontSize: '14px',
+                  fontSize: 'clamp(12px, 2.5vw, 14px)',
                   fontWeight: 700,
                   color: COLORS.primary,
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
                 }}>
-                {LEADERSHIP_DATA.author.role}
+                <EditableText
+                  value={LEADERSHIP_DATA.author.role}
+                  onSave={handleSave}
+                  configPath="home.LEADERSHIP_DATA.author.role"
+                >
+                  {LEADERSHIP_DATA.author.role}
+                </EditableText>
               </Text>
             </div>
           </Col>
 
           {/* Testimonial Quote (Right) */}
           <Col xs={24} md={16} lg={17}>
-            <div style={{ position: 'relative', paddingLeft: '20px' }}>
+            <div style={{ position: 'relative', paddingLeft: 'clamp(10px, 2vw, 20px)' }}>
               {/* Refined Industrial Quote Mark */}
               <div
                 style={{
-                  fontSize: '110px',
+                  fontSize: 'clamp(60px, 10vw, 110px)',
                   color: COLORS.primary,
                   lineHeight: 1,
                   fontFamily: 'serif',
                   opacity: 0.1,
                   position: 'absolute',
-                  top: '-50px',
-                  left: '-20px',
+                  top: 'clamp(-20px, -4vw, -50px)',
+                  left: 'clamp(-10px, -2vw, -20px)',
                   userSelect: 'none',
                   fontWeight: 900,
                 }}>
@@ -134,7 +148,7 @@ function LeadershipInsight() {
 
               <Paragraph
                 style={{
-                  fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
+                  fontSize: 'clamp(16px, 2.5vw, 20px)',
                   fontWeight: 600,
                   lineHeight: 1.7,
                   color: COLORS.textBlack,
@@ -143,22 +157,58 @@ function LeadershipInsight() {
                   letterSpacing: '-0.01em',
                   fontStyle: 'normal',
                 }}>
-                {LEADERSHIP_DATA.quote.part1}
-                <span style={{ color: COLORS.primary }}>{LEADERSHIP_DATA.quote.highlight}</span>
-                {LEADERSHIP_DATA.quote.part2}
-                <span style={{ fontWeight: 800 }}>
-                  {LEADERSHIP_DATA.quote.boldSegment}
+                <EditableText
+                  value={LEADERSHIP_DATA.quote.part1}
+                  onSave={handleSave}
+                  configPath="home.LEADERSHIP_DATA.quote.part1"
+                >
+                  {LEADERSHIP_DATA.quote.part1}
+                </EditableText>
+
+                <span style={{ color: COLORS.primary }}>
+                  <EditableText
+                    value={LEADERSHIP_DATA.quote.highlight}
+                    onSave={handleSave}
+                    configPath="home.LEADERSHIP_DATA.quote.highlight"
+                  >
+                    {LEADERSHIP_DATA.quote.highlight}
+                  </EditableText>
                 </span>
-                {LEADERSHIP_DATA.quote.part3}
+
+                <EditableText
+                  value={LEADERSHIP_DATA.quote.part2}
+                  onSave={handleSave}
+                  configPath="home.LEADERSHIP_DATA.quote.part2"
+                >
+                  {LEADERSHIP_DATA.quote.part2}
+                </EditableText>
+
+                <span style={{ fontWeight: 800 }}>
+                  <EditableText
+                    value={LEADERSHIP_DATA.quote.boldSegment}
+                    onSave={handleSave}
+                    configPath="home.LEADERSHIP_DATA.quote.boldSegment"
+                  >
+                    {LEADERSHIP_DATA.quote.boldSegment}
+                  </EditableText>
+                </span>
+
+                <EditableText
+                  value={LEADERSHIP_DATA.quote.part3}
+                  onSave={handleSave}
+                  configPath="home.LEADERSHIP_DATA.quote.part3"
+                >
+                  {LEADERSHIP_DATA.quote.part3}
+                </EditableText>
               </Paragraph>
 
               {/* Engineering Detail Line */}
               <div
                 style={{
-                  width: '80px',
-                  height: '4px',
+                  width: 'clamp(60px, 10vw, 80px)',
+                  height: 'clamp(3px, 1vw, 4px)',
                   backgroundColor: COLORS.primary,
-                  marginTop: '48px',
+                  marginTop: 'clamp(24px, 5vw, 48px)',
                   borderRadius: '2px',
                 }}
               />

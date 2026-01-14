@@ -14,6 +14,7 @@ import {
   type LucideIcon
 } from 'lucide-react';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const getIconComponent = (iconName: string): LucideIcon => {
@@ -37,28 +38,6 @@ const getIconComponent = (iconName: string): LucideIcon => {
   return icon;
 };
 
-// --- TYPE DEFINITIONS ---
-interface ProcessPhase {
-  number: number;
-  icon: string;
-  title: string;
-  duration: string;
-  items: string[];
-}
-
-interface TransformedProcessPhase extends Omit<ProcessPhase, 'icon'> {
-  icon: LucideIcon;
-}
-
-interface ProcessData {
-  header: {
-    title: string;
-    accent: string;
-    description: string;
-  };
-  phases: ProcessPhase[];
-}
-
 // --- DESIGN TOKENS ---
 const COLORS = {
   bgBase: '#F3F5F9',
@@ -72,11 +51,10 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function WebProcess() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const PROCESS_DATA = config?.web?.PROCESS_DATA;
-  console.log(PROCESS_DATA)
-  
-  if (!PROCESS_DATA) return null;
+
+  const handleSave = () => saveConfigToServer();
   
   const [visibleSteps, setVisibleSteps] = useState<number[]>([]);
 
@@ -97,9 +75,11 @@ export default function WebProcess() {
     return () => observer.disconnect();
   }, []);
 
+  if (!PROCESS_DATA) return null;
+
   return (
     <section style={{
-      padding: '100px 24px',
+      padding: '80px 20px',
       backgroundColor: COLORS.bgBase,
       fontFamily: FONT_PRIMARY,
       position: 'relative',
@@ -119,39 +99,64 @@ export default function WebProcess() {
       <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
         
         {/* HEADER */}
-        <div style={{ textAlign: 'center', marginBottom: '100px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '70px' }}>
           <h1 style={{
-            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+            fontSize: 'clamp(2rem, 4vw, 3rem)',
             fontWeight: 800,
             color: COLORS.textBlack,
             letterSpacing: '-0.04em',
-            marginBottom: '24px',
+            marginBottom: '20px',
           }}>
-            {PROCESS_DATA.header.title} <span style={{ color: COLORS.primary }}>{PROCESS_DATA.header.accent}</span>
+            <EditableText
+              value={PROCESS_DATA.header.title}
+              onSave={handleSave}
+              configPath="web.PROCESS_DATA.header.title"
+            >
+              {PROCESS_DATA.header.title}
+            </EditableText>
+            {' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={PROCESS_DATA.header.accent}
+                onSave={handleSave}
+                configPath="web.PROCESS_DATA.header.accent"
+              >
+                {PROCESS_DATA.header.accent}
+              </EditableText>
+            </span>
           </h1>
           <p style={{
-            fontSize: '18px',
+            fontSize: '16px',
             color: COLORS.textMuted,
             lineHeight: '1.6',
             maxWidth: '700px',
             margin: '0 auto',
             fontWeight: 500,
           }}>
-            {PROCESS_DATA.header.description}
+            <EditableText
+              value={PROCESS_DATA.header.description}
+              onSave={handleSave}
+              configPath="web.PROCESS_DATA.header.description"
+              multiline={true}
+            >
+              {PROCESS_DATA.header.description}
+            </EditableText>
           </p>
         </div>
 
         {/* TIMELINE */}
         <div style={{ position: 'relative' }}>
-          {PROCESS_DATA.phases.map((phase, index) => (
+          {PROCESS_DATA.phases.map((phase: any, index: number) => (
             <ProcessStep 
               key={phase.number} 
+              index={index}
               phase={{
                 ...phase,
-                icon: getIconComponent(phase.icon)
+                iconComponent: getIconComponent(phase.icon)
               }} 
               isLast={index === PROCESS_DATA.phases.length - 1}
               isVisible={visibleSteps.includes(phase.number)}
+              onSave={handleSave}
             />
           ))}
         </div>
@@ -166,27 +171,28 @@ export default function WebProcess() {
 
 // --- SUB-COMPONENT: STEP ITEM ---
 
-function ProcessStep({ phase, isLast, isVisible }: { phase: TransformedProcessPhase; isLast: boolean; isVisible: boolean }) {
+function ProcessStep({ phase, index, isLast, isVisible, onSave }: any) {
+  const Icon = phase.iconComponent;
   return (
     <div
       data-step={phase.number}
       className="process-step-trigger"
       style={{
         position: 'relative',
-        paddingBottom: isLast ? 0 : '80px',
+        paddingBottom: isLast ? 0 : '60px',
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
         transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
         display: 'flex',
-        gap: '40px',
+        gap: '30px',
       }}>
       
       {/* CONNECTOR LINE */}
       {!isLast && (
         <div style={{
             position: 'absolute',
-            left: '40px',
-            top: '80px',
+            left: '35px',
+            top: '70px',
             bottom: 0,
             width: '2px',
             background: `linear-gradient(to bottom, ${COLORS.primary}, transparent)`,
@@ -197,8 +203,8 @@ function ProcessStep({ phase, isLast, isVisible }: { phase: TransformedProcessPh
 
       {/* ICON BADGE */}
       <div style={{
-          width: '80px',
-          height: '80px',
+          width: '70px',
+          height: '70px',
           borderRadius: '50%',
           backgroundColor: isVisible ? COLORS.primary : COLORS.white,
           border: `2px solid ${COLORS.primary}`,
@@ -211,33 +217,46 @@ function ProcessStep({ phase, isLast, isVisible }: { phase: TransformedProcessPh
           transition: 'all 0.6s ease',
           zIndex: 2,
         }}>
-        <phase.icon size={24} />
+        <Icon size={20} />
       </div>
 
       {/* CONTENT CARD */}
       <div style={{ flex: 1 }}>
-        <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '26px', fontWeight: 800, color: COLORS.textBlack, marginBottom: '4px' }}>
-            {phase.title}
+        <div style={{ marginBottom: '16px' }}>
+          <h2 style={{ fontSize: '22px', fontWeight: 800, color: COLORS.textBlack, marginBottom: '4px' }}>
+            <EditableText
+              value={phase.title}
+              onSave={onSave}
+              configPath={`web.PROCESS_DATA.phases.${index}.title`}
+            >
+              {phase.title}
+            </EditableText>
           </h2>
           <div style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
               color: COLORS.primary,
-              fontSize: '13px',
+              fontSize: '12px',
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
             }}>
-            <Clock size={14} /> {phase.duration}
+            <Clock size={12} /> 
+            <EditableText
+              value={phase.duration}
+              onSave={onSave}
+              configPath={`web.PROCESS_DATA.phases.${index}.duration`}
+            >
+              {phase.duration}
+            </EditableText>
           </div>
         </div>
 
         <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '10px',
+            gap: '6px',
           }}>
           {phase.items.map((item: string, i: number) => (
             <div key={i} style={{
@@ -245,12 +264,20 @@ function ProcessStep({ phase, isLast, isVisible }: { phase: TransformedProcessPh
                 alignItems: 'center',
                 gap: '10px',
                 background: COLORS.white,
-                padding: '10px 14px',
+                padding: '8px 12px',
                 borderRadius: '8px',
                 border: `1px solid ${COLORS.border}`,
               }}>
-              <Check size={14} color={COLORS.primary} strokeWidth={3} />
-              <span style={{ fontSize: '14px', fontWeight: 600, color: COLORS.textBlack }}>{item}</span>
+              <Check size={12} color={COLORS.primary} strokeWidth={3} />
+              <span style={{ fontSize: '13px', fontWeight: 600, color: COLORS.textBlack }}>
+                <EditableText
+                  value={item}
+                  onSave={onSave}
+                  configPath={`web.PROCESS_DATA.phases.${index}.items.${i}`}
+                >
+                  {item}
+                </EditableText>
+              </span>
             </div>
           ))}
         </div>

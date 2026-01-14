@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from 'antd';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -13,6 +13,7 @@ import {
   SafetyCertificateOutlined,
 } from '@ant-design/icons';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 const ICON_MAP = {
   ArrowRightOutlined: <ArrowRightOutlined />,
@@ -24,27 +25,25 @@ const ICON_MAP = {
 
 type IconName = keyof typeof ICON_MAP;
 
-// --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
   bgBase: '#F8FAFC',
-  primary: '#4F46E5', // Indigo
-  secondary: '#0EA5E9', // Sky Blue
+  primary: '#4F46E5',
+  secondary: '#0EA5E9',
   textMain: '#0F172A',
-  textMuted: '#475569',
+  textMuted: '#64748B',
   border: '#E2E8F0',
+  white: '#FFFFFF',
 };
 
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
-
 function MainCompanyHero() {
-  const { config } = useAdmin();
-  console.log("🚀 ~ MainCompanyHero ~ config:", config)
+  const { config, saveConfigToServer } = useAdmin();
   const HERO_CONTENT = config?.home?.hero;
-  console.log("🚀 ~ MainCompanyHero ~ HERO_CONTENT:", HERO_CONTENT)
+
+  const handleSave = () => saveConfigToServer();
 
   if (!HERO_CONTENT) return null;
-
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -57,19 +56,17 @@ function MainCompanyHero() {
   return (
     <section
       style={{
-        minHeight: '100vh',
+        minHeight: 'clamp(50vh, 70vh, 85vh)',
         backgroundColor: COLORS.bgBase,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        marginLeft: '90px',
-        padding: ' 24px',
+        padding: 'clamp(12px, 3vw, 20px)',
         fontFamily: FONT_FAMILY,
-        paddingBottom: '50px',
-        paddingTop: '120px',
+        paddingTop: 'clamp(90px, 20vw, 130px)',
+        paddingBottom: 'clamp(25px, 5vw, 45px)',
       }}>
-      {/* 1. ARCHITECTURAL GRID OVERLAY */}
       <div
         style={{
           position: 'absolute',
@@ -84,7 +81,7 @@ function MainCompanyHero() {
 
       <div
         style={{
-          maxWidth: '1400px',
+          maxWidth: 'min(1400px, 95%)',
           margin: '0 auto',
           width: '100%',
           position: 'relative',
@@ -93,12 +90,14 @@ function MainCompanyHero() {
       >
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '64px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
             alignItems: 'center',
+            maxWidth: '900px',
+            margin: '0 auto',
+            textAlign: 'center'
           }}>
-          {/* --- LEFT SIDE: THE ENGINEERING PROMISE --- */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -106,41 +105,104 @@ function MainCompanyHero() {
 
             <motion.h1
               style={{
-                fontSize: 'clamp(2.8rem, 5vw, 4.5rem)',
+                fontSize: 'clamp(2.2rem, 6vw, 3.2rem)',
                 fontWeight: 800,
                 color: COLORS.textMain,
-                lineHeight: 1.05,
-                letterSpacing: '-0.05em',
-                marginBottom: '32px',
+                lineHeight: 1.1,
+                letterSpacing: '-0.03em',
+                marginBottom: 'clamp(20px, 4vw, 32px)',
               }}>
-              {HERO_CONTENT.title.line1} <br />
-              <span
+              <EditableText
+                value={HERO_CONTENT.title.line1}
+                onSave={handleSave}
+                configPath="home.hero.title.line1"
+              >
+                {HERO_CONTENT.title.line1}
+              </EditableText> <span
                 style={{
                   background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                 }}>
-                {HERO_CONTENT.title.highlight}
+                <EditableText
+                  value={HERO_CONTENT.title.highlight}
+                  onSave={handleSave}
+                  configPath="home.hero.title.highlight"
+                >
+                  {HERO_CONTENT.title.highlight}
+                </EditableText>
               </span>
               <br />
-              {HERO_CONTENT.title.line2}
+              <EditableText
+                value={HERO_CONTENT.title.line2}
+                onSave={handleSave}
+                configPath="home.hero.title.line2"
+              >
+                {HERO_CONTENT.title.line2}
+              </EditableText>
             </motion.h1>
 
             <motion.p
               style={{
-                fontSize: '1.25rem',
+                fontSize: 'clamp(18px, 4vw, 22px)',
                 color: COLORS.textMuted,
                 lineHeight: 1.6,
-                maxWidth: '600px',
-                marginBottom: '48px',
+                maxWidth: 'min(600px, 90%)',
+                marginBottom: 'clamp(30px, 5vw, 48px)',
                 fontWeight: 500,
+                textAlign: 'center',
+                margin: '0 auto clamp(30px, 5vw, 48px)',
               }}>
-              {HERO_CONTENT.description}
+              <EditableText
+                value={HERO_CONTENT.description}
+                onSave={handleSave}
+                configPath="home.hero.description"
+              >
+                {HERO_CONTENT.description}
+              </EditableText>
             </motion.p>
 
             <motion.div
-              style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              {HERO_CONTENT.buttons.map((btn: any, idx: number) => {
+              style={{ display: 'flex', gap: 'clamp(12px, 3vw, 16px)', flexWrap: 'wrap', justifyContent: 'center', marginTop: 'clamp(30px, 5vw, 48px)' }}>
+              {/* Initiate Project Button */}
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  const contactForm = document.getElementById('contact-form');
+                  if (contactForm) {
+                    contactForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }}
+                style={{
+                  background: COLORS.primary,
+                  color: COLORS.white,
+                  border: 'none',
+                  padding: 'clamp(12px, 2.5vw, 16px) clamp(24px, 4vw, 32px)',
+                  borderRadius: '12px',
+                  fontSize: 'clamp(14px, 2.5vw, 16px)',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  boxShadow: `0 20px 40px -10px ${COLORS.primary}44`,
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = `0 25px 50px -12px ${COLORS.primary}55`;
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = `0 20px 40px -10px ${COLORS.primary}44`;
+                }}
+              >
+                Initiate Project
+                <ArrowRightOutlined style={{ fontSize: '18px' }} />
+              </motion.button>
+              
+              {HERO_CONTENT.buttons.slice(0, 0).map((btn: any, idx: number) => {
                 const isValidIcon = btn.iconName && ICON_MAP[btn.iconName as IconName];
                 return (
                   <Link key={idx} href={btn.href} scroll={btn.scroll}>
@@ -149,194 +211,27 @@ function MainCompanyHero() {
                       size="large"
                       icon={isValidIcon ? ICON_MAP[btn.iconName as IconName] : null}
                       style={{
-                        height: '64px',
-                        padding: '0 40px',
+                        height: 'clamp(48px, 8vw, 56px)',
+                        padding: '0 clamp(20px, 4vw, 32px)',
                         borderRadius: '12px',
-                        fontSize: '18px',
+                        fontSize: 'clamp(14px, 2.5vw, 16px)',
                         fontWeight: idx === 0 ? 700 : 600,
                         backgroundColor: btn.type === 'primary' ? COLORS.primary : 'transparent',
                         border: btn.type === 'default' ? `1px solid ${COLORS.border}` : 'none',
                         boxShadow: btn.type === 'primary' ? `0 20px 40px -10px ${COLORS.primary}44` : 'none',
                       }}>
-                      {btn.label}
+                      <EditableText
+                        value={btn.label}
+                        onSave={handleSave}
+                        configPath={`home.hero.buttons.${idx}.label`}
+                      >
+                        {btn.label}
+                      </EditableText>
                     </Button>
                   </Link>
                 );
               })}
             </motion.div>
-
-            {/* TRUST INDICATORS */}
-            <motion.div
-              style={{
-                marginTop: '64px',
-                display: 'flex',
-                gap: '32px',
-                alignItems: 'center',
-              }}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                }}>
-                <div
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span
-                    style={{
-                      fontSize: '28px',
-                      fontWeight: 800,
-                      color: COLORS.primary,
-                      letterSpacing: '-0.02em',
-                    }}>
-                    {HERO_CONTENT.stats.value}
-                  </span>
-                  <div
-                    style={{
-                      padding: '4px 8px',
-                      background: '#10B98115',
-                      color: '#10B981',
-                      borderRadius: '6px',
-                      fontSize: '10px',
-                      fontWeight: 800,
-                    }}>
-                    {HERO_CONTENT.stats.badge}
-                  </div>
-                </div>
-                <span
-                  style={{
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    color: COLORS.textMuted,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                  }}>
-                  {HERO_CONTENT.stats.label}
-                </span>
-              </div>
-              <div
-                style={{
-                  width: '1px',
-                  height: '40px',
-                  background: COLORS.border,
-                }}
-              />
-              <div style={{ display: 'flex', gap: '24px', fontSize: '24px', color: COLORS.textMuted }}>
-                {HERO_CONTENT.trustIconNames.map((iconName: string, idx: number) => {
-                  const validIcon = ICON_MAP[iconName as IconName];
-                  return validIcon ? (
-                    <div key={idx}>
-                      {validIcon}
-                    </div>
-                  ) : null;
-                })}
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* --- RIGHT SIDE: THE TECHNOLOGICAL CANVAS --- */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            style={{ position: 'relative' }}>
-            <div>
-              <img
-                src={HERO_CONTENT.visual.image}
-                alt={HERO_CONTENT.visual.alt}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  borderRadius: '24px',
-                  display: 'block',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
-                }}
-              />
-
-              {/* FLOATING TECH BADGE */}
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                style={{
-                  position: 'absolute',
-                  top: '15%',
-                  left: '-40px',
-                  background: 'rgba(2, 6, 23, 0.9)', // Deep Ink
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  color: '#FFF',
-                  padding: '14px 20px',
-                  borderRadius: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '14px',
-                  boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
-                  zIndex: 20,
-                }}>
-                <div style={{ position: 'relative', display: 'flex' }}>
-                  <div
-                    style={{
-                      width: '10px',
-                      height: '10px',
-                      background: '#10B981',
-                      borderRadius: '50%',
-                    }}
-                  />
-                  <motion.div
-                    animate={{ scale: [1, 2, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    style={{
-                      position: 'absolute',
-                      width: '10px',
-                      height: '10px',
-                      background: '#10B981',
-                      borderRadius: '50%',
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <div
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      color: '#94A3B8',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                    }}>
-                    {HERO_CONTENT.visual.badgeTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: '15px',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                    }}>
-                    {HERO_CONTENT.visual.badgeValue}{' '}
-                    <span style={{ color: '#10B981', fontSize: '12px' }}>
-                      {HERO_CONTENT.visual.badgeUnit}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* DECORATIVE BACKGROUND BLURS */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '-10%',
-                right: '-10%',
-                width: '300px',
-                height: '300px',
-                background:
-                  'radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%)',
-                filter: 'blur(60px)',
-                zIndex: 1,
-              }}
-            />
           </motion.div>
         </div>
       </div>

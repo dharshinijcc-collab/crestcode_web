@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Clock, Target, Zap, Shield, Users } from 'lucide-react';
 import { useAdmin } from '../admin/context';
-import Link from 'next/link';
+import EditableText from '@/components/admin/editableText';
 
 const ICON_MAP = {
   Target: <Target size={24} />,
@@ -16,9 +16,6 @@ const ICON_MAP = {
 } as const;
 
 type IconName = keyof typeof ICON_MAP;
-
-// --- DATA CONFIGURATION ---
-// Data will be imported from config
 
 // --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
@@ -33,15 +30,16 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 function SoftwareProductProcess() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const PROCESS_DATA = config?.sd_services?.PROCESS_DATA;
-  console.log(PROCESS_DATA)
   
-  if (!PROCESS_DATA) return null;
+  const handleSave = () => saveConfigToServer();
 
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
 
   useEffect(() => {
+    if (!PROCESS_DATA) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -59,12 +57,14 @@ function SoftwareProductProcess() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [PROCESS_DATA]);
+
+  if (!PROCESS_DATA) return null;
 
   return (
     <section
       style={{
-        padding: '120px 24px',
+        padding: '80px 24px',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
         position: 'relative',
@@ -86,17 +86,33 @@ function SoftwareProductProcess() {
       <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
         
         {/* CENTERED HEADER */}
-        <div style={{ textAlign: 'center', marginBottom: '100px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <h1
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
               fontWeight: 800,
               color: COLORS.textBlack,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '20px',
               lineHeight: 1.1,
             }}>
-            {PROCESS_DATA.header.title} <span style={{ color: COLORS.primary }}>{PROCESS_DATA.header.highlight}</span>
+            <EditableText
+              value={PROCESS_DATA.header.title}
+              onSave={handleSave}
+              configPath="sd_services.PROCESS_DATA.header.title"
+            >
+              {PROCESS_DATA.header.title}
+            </EditableText>
+            {' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={PROCESS_DATA.header.highlight}
+                onSave={handleSave}
+                configPath="sd_services.PROCESS_DATA.header.highlight"
+              >
+                {PROCESS_DATA.header.highlight}
+              </EditableText>
+            </span>
           </h1>
           <p
             style={{
@@ -107,20 +123,27 @@ function SoftwareProductProcess() {
               margin: '0 auto',
               fontWeight: 500,
             }}>
-            {PROCESS_DATA.header.description}
+            <EditableText
+              value={PROCESS_DATA.header.description}
+              onSave={handleSave}
+              configPath="sd_services.PROCESS_DATA.header.description"
+              multiline={true}
+            >
+              {PROCESS_DATA.header.description}
+            </EditableText>
           </p>
         </div>
 
         {/* TIMELINE ARCHITECTURE */}
         <div style={{ position: 'relative' }}>
-          {PROCESS_DATA.phases.map((phase, index) => (
+          {PROCESS_DATA.phases.map((phase: any, index: number) => (
             <div
-              key={phase.number}
+              key={index}
               data-section={phase.number}
               className="software-step"
               style={{
                 position: 'relative',
-                paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '100px',
+                paddingBottom: index === PROCESS_DATA.phases.length - 1 ? 0 : '60px',
                 opacity: visibleSections.has(phase.number) ? 1 : 0,
                 transform: visibleSections.has(phase.number) ? 'translateY(0)' : 'translateY(40px)',
                 transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -161,36 +184,64 @@ function SoftwareProductProcess() {
                     zIndex: 2,
                     color: visibleSections.has(phase.number) ? COLORS.white : COLORS.primary,
                   }}>
-                  <span style={{ fontSize: '28px', fontWeight: 800 }}>{phase.number}</span>
+                  <span style={{ fontSize: '20px', fontWeight: 800 }}>{phase.number}</span>
                 </div>
 
                 {/* CONTENT AREA */}
                 <div style={{ flex: 1 }}>
-                  <div style={{ marginBottom: '28px' }}>
-                    <h2 style={{ fontSize: '28px', fontWeight: 800, color: COLORS.textBlack, marginBottom: '8px', letterSpacing: '-0.02em' }}>
-                      {phase.title}
+                  <div style={{ marginBottom: '20px' }}>
+                    <h2
+                      style={{
+                        fontSize: 'clamp(2rem, 4.5vw, 2.8rem)',
+                        fontWeight: 800,
+                        color: COLORS.textBlack,
+                        letterSpacing: '-0.04em',
+                        marginBottom: '20px',
+                      }}>
+                      <EditableText
+                        value={phase.title}
+                        onSave={handleSave}
+                        configPath={`sd_services.PROCESS_DATA.phases.${index}.title`}
+                      >
+                        {phase.title}
+                      </EditableText>
                     </h2>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: COLORS.primary, fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      <Clock size={16} /> {phase.duration}
+                      <Clock size={16} /> 
+                      <EditableText
+                        value={phase.duration}
+                        onSave={handleSave}
+                        configPath={`sd_services.PROCESS_DATA.phases.${index}.duration`}
+                      >
+                        {phase.duration}
+                      </EditableText>
                     </div>
                   </div>
 
                   {/* BENTO-GRID LIST ITEMS */}
                   <ul style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px', padding: 0, listStyle: 'none' }}>
-                    {phase.items.map((item, i) => (
+                    {phase.items.map((item: string, i: number) => (
                       <li
                         key={i}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '12px',
+                          gap: '24px',
                           background: 'rgba(255,255,255,0.6)',
                           padding: '12px 16px',
                           borderRadius: '8px',
                           border: `1px solid ${COLORS.border}`,
                         }}>
                         <Check size={16} color={COLORS.primary} strokeWidth={3} />
-                        <span style={{ fontSize: '15px', color: COLORS.textMuted, fontWeight: 500 }}>{item}</span>
+                        <span style={{ fontSize: '15px', color: COLORS.textMuted, fontWeight: 500 }}>
+                          <EditableText
+                            value={item}
+                            onSave={handleSave}
+                            configPath={`sd_services.PROCESS_DATA.phases.${index}.items.${i}`}
+                          >
+                            {item}
+                          </EditableText>
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -205,10 +256,10 @@ function SoftwareProductProcess() {
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
         @media (max-width: 768px) {
           .software-step { padding-bottom: 60px !important; }
-          div[style*="gap: 40px"] { gap: 20px !important; }
-          div[style*="width: 80px"] { width: 60px !important; height: 60px !important; }
-          span[style*="fontSize: 28px"] { fontSize: 20px !important; }
-          div[style*="left: 40px"] { left: 30px !important; }
+          .software-step > div { gap: 20px !important; }
+          .software-step div[style*="width: 80px"] { width: 60px !important; height: 60px !important; }
+          .software-step span[style*="fontSize: 28px"] { fontSize: 20px !important; }
+          .software-step div[style*="left: 40px"] { left: 30px !important; }
         }
       `}</style>
     </section>

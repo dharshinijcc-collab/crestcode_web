@@ -15,6 +15,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useAdmin } from './admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const iconMap = {
@@ -29,13 +30,11 @@ const iconMap = {
   ArrowRight: ArrowRight
 };
 
-// Icon mapping function
 const getIcon = (iconName: string, size: number = 24) => {
   const IconComponent = iconMap[iconName as keyof typeof iconMap];
   return IconComponent ? <IconComponent size={size} /> : null;
 };
 
-// --- INDUSTRIAL DESIGN TOKENS ---
 const COLORS = {
   heroBg: 'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
   bgBase: '#F3F5F9',
@@ -49,10 +48,13 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 export default function HackathonPage() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const HACKATHON_CONTENT = config?.main_hackathon?.CONTENT;
+
+  const handleSave = () => saveConfigToServer();
   
   if (!HACKATHON_CONTENT) return null;
+
   return (
     <div style={{ backgroundColor: COLORS.bgBase, fontFamily: FONT_PRIMARY, minHeight: '100vh' }}>
       
@@ -78,24 +80,34 @@ export default function HackathonPage() {
                 background: COLORS.white, padding: '6px 14px', borderRadius: '100px', fontSize: '12px', 
                 fontWeight: 700, color: COLORS.primary, border: `1px solid ${COLORS.border}`, textTransform: 'uppercase', letterSpacing: '0.05em'
              }}>
-                {HACKATHON_CONTENT.hero.badge}
+                <EditableText value={HACKATHON_CONTENT.hero.badge} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.badge">
+                    {HACKATHON_CONTENT.hero.badge}
+                </EditableText>
              </span>
           </motion.div>
           
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={{ 
             fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 800, color: COLORS.textBlack, letterSpacing: '-0.05em', margin: '24px 0' 
           }}>
-            {HACKATHON_CONTENT.hero.title.split(HACKATHON_CONTENT.hero.titleAccent)[0]}
-            <span style={{ color: COLORS.primary }}>{HACKATHON_CONTENT.hero.titleAccent}</span>
+            <EditableText value={HACKATHON_CONTENT.hero.title} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.title">
+                {HACKATHON_CONTENT.hero.title}
+            </EditableText>
           </motion.h1>
           
           <p style={{ fontSize: '18px', color: COLORS.textMuted, fontWeight: 500, lineHeight: 1.5, marginBottom: '32px' }}>
-            {HACKATHON_CONTENT.hero.description}
+            <EditableText value={HACKATHON_CONTENT.hero.description} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.description" multiline={true}>
+                {HACKATHON_CONTENT.hero.description}
+            </EditableText>
           </p>
           
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-            <button style={{ background: COLORS.textBlack, color: COLORS.white, padding: '14px 28px', borderRadius: '8px', fontWeight: 700, border: 'none', cursor: 'pointer' }}>
-                <Link href={HACKATHON_CONTENT.hero.resultsBtn.link}>{HACKATHON_CONTENT.hero.resultsBtn.text}</Link>
+            <button 
+              onClick={() => window.location.href = '/hackathon-results'}
+              style={{ background: COLORS.textBlack, color: COLORS.white, padding: '14px 28px', borderRadius: '8px', fontWeight: 700, border: 'none', cursor: 'pointer' }}
+            >
+                <EditableText value={HACKATHON_CONTENT.hero.resultsBtn.text} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.resultsBtn.text">
+                   {HACKATHON_CONTENT.hero.resultsBtn.text}
+                </EditableText>
             </button>
           </div>
         </div>
@@ -116,23 +128,39 @@ export default function HackathonPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: COLORS.primary, marginBottom: '16px' }}>
             <Calendar size={18} />
             <span style={{ fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              {HACKATHON_CONTENT.upcomingEvent.badge}
+              <EditableText value={HACKATHON_CONTENT.upcomingEvent.badge} onSave={handleSave} configPath="main_hackathon.CONTENT.upcomingEvent.badge">
+                {HACKATHON_CONTENT.upcomingEvent.badge}
+              </EditableText>
             </span>
           </div>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '12px' }}>{HACKATHON_CONTENT.upcomingEvent.title}</h2>
+          <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '12px' }}>
+            <EditableText value={HACKATHON_CONTENT.upcomingEvent.title} onSave={handleSave} configPath="main_hackathon.CONTENT.upcomingEvent.title">
+                {HACKATHON_CONTENT.upcomingEvent.title}
+            </EditableText>
+          </h2>
           <p style={{ color: COLORS.textMuted, maxWidth: '600px', margin: '0 auto', fontWeight: 500 }}>
-            {HACKATHON_CONTENT.upcomingEvent.description}
+            <EditableText value={HACKATHON_CONTENT.upcomingEvent.description} onSave={handleSave} configPath="main_hackathon.CONTENT.upcomingEvent.description" multiline={true}>
+                {HACKATHON_CONTENT.upcomingEvent.description}
+            </EditableText>
           </p>
         </motion.section>
 
         {/* 3. FEATURES GRID */}
         <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '60px' }}>
-          {HACKATHON_CONTENT.features.map((item, i) => (
+          {HACKATHON_CONTENT.features.map((item: any, i: number) => (
             <div key={i} style={{ background: COLORS.white, padding: '24px', borderRadius: '16px', border: `1px solid ${COLORS.border}`, display: 'flex', gap: '16px', alignItems: 'center' }}>
               <div style={{ color: COLORS.primary, background: `${COLORS.primary}10`, padding: '10px', borderRadius: '10px' }}>{getIcon(item.icon, 20)}</div>
               <div>
-                <h3 style={{ fontSize: '16px', fontWeight: 800, margin: 0 }}>{item.title}</h3>
-                <p style={{ fontSize: '13px', color: COLORS.textMuted, margin: 0 }}>{item.desc}</p>
+                <h3 style={{ fontSize: '16px', fontWeight: 800, margin: 0 }}>
+                    <EditableText value={item.title} onSave={handleSave} configPath={`main_hackathon.CONTENT.features.${i}.title`}>
+                        {item.title}
+                    </EditableText>
+                </h3>
+                <p style={{ fontSize: '13px', color: COLORS.textMuted, margin: 0 }}>
+                    <EditableText value={item.desc} onSave={handleSave} configPath={`main_hackathon.CONTENT.features.${i}.desc`}>
+                        {item.desc}
+                    </EditableText>
+                </p>
               </div>
             </div>
           ))}
@@ -141,38 +169,30 @@ export default function HackathonPage() {
         {/* 4. PROGRAM ARCHITECTURE */}
         <section style={{ marginBottom: '60px' }}>
           <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '24px', textAlign: 'center' }}>
-            {HACKATHON_CONTENT.architecture.title}
+            <EditableText value={HACKATHON_CONTENT.architecture.title} onSave={handleSave} configPath="main_hackathon.CONTENT.architecture.title">
+                {HACKATHON_CONTENT.architecture.title}
+            </EditableText>
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-            {HACKATHON_CONTENT.architecture.cards.map((box, i) => (
+            {HACKATHON_CONTENT.architecture.cards.map((box: any, i: number) => (
               <motion.div key={i} whileHover={{ y: -5 }} style={{ background: COLORS.white, padding: '24px', borderRadius: '16px', border: `1px solid ${COLORS.border}`, display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                 <div style={{ color: COLORS.primary, flexShrink: 0 }}>{getIcon(box.icon, 20)}</div>
                 <div>
-                  <h4 style={{ margin: '0 0 8px', fontWeight: 800, fontSize: '16px' }}>{box.title}</h4>
-                  <p style={{ margin: 0, fontSize: '14px', color: COLORS.textMuted, lineHeight: 1.5 }}>{box.text}</p>
+                  <h4 style={{ margin: '0 0 8px', fontWeight: 800, fontSize: '16px' }}>
+                    <EditableText value={box.title} onSave={handleSave} configPath={`main_hackathon.CONTENT.architecture.cards.${i}.title`}>
+                        {box.title}
+                    </EditableText>
+                  </h4>
+                  <p style={{ margin: 0, fontSize: '14px', color: COLORS.textMuted, lineHeight: 1.5 }}>
+                    <EditableText value={box.text} onSave={handleSave} configPath={`main_hackathon.CONTENT.architecture.cards.${i}.text`} multiline={true}>
+                        {box.text}
+                    </EditableText>
+                  </p>
                 </div>
               </motion.div>
             ))}
           </div>
         </section>
-
-        {/* 5. UPDATE SECTION */}
-        <motion.section 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ 
-            background: COLORS.bgBase, borderRadius: '24px', padding: '5px', textAlign: 'center',
-            boxShadow: '0 20px 40px -15px rgba(0,0,0,0.05)'
-          }}>
-          <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-            <img 
-              src={HACKATHON_CONTENT.updateSection.imageSrc}
-              style={{ width: '100%', height: 'auto', borderRadius: '16px' }} 
-              alt={HACKATHON_CONTENT.updateSection.imageAlt}
-            />
-          </div>
-        </motion.section>
 
       </main>
 

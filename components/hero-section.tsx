@@ -163,6 +163,10 @@ const HeroSection = forwardRef<WishlistFormRef>((props, ref) => {
   const [hasCompletedOneCycle, setHasCompletedOneCycle] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const heroConfig = (config as any)?.hero || {};
+  const heroCycleWords = heroConfig?.cycleWords || [];
+  const heroFeatures = heroConfig?.features || [];
+
   useImperativeHandle(ref, () => ({
     focusAndGlow: () => {
       if (inputRef.current) {
@@ -189,9 +193,9 @@ const HeroSection = forwardRef<WishlistFormRef>((props, ref) => {
     if (!isAutoPlay || isImageHovered) return;
 
     const interval = setInterval(() => {
-      const nextIndex = (currentWordIndex + 1) % config.hero.cycleWords.length;
+      const nextIndex = (currentWordIndex + 1) % heroCycleWords.length;
 
-      if (currentWordIndex === config.hero.cycleWords.length - 1) {
+      if (currentWordIndex === heroCycleWords.length - 1) {
         setIsAutoPlay(false);
         setHasCompletedOneCycle(true);
         return;
@@ -205,13 +209,13 @@ const HeroSection = forwardRef<WishlistFormRef>((props, ref) => {
     isAutoPlay,
     isImageHovered,
     currentWordIndex,
-    config.hero.cycleWords.length,
+    heroCycleWords.length,
   ]);
 
   const handleWordChange = (index: number) => {
     setCurrentWordIndex(index);
 
-    if (index < config.hero.cycleWords.length - 1 && hasCompletedOneCycle) {
+    if (index < heroCycleWords.length - 1 && hasCompletedOneCycle) {
       setHasCompletedOneCycle(false);
       setIsAutoPlay(true);
     }
@@ -738,7 +742,7 @@ const HeroSection = forwardRef<WishlistFormRef>((props, ref) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}>
-              {config.hero.subtitle}
+              {heroConfig.subtitle}
             </motion.p>
 
             {/* Enhanced Form */}
@@ -869,7 +873,7 @@ const HeroSection = forwardRef<WishlistFormRef>((props, ref) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.7 }}>
-              {config.hero.features.map((feature, index) => {
+              {heroFeatures.map((feature: { icon: string; text: string; color: string }, index: number) => {
                 const IconComponent =
                   iconMap[feature.icon as keyof typeof iconMap];
 

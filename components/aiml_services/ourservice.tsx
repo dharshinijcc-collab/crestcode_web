@@ -10,6 +10,7 @@ import {
   type LucideIcon
 } from 'lucide-react';
 import { useAdmin } from '../admin/context';
+import EditableText from '@/components/admin/editableText';
 
 // --- ICON MAPPING ---
 const getIconComponent = (iconName: string): LucideIcon => {
@@ -42,9 +43,10 @@ const COLORS = {
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
 
 function AIServices() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const SERVICES_DATA = config?.aiml?.SERVICES_DATA;
-  console.log(SERVICES_DATA)
+
+  const handleSave = () => saveConfigToServer();
   
   if (!SERVICES_DATA) return null;
   
@@ -54,22 +56,37 @@ function AIServices() {
         minHeight: '100vh',
         backgroundColor: COLORS.bgBase,
         fontFamily: FONT_PRIMARY,
-        padding: '40px 24px',
+        padding: '16px 24px',
       }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
         {/* HEADER SECTION */}
         <h1
           style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+            fontSize: 'clamp(1.25rem, 4vw, 2rem)',
             fontWeight: 800,
             color: COLORS.textBlack,
-            marginBottom: '64px',
+            letterSpacing: '-0.06em',
+            marginBottom: '32px',
             textAlign: 'center',
-            letterSpacing: '-0.02em',
           }}>
-          {SERVICES_DATA.header.mainText}{' '}
-          <span style={{ color: COLORS.primary }}>{SERVICES_DATA.header.highlightText}</span>
+          <EditableText
+            value={SERVICES_DATA.header.mainText}
+            onSave={handleSave}
+            configPath="aiml.SERVICES_DATA.header.mainText"
+          >
+            {SERVICES_DATA.header.mainText}
+          </EditableText>
+          {' '}
+          <span style={{ color: COLORS.primary }}>
+            <EditableText
+              value={SERVICES_DATA.header.highlightText}
+              onSave={handleSave}
+              configPath="aiml.SERVICES_DATA.header.highlightText"
+            >
+              {SERVICES_DATA.header.highlightText}
+            </EditableText>
+          </span>
         </h1>
 
         {/* SERVICES GRID */}
@@ -77,10 +94,16 @@ function AIServices() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '32px',
+            gap: '24px',
+            alignItems: 'center',
           }}>
-          {SERVICES_DATA.services.map((service, index) => (
-            <ServiceItem key={index} service={service} />
+          {SERVICES_DATA.services.map((service: any, index: number) => (
+            <ServiceItem 
+              key={index} 
+              index={index} 
+              service={service} 
+              onSave={handleSave}
+            />
           ))}
         </div>
       </div>
@@ -92,8 +115,10 @@ function AIServices() {
   );
 }
 
-// --- SUB-COMPONENT FOR CLEANER RENDERING ---
+// --- SUB-COMPONENT ---
 interface ServiceItemProps {
+  index: number;
+  onSave: () => void;
   service: {
     icon: string;
     title: string;
@@ -101,22 +126,24 @@ interface ServiceItemProps {
   }
 }
 
-function ServiceItem({ service }: ServiceItemProps) {
+function ServiceItem({ service, index, onSave }: ServiceItemProps) {
   const Icon = getIconComponent(service.icon);
 
   return (
     <div
-      className="service-card-industrial"
       style={{
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
         backgroundColor: COLORS.cardBg,
         borderRadius: '12px',
-        padding: '40px',
+        padding: '32px 24px',
         transition: 'all 0.3s ease-out',
-        cursor: 'pointer',
-      }}>
+        border: '1px solid transparent',
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${COLORS.primary}33`)}
+      onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'transparent')}
+    >
       <div style={{ marginBottom: '24px' }}>
         <Icon
           size={48}
@@ -124,31 +151,43 @@ function ServiceItem({ service }: ServiceItemProps) {
           style={{
             color: COLORS.primary,
           }}
-          className="icon-animate"
         />
       </div>
 
       <h2
         style={{
-          fontSize: '20px',
+          fontSize: 'clamp(0.9375rem, 3.5vw, 1.125rem)',
           fontWeight: 700,
           color: COLORS.textBlack,
           marginBottom: '16px',
           lineHeight: 1.4,
           letterSpacing: '-0.01em',
         }}>
-        {service.title}
+        <EditableText
+          value={service.title}
+          onSave={onSave}
+          configPath={`aiml.SERVICES_DATA.services.${index}.title`}
+        >
+          {service.title}
+        </EditableText>
       </h2>
 
       <p
         style={{
-          fontSize: '15px',
+          fontSize: 'clamp(0.75rem, 2vw, 0.875rem)',
           color: COLORS.textMuted,
           lineHeight: 1.7,
           margin: 0,
           fontWeight: 450,
         }}>
-        {service.description}
+        <EditableText
+          value={service.description}
+          onSave={onSave}
+          configPath={`aiml.SERVICES_DATA.services.${index}.description`}
+          multiline={true}
+        >
+          {service.description}
+        </EditableText>
       </p>
     </div>
   );

@@ -35,6 +35,8 @@ interface SelectedData {
 const HubsSection = (props: any) => {
   const { setShowScroll } = props;
   const { config, saveConfigToServer } = useAdmin();
+  const hubsConfig = (config as any)?.hubs || { items: [], title: '', subtitle: '' };
+  const hubsItems = hubsConfig.items;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<SelectedData | null>(null);
 
@@ -75,7 +77,7 @@ const HubsSection = (props: any) => {
       image:
         hub.image ||
         `/hub-screenshot-${
-          config.hubs.items.findIndex((h) => h.title === hub.title) + 1
+          hubsItems.findIndex((h: any) => h.title === hub.title) + 1
         }.png`,
     });
     setIsModalOpen(true);
@@ -275,12 +277,12 @@ const HubsSection = (props: any) => {
                 lineHeight: '1.1',
               }}>
               <EditableText
-                value={config.hubs.title}
+                value={hubsConfig.title}
                 onSave={() => {
                   saveConfigToServer();
                 }}
                 configPath="hubs.title">
-                {config.hubs.title}
+                {hubsConfig.title}
               </EditableText>
             </motion.h2>
 
@@ -298,20 +300,20 @@ const HubsSection = (props: any) => {
                 fontWeight: '400',
               }}>
               <EditableText
-                value={config.hubs.subtitle}
+                value={hubsConfig.subtitle}
                 onSave={() => {
                   saveConfigToServer();
                 }}
                 configPath="hubs.subtitle"
                 multiline>
-                {config.hubs.subtitle}
+                {hubsConfig.subtitle}
               </EditableText>
             </motion.p>
           </div>
         </div>
 
         {/* Hub Sections */}
-        {config.hubs.items.map((hub, index) => {
+        {hubsItems.map((hub: any, index: number) => {
           const IconComponent = iconMap[hub.icon as keyof typeof iconMap];
           const isImageRight = index % 2 === 0;
           const isColored = isColoredSection(index);

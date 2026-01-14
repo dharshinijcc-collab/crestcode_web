@@ -12,6 +12,10 @@ import {
   MessageSquareQuote,
   Briefcase,
   Brain,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
 } from 'lucide-react';
 
 // --- INDUSTRIAL DESIGN TOKENS ---
@@ -20,7 +24,7 @@ const COLORS = {
   primary: '#4F46E5', // Industrial Indigo
   textWhite: '#F8FAFC',
   textDim: '#94A3B8', // Muted Slate
-  border: 'rgba(255, 255, 255, 0.08)',
+  border: 'rgba(255, 255, 255, 0.08)', // Light border for white background
 };
 
 const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
@@ -51,23 +55,15 @@ export default function Footer() {
       key: 'mobile-app-development',
       label: 'Mobile Engineering',
       icon: <Smartphone size={18} />,
+
     },
   ];
 
   const about = [
     { key: 'team', label: 'Our Team', icon: <Users size={18} /> },
-    {
-      key: 'how-we-work',
-      label: 'Engineering Process',
-      icon: <Workflow size={18} />,
-    },
-    { key: 'faq', label: 'Technical FAQ', icon: <HelpCircle size={18} /> },
     { key: 'careers', label: 'Careers', icon: <Briefcase size={18} /> },
-    {
-      key: 'testimonials',
-      label: 'Client Stories',
-      icon: <MessageSquareQuote size={18} />,
-    },
+    { key: 'hackathon', label: 'Hackathon', icon: <Workflow size={18} /> },
+    { key: 'internship', label: 'Internship', icon: <HelpCircle size={18} /> },
   ];
 
   return (
@@ -75,7 +71,7 @@ export default function Footer() {
       style={{
         backgroundColor: COLORS.bgDeep,
         color: COLORS.textWhite,
-        padding: '80px 24px 40px 24px',
+        padding: 'clamp(20px, 3vw, 30px) clamp(12px, 2vw, 18px)',
         fontFamily: FONT_PRIMARY,
         // borderTop: `1px solid ${COLORS.border}`,
         position: 'relative',
@@ -108,8 +104,8 @@ export default function Footer() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '60px',
-            marginBottom: '80px',
+            gap: 'clamp(20px, 3vw, 30px)',
+            marginBottom: 'clamp(20px, 4vw, 30px)',
           }}>
           {/* 1. BRAND SECTION */}
           <motion.div
@@ -121,10 +117,10 @@ export default function Footer() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '16px',
-                marginBottom: '24px',
+                marginBottom: '16px',
               }}>
               <img
-                src="https://crestcode.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.fd2671e3.png&w=1920&q=100"
+                src="/Headerlogo.png"
                 alt="Logo"
                 style={{ width: '40px', height: '40px', objectFit: 'contain' }}
               />
@@ -147,7 +143,7 @@ export default function Footer() {
                     textTransform: 'uppercase',
                     marginTop: '4px',
                   }}>
-                  Engineering Excellence
+                  Technologies
                 </div>
               </div>
             </div>
@@ -162,6 +158,35 @@ export default function Footer() {
               High-performance technical consultancy providing full-spectrum
               engineering for the next generation of digital infrastructure.
             </p>
+            <div style={{ marginTop: '16px', display: 'flex', gap: '12px' }}>
+              <a
+                href="https://www.linkedin.com/company/crestcode-technologies"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  color: COLORS.textWhite,
+                  transition: 'all 0.3s ease',
+                  textDecoration: 'none',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = COLORS.primary;
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                <Linkedin size={16} />
+              </a>
+            </div>
           </motion.div>
 
           {/* 2. SERVICES LINKS */}
@@ -176,7 +201,7 @@ export default function Footer() {
                 fontWeight: 800,
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
-                marginBottom: '28px',
+                marginBottom: '20px',
                 color: COLORS.textWhite,
               }}>
               Capabilities
@@ -193,7 +218,7 @@ export default function Footer() {
               {services.map((service) => (
                 <li key={service.key}>
                   <button
-                    onClick={() => scrollToSection(service.key)}
+                    onClick={() => router.push(`/${service.key}`)}
                     style={{
                       background: 'none',
                       border: 'none',
@@ -240,7 +265,7 @@ export default function Footer() {
                 marginBottom: '28px',
                 color: COLORS.textWhite,
               }}>
-              Expertise
+              Company
             </h4>
             <ul
               style={{
@@ -255,9 +280,7 @@ export default function Footer() {
                 <li key={item.key}>
                   <button
                     onClick={() => {
-                      if (item.key === 'faq') {
-                        router.push('/faqs');
-                      } else if (item.key === 'careers') {
+                      if (item.key === 'careers') {
                         router.push('/careers');
                       } else {
                         router.push(`/${item.key}`);
@@ -293,16 +316,96 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        {/* 4. COPYRIGHT FOOTER */}
+        {/* 5. CONTACT INFORMATION */}
         <div
           style={{
             borderTop: `1px solid ${COLORS.border}`,
-            paddingTop: '40px',
+            paddingTop: 'clamp(16px, 3vw, 20px)',
+            paddingBottom: 'clamp(8px, 2vw, 12px)',
+          }}>
+          <div style={{ 
+            maxWidth: '1200px', 
+            margin: '0 auto', 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: 'clamp(20px, 3vw, 32px)' 
+          }}>
+            {/* Contact Info */}
+            <div>
+              <h4 style={{ 
+                fontSize: '14px', 
+                fontWeight: 800, 
+                color: COLORS.textWhite, 
+                marginBottom: '8px',
+                letterSpacing: '-0.02em'
+              }}>
+                Contact Information
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: COLORS.textDim }}>
+                  <Mail size={14} />
+                  <span>contact@crestcode.in</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: COLORS.textDim }}>
+                  <Phone size={14} />
+                  <span>Mobile: +91 962 966 4974</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: COLORS.textDim }}>
+                  <Phone size={14} />
+                  <span>Landline: 044 4604 7460</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Our Office */}
+            <div>
+              <h4 style={{ 
+                fontSize: '14px', 
+                fontWeight: 800, 
+                color: COLORS.textWhite, 
+                marginBottom: '8px',
+                letterSpacing: '-0.02em'
+              }}>
+                Our Office
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '13px', color: COLORS.textDim }}>
+                  <MapPin size={14} />
+                  <span>2nd Floor, Plot No:248, Kannan St, Sree Balaji Nagar, Pallikaranai, Chennai - 600 100</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Business Hours */}
+            <div>
+              <h4 style={{ 
+                fontSize: '14px', 
+                fontWeight: 800, 
+                color: COLORS.textWhite, 
+                marginBottom: '8px',
+                letterSpacing: '-0.02em'
+              }}>
+                Business Hours
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px', color: COLORS.textDim }}>
+                <div>Tuesday - Friday: 11:00 AM - 8:00 PM IST</div>
+                <div>Saturday: 09:00 AM - 5:00 PM IST</div>
+                <div>Sunday: Closed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 6. COPYRIGHT FOOTER */}
+        <div
+          style={{
+            borderTop: `1px solid ${COLORS.border}`,
+            paddingTop: 'clamp(16px, 3vw, 20px)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: '20px',
+            gap: 'clamp(8px, 1.5vw, 12px)',
           }}>
           <p
             style={{
@@ -342,6 +445,7 @@ export default function Footer() {
             </button>
           </div>
         </div>
+
       </div>
 
       <style>{`

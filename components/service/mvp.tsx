@@ -9,7 +9,7 @@ import {
   BarChartOutlined,
 } from '@ant-design/icons';
 import { useAdmin } from '../admin/context';
-import Link from 'next/link';
+import EditableText from '@/components/admin/editableText';
 
 const ICON_MAP = {
   CodeOutlined: <CodeOutlined />,
@@ -19,9 +19,6 @@ const ICON_MAP = {
 } as const;
 
 type IconName = keyof typeof ICON_MAP;
-
-// --- DATA CONFIGURATION ---
-// Data will be imported from config
 
 // --- INDUSTRIAL THEME TOKENS ---
 const COLORS = {
@@ -35,24 +32,29 @@ const COLORS = {
 const FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 
 export default function TailoredServices() {
-  const { config } = useAdmin();
+  const { config, saveConfigToServer } = useAdmin();
   const MVP_DATA = config?.service?.mvp;
-  console.log(MVP_DATA);
+  
+  const handleSave = () => saveConfigToServer();
+
+  // Find initial active tab or fallback
+  const [activeTab, setActiveTab] = useState(MVP_DATA?.tabs[0]?.id);
   
   if (!MVP_DATA) return null;
-  
-  const [activeTab, setActiveTab] = useState(MVP_DATA.tabs[0].id);
-  const activeContent = MVP_DATA.tabs.find((tab) => tab.id === activeTab)?.content;
+
+  const activeIndex = MVP_DATA.tabs.findIndex((tab: any) => tab.id === activeTab);
+  const activeContent = MVP_DATA.tabs[activeIndex]?.content;
 
   return (
     <section
       style={{
         backgroundColor: COLORS.bgDark,
-        padding: '40px 24px',
+        padding: '32px 24px',
         fontFamily: FONT_FAMILY,
         position: 'relative',
         overflow: 'hidden',
       }}>
+      
       {/* 1. ARCHITECTURAL BACKGROUND GLOW */}
       <div
         style={{
@@ -75,32 +77,53 @@ export default function TailoredServices() {
           position: 'relative',
           zIndex: 1,
         }}>
+        
         {/* HEADER SECTION */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '80px' }}>
+          style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h2
             style={{
-              fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(1.8rem, 4.5vw, 2.8rem)',
               fontWeight: 800,
               color: COLORS.textWhite,
               letterSpacing: '-0.04em',
-              marginBottom: '24px',
+              marginBottom: '20px',
             }}>
-            {MVP_DATA.header.main}{' '}
-            <span style={{ color: COLORS.primary }}>{MVP_DATA.header.highlight}</span>
+            <EditableText
+              value={MVP_DATA.header.main}
+              onSave={handleSave}
+              configPath="service.mvp.header.main"
+            >
+              {MVP_DATA.header.main}
+            </EditableText>{' '}
+            <span style={{ color: COLORS.primary }}>
+              <EditableText
+                value={MVP_DATA.header.highlight}
+                onSave={handleSave}
+                configPath="service.mvp.header.highlight"
+              >
+                {MVP_DATA.header.highlight}
+              </EditableText>
+            </span>
           </h2>
           <p
             style={{
               color: COLORS.textMuted,
-              fontSize: '18px',
+              fontSize: '15px',
               lineHeight: '1.7',
               maxWidth: '850px',
               margin: '0 auto',
             }}>
-            {MVP_DATA.header.description}
+            <EditableText
+              value={MVP_DATA.header.description}
+              onSave={handleSave}
+              configPath="service.mvp.header.description"
+            >
+              {MVP_DATA.header.description}
+            </EditableText>
           </p>
         </motion.div>
 
@@ -109,19 +132,20 @@ export default function TailoredServices() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '60px',
+            gap: '40px',
             alignItems: 'center',
           }}>
+          
           {/* LEFT: VERTICAL TABS */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {MVP_DATA.tabs.map((tab) => (
+            {MVP_DATA.tabs.map((tab: any, index: number) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
                   width: '100%',
                   textAlign: 'left',
-                  padding: '24px 32px',
+                  padding: '18px 24px',
                   background:
                     activeTab === tab.id
                       ? 'rgba(79, 70, 229, 0.1)'
@@ -136,14 +160,20 @@ export default function TailoredServices() {
                 }}>
                 <span
                   style={{
-                    fontSize: '20px',
+                    fontSize: '18px',
                     fontWeight: 700,
                     color:
                       activeTab === tab.id
                         ? COLORS.textWhite
                         : COLORS.textMuted,
                   }}>
-                  {tab.label}
+                  <EditableText
+                    value={tab.label}
+                    onSave={handleSave}
+                    configPath={`service.mvp.tabs.${index}.label`}
+                  >
+                    {tab.label}
+                  </EditableText>
                 </span>
               </button>
             ))}
@@ -155,8 +185,8 @@ export default function TailoredServices() {
               background: 'rgba(255, 255, 255, 0.02)',
               border: `1px solid ${COLORS.border}`,
               borderRadius: '24px',
-              padding: '56px',
-              minHeight: '420px',
+              padding: '40px',
+              minHeight: '360px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
@@ -172,23 +202,36 @@ export default function TailoredServices() {
                 transition={{ duration: 0.4, ease: 'easeOut' }}>
                 <h3
                   style={{
-                    fontSize: '32px',
+                    fontSize: '26px',
                     fontWeight: 800,
                     color: COLORS.textWhite,
-                    marginBottom: '24px',
+                    marginBottom: '20px',
                     letterSpacing: '-0.02em',
                   }}>
-                  {activeContent?.title}
+                  <EditableText
+                    value={activeContent?.title}
+                    onSave={handleSave}
+                    configPath={`service.mvp.tabs.${activeIndex}.content.title`}
+                  >
+                    {activeContent?.title}
+                  </EditableText>
                 </h3>
 
                 <p
                   style={{
                     color: COLORS.textMuted,
-                    fontSize: '18px',
+                    fontSize: '15px',
                     lineHeight: '1.8',
-                    marginBottom: '40px',
+                    marginBottom: '32px',
                   }}>
-                  {activeContent?.description}
+                  <EditableText
+                    value={activeContent?.description}
+                    onSave={handleSave}
+                    configPath={`service.mvp.tabs.${activeIndex}.content.description`}
+                    multiline={true}
+                  >
+                    {activeContent?.description}
+                  </EditableText>
                 </p>
 
                 {/* Industrial Execution Badge */}
@@ -218,7 +261,13 @@ export default function TailoredServices() {
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em',
                     }}>
-                    {MVP_DATA.footerBadge}
+                    <EditableText
+                      value={MVP_DATA.footerBadge}
+                      onSave={handleSave}
+                      configPath="service.mvp.footerBadge"
+                    >
+                      {MVP_DATA.footerBadge}
+                    </EditableText>
                   </span>
                 </div>
               </motion.div>
