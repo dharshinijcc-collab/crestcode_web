@@ -27,4 +27,12 @@ def create_app(test_config=None):
     app.permanent_session_lifetime = timedelta(minutes=60)
     # initialize_firebase()
 
+    @app.route("/")  # root URL
+    def home():
+       return "Backend is live!"
+
+    @app.route("/api/health")  # optional API test
+    def health():
+        return {"status": "ok"}
+
     return app
