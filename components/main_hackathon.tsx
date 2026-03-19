@@ -1,204 +1,250 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { 
   GraduationCap, 
-  LayoutGrid, 
-  Award, 
-  Code2, 
-  Rocket, 
   Users2, 
-  Calendar,
   Zap,
-  ArrowRight
+  ArrowRight,
+  Trophy,
+  Target,
+  Lightbulb,
+  Shield,
+  Eye,
+  Heart,
+  Mail,
+  MessageCircle
 } from "lucide-react";
-import { useAdmin } from './admin/context';
-import EditableText from '@/components/admin/editableText';
-
-// --- ICON MAPPING ---
-const iconMap = {
-  GraduationCap: GraduationCap,
-  LayoutGrid: LayoutGrid,
-  Award: Award,
-  Code2: Code2,
-  Rocket: Rocket,
-  Users2: Users2,
-  Calendar: Calendar,
-  Zap: Zap,
-  ArrowRight: ArrowRight
-};
-
-const getIcon = (iconName: string, size: number = 24) => {
-  const IconComponent = iconMap[iconName as keyof typeof iconMap];
-  return IconComponent ? <IconComponent size={size} /> : null;
-};
 
 const COLORS = {
-  heroBg: 'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
-  bgBase: '#F3F5F9',
-  primary: '#4F46E5',
-  textBlack: '#020617',
+  bgBase: '#FFFFFF',
+  primary: '#2563EB', 
+  secondary: '#1E40AF',
+  accent: '#F59E0B',   
+  textBlack: '#0F172A',
   textMuted: '#64748B',
-  white: '#FFFFFF',
   border: '#E2E8F0',
+  cardBg: '#FFFFFF',
+  winnerBg: '#0F172A', 
+  mentionsBg: '#F8FAFC',
+  ctaBg: '#2563EB'
 };
 
-const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+const FONT_PRIMARY = "'Inter', sans-serif";
 
 export default function HackathonPage() {
-  const { config, saveConfigToServer } = useAdmin();
-  const HACKATHON_CONTENT = config?.main_hackathon?.CONTENT;
+  const highlights = [
+    { icon: Lightbulb, title: "Innovation", desc: "Participants explored creative ideas and developed working prototypes." },
+    { icon: Users2, title: "Collaboration", desc: "Students worked together in teams to solve challenging problems." },
+    { icon: GraduationCap, title: "Learning Experience", desc: "The event provided an opportunity to learn new tools, frameworks, and practices." },
+    { icon: Target, title: "Real-World Solutions", desc: "Projects focused on practical solutions using modern technology." }
+  ];
 
-  const handleSave = () => saveConfigToServer();
-  
-  if (!HACKATHON_CONTENT) return null;
+  const champions = [
+    { 
+      team: "Team NeuralSync", 
+      place: "2nd Place", 
+      project: "AI-powered collaboration tool for remote engineering teams",
+      color: COLORS.cardBg,
+      icon: "🥈",
+      topShadow: "rgba(37, 99, 235, 0.4)", // Blue shadow
+      textColor: COLORS.primary
+    },
+    { 
+      team: "Team SkyNet Zero", 
+      place: "GRAND WINNER", 
+      project: "Autonomous drone mesh network for wildfire detection and response",
+      color: COLORS.winnerBg,
+      isWinner: true,
+      icon: "🏆",
+      topShadow: "rgba(245, 158, 11, 0.6)", // Gold shadow
+      textColor: COLORS.accent
+    },
+    { 
+      team: "Team EcoLedger", 
+      place: "3rd Place", 
+      project: "Blockchain solution for tracking supply chain carbon footprints",
+      color: COLORS.cardBg,
+      icon: "🥉",
+      topShadow: "rgba(249, 115, 22, 0.4)", // Orange/Bronze shadow
+      textColor: '#EA580C'
+    }
+  ];
+
+  const mentions = [
+    { name: "CyberSentinels", icon: Shield, sub: "Cybersecurity" },
+    { name: "VisionaryDAO", icon: Eye, sub: "Web3" },
+    { name: "QuickHealth AI", icon: Heart, sub: "HealthTech" }
+  ];
+
+  const avatars = [
+    'https://i.pravatar.cc/150?u=1',
+    'https://i.pravatar.cc/150?u=2',
+    'https://i.pravatar.cc/150?u=3',
+    'https://i.pravatar.cc/150?u=4'
+  ];
 
   return (
-    <div style={{ backgroundColor: COLORS.bgBase, fontFamily: FONT_PRIMARY, minHeight: '100vh' }}>
+    <div style={{ background: COLORS.bgBase, fontFamily: FONT_PRIMARY, minHeight: '100vh', color: COLORS.textBlack, paddingBottom: '40px', paddingTop: '40px' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+      `}</style>
       
       {/* 1. HERO SECTION */}
-      <section style={{ 
-        padding: '100px 24px 60px', 
-        background: COLORS.heroBg, 
-        position: 'relative', 
-        overflow: 'hidden', 
-        textAlign: 'center' 
-      }}>
-        <div style={{ 
-          position: 'absolute', 
-          inset: 0, 
-          opacity: 0.4, 
-          backgroundImage: `linear-gradient(${COLORS.textMuted}11 1px, transparent 1px), linear-gradient(90deg, ${COLORS.textMuted}11 1px, transparent 1px)`, 
-          backgroundSize: '40px 40px' 
-        }} />
-        
-        <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-             <span style={{ 
-                background: COLORS.white, padding: '6px 14px', borderRadius: '100px', fontSize: '12px', 
-                fontWeight: 700, color: COLORS.primary, border: `1px solid ${COLORS.border}`, textTransform: 'uppercase', letterSpacing: '0.05em'
-             }}>
-                <EditableText value={HACKATHON_CONTENT.hero.badge} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.badge">
-                    {HACKATHON_CONTENT.hero.badge}
-                </EditableText>
-             </span>
-          </motion.div>
-          
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={{ 
-            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 800, color: COLORS.textBlack, letterSpacing: '-0.05em', margin: '24px 0' 
-          }}>
-            <EditableText value={HACKATHON_CONTENT.hero.title} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.title">
-                {HACKATHON_CONTENT.hero.title}
-            </EditableText>
-          </motion.h1>
-          
-          <p style={{ fontSize: '18px', color: COLORS.textMuted, fontWeight: 500, lineHeight: 1.5, marginBottom: '32px' }}>
-            <EditableText value={HACKATHON_CONTENT.hero.description} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.description" multiline={true}>
-                {HACKATHON_CONTENT.hero.description}
-            </EditableText>
+      <section style={{ padding: '80px 24px', maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }}>
+        <div style={{ position: 'relative' }}>
+          <img 
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800" 
+            alt="Hackathon" 
+            style={{ width: '100%', borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
+          />
+        </div>
+        <div>
+          <span style={{ color: COLORS.primary, background: '#EFF6FF', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            24-HOUR SPRINT
+          </span>
+          <h1 style={{ fontSize: '52px', fontWeight: 800, margin: '16px 0', lineHeight: 1.1, color: COLORS.textBlack }}>
+            Crestcode <br /> Hackathon
+          </h1>
+          <p style={{ fontSize: '16px', color: COLORS.textMuted, lineHeight: 1.6, marginBottom: '32px', maxWidth: '480px' }}>
+            A 24-hour innovation challenge where students and developers collaborate to build creative technology solutions and working prototypes.
           </p>
-          
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-            <button 
-              onClick={() => window.location.href = '/hackathon-results'}
-              style={{ background: COLORS.textBlack, color: COLORS.white, padding: '14px 28px', borderRadius: '8px', fontWeight: 700, border: 'none', cursor: 'pointer' }}
-            >
-                <EditableText value={HACKATHON_CONTENT.hero.resultsBtn.text} onSave={handleSave} configPath="main_hackathon.CONTENT.hero.resultsBtn.text">
-                   {HACKATHON_CONTENT.hero.resultsBtn.text}
-                </EditableText>
-            </button>
+          <button style={{ background: COLORS.primary, color: '#FFF', padding: '14px 28px', borderRadius: '25px', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            Explore the Event
+          </button>
+        </div>
+      </section>
+
+      {/* 2. ABOUT THE HACKATHON */}
+      <section style={{ padding: '40px 24px', maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '60px' }}>
+        <h2 style={{ fontSize: '28px', fontWeight: 800, color: COLORS.textBlack }}>About the <br /> Hackathon</h2>
+        <p style={{ fontSize: '15px', color: COLORS.textMuted, lineHeight: 1.8 }}>
+          The Crestcode Hackathon is an innovation-driven event organized to encourage students and developers to collaborate, experiment with new ideas, and build meaningful technology solutions within a limited time. Participants work in teams to design, develop, and present creative solutions to real-world challenges using modern technologies. The hackathon promotes creativity, teamwork, problem solving, and hands-on learning.
+        </p>
+      </section>
+
+      {/* 3. HIGHLIGHTS GRID */}
+      <section style={{ padding: '80px 24px', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '12px' }}>Hackathon Highlights</h2>
+        <p style={{ color: COLORS.textMuted, marginBottom: '48px' }}>Key takeaways from our innovation challenge.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+          {highlights.map((h, i) => (
+            <div key={i} style={{ padding: '30px 20px', textAlign: 'left', background: '#FFF', borderRadius: '12px', border: `1px solid ${COLORS.border}` }}>
+              <div style={{ background: '#EFF6FF', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', marginBottom: '20px' }}>
+                <h.icon size={18} color={COLORS.primary} />
+              </div>
+              <h3 style={{ fontSize: '17px', fontWeight: 700, marginBottom: '10px' }}>{h.title}</h3>
+              <p style={{ fontSize: '13px', color: COLORS.textMuted, lineHeight: 1.6 }}>{h.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. EVENT PARTICIPATION BENTO */}
+      <section style={{ margin: '40px 24px', padding: '60px', background: '#F1F5F9', borderRadius: '24px', maxWidth: '1200px', marginLeft: 'auto', marginRight: 'auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
+          <div>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '20px' }}>Event Participation</h2>
+            <p style={{ color: COLORS.textMuted, lineHeight: 1.7, marginBottom: '32px', fontSize: '15px' }}>
+              The hackathon brought together enthusiastic students and aspiring developers from different colleges who were passionate about building technology solutions. Participants collaborated, shared ideas, and demonstrated their technical and creative abilities while working on innovative projects.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ display: 'flex' }}>
+                {avatars.map((a, i) => (
+                  <img key={i} src={a} style={{ width: '32px', height: '32px', borderRadius: '50%', border: '2px solid white', marginLeft: i === 0 ? 0 : -10 }} alt="user" />
+                ))}
+              </div>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: COLORS.textMuted }}>Joined by 200+ Developers</span>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '12px' }} alt="collab" />
+            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '12px' }} alt="planning" />
           </div>
         </div>
       </section>
 
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 80px' }}>
-        
-        {/* 2. UPCOMING EVENT BANNER */}
-        <motion.section 
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          style={{ 
-            background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(20px)', border: `1px solid ${COLORS.white}`, 
-            borderRadius: '24px', padding: '40px', marginTop: '-40px', position: 'relative', zIndex: 20, 
-            boxShadow: '0 20px 40px -15px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '60px'
-          }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: COLORS.primary, marginBottom: '16px' }}>
-            <Calendar size={18} />
-            <span style={{ fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              <EditableText value={HACKATHON_CONTENT.upcomingEvent.badge} onSave={handleSave} configPath="main_hackathon.CONTENT.upcomingEvent.badge">
-                {HACKATHON_CONTENT.upcomingEvent.badge}
-              </EditableText>
-            </span>
-          </div>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '12px' }}>
-            <EditableText value={HACKATHON_CONTENT.upcomingEvent.title} onSave={handleSave} configPath="main_hackathon.CONTENT.upcomingEvent.title">
-                {HACKATHON_CONTENT.upcomingEvent.title}
-            </EditableText>
-          </h2>
-          <p style={{ color: COLORS.textMuted, maxWidth: '600px', margin: '0 auto', fontWeight: 500 }}>
-            <EditableText value={HACKATHON_CONTENT.upcomingEvent.description} onSave={handleSave} configPath="main_hackathon.CONTENT.upcomingEvent.description" multiline={true}>
-                {HACKATHON_CONTENT.upcomingEvent.description}
-            </EditableText>
-          </p>
-        </motion.section>
+      {/* 5. INNOVATION CHAMPIONS */}
+      <section style={{ padding: '80px 24px', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '12px' }}>Innovation Champions</h2>
+        <p style={{ color: COLORS.textMuted, marginBottom: '60px' }}>Celebrating the exceptional projects from our latest edition.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', alignItems: 'flex-end' }}>
+          {champions.map((c, i) => (
+            <div key={i} style={{ 
+              padding: c.isWinner ? '60px 32px' : '40px 32px', 
+              background: c.color, 
+              color: c.isWinner ? '#FFF' : COLORS.textBlack,
+              borderRadius: '20px', 
+              border: `1px solid ${COLORS.border}`,
+              boxShadow: `0 -10px 40px -10px ${c.topShadow}`, // Colored top shadow
+              position: 'relative'
+            }}>
+              {/* Badge/Rank text alignment */}
+              <div style={{ 
+                marginBottom: '24px', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center' 
+              }}>
+                <div style={{ 
+                    fontSize: '48px', 
+                    marginBottom: '10px',
+                    filter: c.isWinner ? 'drop-shadow(15px 10px 5px rgba(0,0,0,0.4))' : 'none' // Trophy shadow right corner
+                }}>
+                    {c.icon}
+                </div>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: c.isWinner ? COLORS.accent : COLORS.textBlack, margin: '0' }}>
+                    {c.team}
+                </div>
+                <div style={{ fontSize: '12px', fontWeight: 700, color: c.textColor, marginTop: '4px', textTransform: 'uppercase' }}>
+                    {c.place}
+                </div>
+              </div>
+              <p style={{ fontSize: '13px', opacity: 0.8, lineHeight: 1.6 }}>{c.project}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {/* 3. FEATURES GRID */}
-        <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '60px' }}>
-          {HACKATHON_CONTENT.features.map((item: any, i: number) => (
-            <div key={i} style={{ background: COLORS.white, padding: '24px', borderRadius: '16px', border: `1px solid ${COLORS.border}`, display: 'flex', gap: '16px', alignItems: 'center' }}>
-              <div style={{ color: COLORS.primary, background: `${COLORS.primary}10`, padding: '10px', borderRadius: '10px' }}>{getIcon(item.icon, 20)}</div>
-              <div>
-                <h3 style={{ fontSize: '16px', fontWeight: 800, margin: 0 }}>
-                    <EditableText value={item.title} onSave={handleSave} configPath={`main_hackathon.CONTENT.features.${i}.title`}>
-                        {item.title}
-                    </EditableText>
-                </h3>
-                <p style={{ fontSize: '13px', color: COLORS.textMuted, margin: 0 }}>
-                    <EditableText value={item.desc} onSave={handleSave} configPath={`main_hackathon.CONTENT.features.${i}.desc`}>
-                        {item.desc}
-                    </EditableText>
-                </p>
+      {/* 6. NOTABLE MENTIONS */}
+      <section style={{ padding: '40px 24px', maxWidth: '1200px', margin: '0 auto' }}>
+        <h3 style={{ fontSize: '16px', fontWeight: 700, textAlign: 'center', color: COLORS.textMuted, marginBottom: '32px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Notable Mentions</h3>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
+          {mentions.map((m, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: '#F8FAFC', padding: '12px 24px', borderRadius: '12px', border: `1px solid ${COLORS.border}` }}>
+              <m.icon size={18} color={COLORS.primary} />
+              <div style={{ textAlign: 'left' }}>
+                <div style={{ fontSize: '14px', fontWeight: 700 }}>{m.name}</div>
+                <div style={{ fontSize: '11px', color: COLORS.textMuted }}>{m.sub}</div>
               </div>
             </div>
           ))}
-        </section>
+        </div>
+      </section>
 
-        {/* 4. PROGRAM ARCHITECTURE */}
-        <section style={{ marginBottom: '60px' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '24px', textAlign: 'center' }}>
-            <EditableText value={HACKATHON_CONTENT.architecture.title} onSave={handleSave} configPath="main_hackathon.CONTENT.architecture.title">
-                {HACKATHON_CONTENT.architecture.title}
-            </EditableText>
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-            {HACKATHON_CONTENT.architecture.cards.map((box: any, i: number) => (
-              <motion.div key={i} whileHover={{ y: -5 }} style={{ background: COLORS.white, padding: '24px', borderRadius: '16px', border: `1px solid ${COLORS.border}`, display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                <div style={{ color: COLORS.primary, flexShrink: 0 }}>{getIcon(box.icon, 20)}</div>
-                <div>
-                  <h4 style={{ margin: '0 0 8px', fontWeight: 800, fontSize: '16px' }}>
-                    <EditableText value={box.title} onSave={handleSave} configPath={`main_hackathon.CONTENT.architecture.cards.${i}.title`}>
-                        {box.title}
-                    </EditableText>
-                  </h4>
-                  <p style={{ margin: 0, fontSize: '14px', color: COLORS.textMuted, lineHeight: 1.5 }}>
-                    <EditableText value={box.text} onSave={handleSave} configPath={`main_hackathon.CONTENT.architecture.cards.${i}.text`} multiline={true}>
-                        {box.text}
-                    </EditableText>
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+      {/* 7. CTA BLUE CARD */}
+      <section style={{ margin: '80px 24px 0', padding: '80px 24px', background: COLORS.primary, borderRadius: '24px', maxWidth: '1100px', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', color: '#FFF', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <h2 style={{ fontSize: '36px', fontWeight: 800, marginBottom: '20px' }}>More Innovation Coming Soon</h2>
+          <p style={{ fontSize: '16px', opacity: 0.9, maxWidth: '700px', margin: '0 auto 40px', lineHeight: 1.8 }}>
+            Crestcode Technologies continues to support the developer community through hackathons and technology events. Stay connected with us for updates about upcoming hackathons, innovation challenges, and opportunities to participate.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
+            <button style={{ background: '#FFF', color: COLORS.primary, padding: '14px 32px', borderRadius: '25px', fontWeight: 700, border: 'none', cursor: 'pointer' }}>Stay Updated</button>
+            <button style={{ background: 'transparent', color: '#FFF', padding: '14px 32px', borderRadius: '25px', fontWeight: 700, border: '2px solid rgba(255,255,255,0.3)', cursor: 'pointer' }}>Join Community</button>
           </div>
-        </section>
+        </div>
+      </section>
 
-      </main>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-      `}</style>
+      {/* 8. FOOTER - Clean version */}
+      <footer style={{ marginTop: '80px', padding: '24px', textAlign: 'center', borderTop: `1px solid ${COLORS.border}` }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+           <div style={{ width: '20px', height: '20px', background: COLORS.primary, borderRadius: '4px' }} />
+           <span style={{ fontWeight: 800, fontSize: '14px' }}>Crestcode</span>
+        </div>
+      </footer>
     </div>
   );
 }

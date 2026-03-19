@@ -294,12 +294,24 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({
   );
   const [config, setConfig] = useState<typeof siteConfig>(siteConfig);
 
-  const { data: configData, isLoading, error } = useGetConfigQuery();
+  const { data: configData, isLoading, error } = useGetConfigQuery(undefined, {
+    // Skip the query on first load to prevent immediate connection errors
+    skip: false,
+  });
   const [saveConfigMutation] = useSaveConfigMutation();
 
   useEffect(() => {
-    console.log('useEffect triggered with configData:', configData);
-    if (configData && configData.payload) {
+    console.log('useEffect triggered with configData:', configData, 'error:', error);
+    
+    // Check for connection errors
+    if (error) {
+      if ('error' in error && error.error === 'Backend server not available. Running in offline mode.') {
+        console.log('Backend server not available, running in offline mode');
+      } else {
+        console.log('API connection error, falling back to siteConfig:', error);
+      }
+      setConfig(siteConfig);
+    } else if (configData && configData.payload) {
       console.log('Setting config from API payload:', configData.payload.config);
       console.log('IndustriesSection in API payload:', configData.payload.config?.team?.TEAM_CONTENT?.IndustriesSection);
       setConfig(configData.payload.config);
@@ -308,7 +320,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({
       console.log('IndustriesSection in siteConfig:', siteConfig?.team?.TEAM_CONTENT?.IndustriesSection);
       setConfig(siteConfig);
     }
-  }, [configData]);
+  }, [configData, error]);
 
   const saveConfigToServer = async () => {
     try {

@@ -1,7 +1,35 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 export const API_URL = 'http://localhost:5000/server/api';
 // export const API_URL = 'https://api.dockly.me/server/api';
+
+// Base query with error handling
+const baseQuery = fetchBaseQuery({
+  baseUrl: API_URL,
+  prepareHeaders: (headers) => {
+    headers.set('Content-Type', 'application/json');
+    return headers;
+  },
+});
+
+// Wrapper to handle connection errors
+const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
+  try {
+    const result = await baseQuery(args, api, extraOptions);
+    return result;
+  } catch (error) {
+    // Handle connection errors gracefully
+    if (error instanceof Error && error.message.includes('fetch')) {
+      return {
+        error: {
+          status: 'CUSTOM_ERROR',
+          error: 'Backend server not available. Running in offline mode.',
+        } as FetchBaseQueryError,
+      };
+    }
+    throw error;
+  }
+};
 
 export interface WishlistRequest {
   email: string;
@@ -59,13 +87,7 @@ export interface AdminAuthResponse {
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
-    prepareHeaders: (headers) => {
-      headers.set('Content-Type', 'application/json');
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Config', 'Wishlist', 'Admin'],
   endpoints: (builder) => ({
     addToWishlist: builder.mutation<
@@ -96,6 +118,8 @@ export const apiSlice = createApi({
     getConfig: builder.query<ConfigResponse, void>({
       query: () => '/get/auth/config',
       providesTags: ['Config'],
+      // Skip the query if backend is not available
+      keepUnusedDataFor: 0,
     }),
 
     saveConfig: builder.mutation<

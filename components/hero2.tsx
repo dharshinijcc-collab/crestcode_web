@@ -306,6 +306,13 @@ const HeroSection2 = forwardRef<WishlistFormRef>((props, ref) => {
       message.success(result.message);
     } catch (error: any) {
       console.log('🚀 ~ handleSubmit ~ error:', error);
+      
+      // Handle connection errors gracefully
+      if (error?.error === 'Backend server not available. Running in offline mode.') {
+        message.info('Backend server is not available. Some features may be limited.');
+        return;
+      }
+      
       message.error(
         error?.data?.message || 'An error occurred. Please try again.'
       );
@@ -346,6 +353,14 @@ const HeroSection2 = forwardRef<WishlistFormRef>((props, ref) => {
         return false;
       }
     } catch (error: any) {
+      console.log('🚀 ~ handleVerify ~ error:', error);
+      
+      // Handle connection errors gracefully
+      if (error?.error === 'Backend server not available. Running in offline mode.') {
+        message.info('Backend server is not available. Verification features may be limited.');
+        return false;
+      }
+      
       message.error(
         error?.data?.message || 'Verification failed. Please try again.'
       );
@@ -374,8 +389,15 @@ const HeroSection2 = forwardRef<WishlistFormRef>((props, ref) => {
         );
         message.success('New OTP sent successfully!');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error resending OTP:', error);
+      
+      // Handle connection errors gracefully
+      if (error?.error === 'Backend server not available. Running in offline mode.') {
+        message.info('Backend server is not available. Resend features may be limited.');
+        return;
+      }
+      
       throw error;
     }
   };
